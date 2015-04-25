@@ -1,0 +1,94 @@
+﻿/* -------------
+   * commom *
+* ------------- */
+html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}
+legend{color:#000;}del,ins{text-decoration:none;}
+
+body{font-family: "微软雅黑", "宋体", Arial, sans-serif; font-size: 14px; padding:0; margin:0; padding-bottom:0px;}
+.l-clear{ clear:both; width:1px; height:1px; overflow:hidden;}
+.l-hidden {display: none;}
+.l-loading
+{
+    position: absolute;z-index: 91000;  top:40%; left:50%; overflow:hidden;
+    background:url('../images/common/loading.gif') no-repeat 0px 0px;width:24px; height:24px; 
+     display:none;
+}
+/* -------------
+   * 滚动条颜色 *
+* ------------- */ 
+.l-scroll
+{
+        scrollbar-face-color:#C6D7FF; scrollbar-3dlight-color:#B5CBF7; scrollbar-darkshadow-color:#B5CBF7;
+        scrollbar-base-color:#B5CBF7;
+        scrollbar-shadow-color: #FFF; scrollbar-highlight-color: #FFF;  scrollbar-track-color:#FFF; scrollbar-arrow-color:#4A6184;
+}
+.l-noscroll
+{
+    overflow:hidden;
+}
+a	{ color:#333333; text-decoration:none;}
+a:hover	{ color:#990000; text-decoration:none;}
+
+#layout1	{ width:98%; margin:0 auto; padding:0;}  
+.l-page-top	{ width:98%; margin:0 auto; height:85px; margin-bottom:3px;}
+.l-page-top .logo	{ margin:0 0 0 10px;}
+.l-page-top .msg	{ width:400px; height:55px; float:right; line-height:27px; margin:15px 0 0 0;}
+.l-page-top .msg .face	{ margin:0 20px 0 0; float:left; border-radius:8px;}
+.l-page-bottom	{ width:100%; height:30px;}
+
+
+h4{ margin:20px;}
+.animate{ -moz-transition: background-color .25s ease-in-out; -webkit-transition: background-color .25s ease-in-out; -o-transition: background-color .25s ease-in-out; -ms-transition: background-color .25s ease-in-out; transition: background-color .25s ease-in-out;}
+
+.c_g	{ color:#009900;}
+.c_b	{ color:#006699;}
+.c_r	{ color:#990000;}
+.c_o	{ color:#FF6600;}
+.c_z	{ color:#CC0099;}
+.blod	{ font-weight:bold;}
+
+/*login**************************************************************************/
+.login	{ margin:0; padding:0; width:100%; height:800px; background:url("#{resource['images/log:allbg.png']}") no-repeat center center; background-size:cover;}
+.login .all	{ width:75%; height:300px; margin:0 auto; background:url(http://new.ttjc.com.cn/isttjc/images/logo.png) no-repeat center 20%;}
+.login .left	{ width:23%; margin:0 0 0 15%; color:#666; padding:20px;}
+.login .left p	{ line-height:40px;}
+.login .right	{ width:40%; padding-top:70px; margin:0 15% 0 0; float:right; text-align:right;}
+.login .right b	{ font-size:76px;}
+.login .right b span	{ font-size:26px;}
+
+.inputs	{ width:250px; padding:10px; margin:20px 0 0 0; border-radius:5px; border:1px solid #CCCCCC; color:#666;}
+.pass	{ width:250px; padding:10px; margin:20px 0 0 0; border-radius:5px; border:1px solid #CCCCCC; display:none; color:#666;}
+.btns	{ width:250px; padding:10px; margin:20px 0 0 0; border-radius:5px; border:1px solid #CCCCCC; color:#666;}
+.code	{ width:100px; padding:10px; margin:20px 0 0 0; border-radius:5px; border:1px solid #CCCCCC; color:#666;}
+
+.btn	{ width:250px; padding:0 10px; display:block; text-align:center; color:#FFFFFF; font-size:16px; background:#2d6590; text-decoration:none; border-radius:5px; border:0;}
+.btn:hover	{ color:#FFFFFF; background-color:#215277;}
+
+/*lefttree***********************************************************************/
+.lefttree	{ width:140px; height:80%; padding:20px 0 20px 20px; margin:20px; border-right:1px solid #d9e6ea;}
+.lefttree div		{ width:140px; line-height:44px; font-size:14px; cursor:pointer; padding:0; margin:0 0 2px 0;}
+.lefttree .btnon	{ text-align:right;}
+.lefttree .btnon a	{ display:block; background:#5198a8; color:#FFFFFF; border-top-left-radius:8px; border-bottom-left-radius:8px; padding:0 10px 0 0;}
+.lefttree .btnon a:hover	{ display:block; background:#3a8292; color:#FFFFFF; border-top-left-radius:8px; border-bottom-left-radius:8px; padding:0 10px 0 0;}
+.lefttree .btnoff	{ text-align:right;}
+.lefttree .btnoff a	{ display:block; background:#edf4f6; color:#555; border-top-left-radius:8px; border-bottom-left-radius:8px; padding:0 10px 0 0;}
+.lefttree .btnoff a:hover	{ display:block; background:#cbdde2; color:#555; border-top-left-radius:8px; border-bottom-left-radius:8px; padding:0 10px 0 0;}
+
+.centree	{ width:100%; padding:45px 10px 10px 10px;}
+
+.note	{ padding:20px 10px 20px 30px; color:#555; line-height:30px; border-left:1px solid #d9e6ea; margin:20px; }
+.note b	{ color:#5198a8;}
+.note .noteline	{ border-top:1px solid #d9e6ea; border-bottom:1px solid #d9e6ea; padding:10px 0; margin:10px 0;}
+
+.search	{ width:100%; height:45px; background:#CCCCCC;}
+.search	form	{ margin:0; padding:0;}
+
+@font-face {
+    font-family: "WskiwHexing_ios7";
+    src: url("http://www.ttjc.com.cn/css/fonts/wskiwhexing_ios7.eot?20140408"); /* IE9 */
+    src: url("http://www.ttjc.com.cn/css/fonts/wskiwhexing_ios7.eot?20140408#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("http://www.ttjc.com.cn/css/fonts/wskiwhexing_ios7.woff?20140408") format("woff"), /* chrome 6+、firefox 3.6+、Safari5.1+、Opera 11+ */
+    url("http://www.ttjc.com.cn/css/fonts/wskiwhexing_ios7.ttf?20140408")  format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+    url("http://www.ttjc.com.cn/css/fonts/wskiwhexing_ios7.svg?20140408#WskiwHexing_ios7") format("svg"); /* iOS 4.1- */
+}
+.ios7{font-family:"WskiwHexing_ios7","Microsoft YaHei","SimHei";}

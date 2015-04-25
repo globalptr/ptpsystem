@@ -1,0 +1,153 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="main.xhtml" >
+       
+    <ui:define name="center">
+        <h:form>
+            <table  style="width: 100%;height: 100%;padding-left: 30px;border-collapse:collapse;border:none;">
+                <tr >
+                    <td style="height: 30px;border: solid #2d6590 1px">
+                        <p:outputLabel value="还款模型:"/>
+                    </td>
+                    <td style="border: solid #2d6590 1px" colspan="12">
+                        <p:selectOneMenu id="d" value="#{repayModelBean.selectRepayModel}" >
+                            <f:ajax event="change" execute="d" render="des good bad suitable"/>
+                            <f:selectItem itemLabel="选择还款模型" itemValue="-1"/>
+                            <f:selectItems value="#{repayModelBean.repayModelList}" />
+                        </p:selectOneMenu>
+                    </td>
+                    <td style="border: solid #2d6590 1px" colspan="2">
+                        <p:selectBooleanButton  offLabel="禁止提前还款" onLabel="允许提前还款" offIcon="ui-icon-closethick" onIcon="ui-icon-check"/>
+                    </td>
+                </tr>
+                <tr >
+                    <td style="height: 30px;border: solid #2d6590 1px">
+                        <p:outputLabel value="优点:"/>
+                    </td>
+                    <td colspan="14" style="border: solid #2d6590 1px">
+                        <p:outputLabel id="good" value="#{repayModelBean.selectRepayModel.good}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 30px;border: solid #2d6590 1px">
+                        <p:outputLabel value="缺点:"/>
+                    </td>
+                    <td colspan="14">
+                        <p:outputLabel id="bad" value="#{repayModelBean.selectRepayModel.bad}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="x">
+                        <p:outputLabel value="适用人群:"/>
+                    </td>
+                    <td colspan="14">
+                        <p:outputLabel id="suitable" value="#{repayModelBean.selectRepayModel.suitable}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 30px">
+                        <p:outputLabel value="算法介绍:"/>
+                    </td>
+                    <td colspan="14">
+                        <p:outputLabel id="des" value="#{repayModelBean.selectRepayModel.description}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 50px">
+                        <p:outputLabel value="算法公式:"/>
+                    </td>
+                    <td colspan="14">
+                        <h:graphicImage library="images/repayModel" name="dqbx.png"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td  style="width:60px;height: 30px">
+                        <p:outputLabel value="贷款总额:"/>
+                    </td>
+                    <td style="width:30px">
+                        <p:inputText value="#{repayModelBean.totalloan}" converter="BigDecimalConverter"/>
+                    </td>
+                    <td style="width:10px">
+                        <p:outputLabel value="元"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value="年利率:"/>
+                    </td>
+                    <td style="width:30px">
+                        <p:inputText value="#{repayModelBean.yearRate}"  converter="BigDecimalConverter"/>
+                    </td>
+                    <td style="width:10px">
+                        <p:outputLabel value="%"/>
+                    </td>
+                    <td>
+                        <p:outputLabel value="还款周期:"/>
+                    </td>
+                    <td style="width:30px">
+                        <p:selectOneMenu id="fselectSplitUnit"  value="#{repayModelBean.selectSplitUnit}">
+                            <f:selectItems value="#{repayModelBean.splitUnit}"/>
+                        </p:selectOneMenu>
+                    </td>
+                    <td >
+                        <p:outputLabel value="还款期数:"/>
+                    </td>
+                    <td style="width:30px">
+                        <p:inputText value="#{repayModelBean.repayPeriod}"/>
+                    </td>
+                    <td >
+                        <p:outputLabel value="期"/>
+                    </td>
+                    
+                    <td>
+                        <p:outputLabel value="开始时间:"/>
+                    </td>
+                    <td style="width:30px">
+                        <p:calendar value="#{repayModelBean.startDate}"  locale="cn" navigator="true" pattern="yyyy-MMM-dd" converter="DateConverter"/>
+                    </td>
+                    <td style="width:120px" >
+                        <p:commandButton value="计算" style="width:100%" actionListener="#{repayModelBean.caculateModel()}" icon="ui-icon-calculator">
+                            <f:ajax event="click" render="repayListTable"/>
+                        </p:commandButton>
+                    </td>
+                    <td style="width:120px" >
+                        <p:commandButton value="发标" style="width:100%"  icon="ui-icon-newwin" actionListener="#{repayModelBean.openBids()}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="16">
+                        <p:dataTable selectionMode="single" rowKey="#{repayListVar.periodNum}" rowIndexVar="row" style="width:100%" id="repayListTable" value="#{repayModelBean.repayItemList}" var="repayListVar" paginatorPosition="bottom"  paginator="true" rows="12">
+                            <p:column  headerText="序号" style="width:30px">
+                                <h:outputText value="#{row + 1}"/> 
+                            </p:column>
+                            <p:column  headerText="期数" style="width:100px">
+                                <h:outputText value="第#{repayListVar.periodNum}期"/> 
+                            </p:column>
+                            <p:column headerText="还款日期">
+                                <h:outputText value="#{repayListVar.repayDate}" converter="DateConverter"/>
+                            </p:column>
+                            <p:column headerText="期初余额">
+                                <h:outputText value="#{repayListVar.beforeBalance}"/>
+                            </p:column>
+                            <p:column headerText="本期还款总额">
+                                <h:outputText  value="#{repayListVar.subtotal}"/>
+                            </p:column>
+                            <p:column headerText="本金">
+                                <h:outputText value="#{repayListVar.principal}"/>
+                            </p:column>
+                            <p:column headerText="利息">
+                                <h:outputText value="#{repayListVar.interest}" />
+                            </p:column>
+                            <p:column headerText="期末余额">
+                                <h:outputText value="#{repayListVar.afterBalance}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
+

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>发标步骤</title>
+        <h:outputStylesheet library="css" name="globalcss.css"/>
+        <style>
+        </style>
+    </h:head>
+    <h:body  >
+        <h:form>
+            <p:wizard flowListener="#{repayModelBean.onFlowProcess}"  showStepStatus="false" nextLabel="下一步" backLabel="上一步">
+                <p:tab id="one" title="第一步" >
+                    <p:panel header="第一步（共三步）" >
+                        <p:messages />
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="用户名: *" />
+                            <p:inputText  required="true" label="Firstname"/>
+
+                            <h:outputText value="密码: *" />
+                            <p:inputText  required="true" label="Lastname"/>
+
+                            <h:outputText value="密码: *" />
+                            <p:inputText  required="true" label="Lastname"/>
+
+                            <h:outputText value="密码: *" />
+                            <p:inputText  required="true" label="Lastname"/>
+
+                            <h:outputText value="密码: *" />
+                            <p:inputText  required="true" label="Lastname"/>
+
+                            <h:outputText value="密码: *" />
+                            <p:inputText  required="true" label="Lastname"/>
+
+                            <h:outputText value="验证码: " />
+                            <p:inputText  />
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="two" title="第二步">
+                    <p:panel  header="第二步（共三步）">
+                        <p:messages />
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="税务登记号: " />
+                            <p:inputText />
+
+                            <h:outputText value="公司名称: " />
+                            <p:inputText  />
+
+                            <h:outputText value="工商代码: " />
+                            <p:inputText  />
+
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="three" title="第三部">
+                    <p:panel  header="第三步（共三步）">
+                        <p:messages />
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="身份证号: *" />
+                            <p:inputText  required="true" label="Email"/>
+
+                            <h:outputText value="电话: " />
+                            <p:inputText />
+
+                            <h:outputText value="家庭住址: " />
+                            <p:inputText />
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+        </h:form>
+    </h:body>
+</html>
+

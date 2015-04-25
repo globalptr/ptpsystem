@@ -1,0 +1,341 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        
+        <h:head>
+            <script>
+
+                var ss=function()
+                {{
+                    PrimeFaces.setCookie('11', '222') 
+
+                    alert('1111');
+                };
+            </script>
+            <h:outputScript library="js" name="primefaceslocal.js"/>
+            <h:outputStylesheet library="css" name="globalcss.css"/>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>PrimeFaces</title>
+            </f:facet>
+            <style>
+                #subwrap {
+                position:absolute; 
+                top:50%;
+               }
+               #content {
+                border:1px solid #000;
+                position:relative;
+                top:-50%;
+                color:#FFF;
+               }
+                td{
+                   height: 30px;
+                   border: solid #2d6590 1px;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <p:layout fullPage="true">
+                <p:layoutUnit position="north" gutter="0" size="80" resizable="true" closable="true" collapsible="true">
+                    <div style="font-size:22px;padding-left:35px;padding-top: 8px">
+                         天聚财后台管理系统
+                    </div>
+                    <h:form>
+                        <p:commandButton onclick="ss()" value="11111"/>
+                    </h:form>
+                    <div style="float:right; ">
+                        <h:form>
+                            <h:panelGrid columns="2" style=" text-align: center">
+                                <p:outputLabel value="选择主题"/>
+                                <p:themeSwitcher  effect="fade">  
+                                <f:selectItem itemLabel="选择主题" itemValue="" />  
+                                <f:selectItem itemLabel="afterdark" itemValue="afterdark"/>  
+                                <f:selectItem itemLabel="afternoon" itemValue="afternoon " />  
+                                <f:selectItem itemLabel="afterwork" itemValue="afterwork " />  
+                                <f:selectItem itemLabel="aristo" itemValue="aristo" />  
+                                <f:selectItem itemLabel="black-tie" itemValue="black-tie" />  
+                                <f:selectItem itemLabel="blitzer" itemValue="blitzer " />  
+                                <f:selectItem itemLabel="bluesky" itemValue="bluesky" />  
+                                <f:selectItem itemLabel="casablanca" itemValue="casablanca" />  
+                                <f:selectItem itemLabel="cruze" itemValue="cruze " />  
+                                <f:selectItem itemLabel="cupertino" itemValue="cupertino " />  
+                                <f:selectItem itemLabel="dark-hive" itemValue="dark-hive " />  
+                                <f:selectItem itemLabel="delta" itemValue="delta " />  
+                                <f:selectItem itemLabel="dot-luv" itemValue="dot-luv " />  
+                                <f:selectItem itemLabel="eggplant" itemValue="eggplant " />  
+                                <f:selectItem itemLabel="excite-bike" itemValue="excite-bike " />  
+                                <f:selectItem itemLabel="flick" itemValue="flick " />  
+                                <f:selectItem itemLabel="glass-x" itemValue="glass-x" />  
+                                <f:selectItem itemLabel="home" itemValue="home " />  
+                                <f:selectItem itemLabel="hot-sneaks" itemValue="hot-sneaks " />  
+                                <f:selectItem itemLabel="humanity" itemValue="humanity " />  
+                                <f:selectItem itemLabel="le-frog " itemValue="le-frog " />  
+                                <f:selectItem itemLabel="midnight" itemValue="midnight" />  
+                                <f:selectItem itemLabel="mint-choc" itemValue="mint-choc " />  
+                                <f:selectItem itemLabel="overcast" itemValue="overcast " />  
+                                <f:selectItem itemLabel="pepper-grinder" itemValue="pepper-grinder " />  
+                                <f:selectItem itemLabel="redmond" itemValue="redmond " />  
+                                <f:selectItem itemLabel="rocket" itemValue="rocket" />  
+                                <f:selectItem itemLabel="sam" itemValue="sam " />  
+                                <f:selectItem itemLabel="smoothness" itemValue="smoothness " />  
+                                <f:selectItem itemLabel="south-street" itemValue="south-street " />  
+                                <f:selectItem itemLabel="start" itemValue="start " />  
+                                <f:selectItem itemLabel="sunny" itemValue="sunny " />  
+                                <f:selectItem itemLabel="swanky-purse" itemValue="swanky-purse " />  
+                                <f:selectItem itemLabel="trontastic" itemValue="trontastic " />  
+                                <f:selectItem itemLabel="ui-darkness" itemValue="ui-darkness " />  
+                                <f:selectItem itemLabel="ui-lightness" itemValue="ui-lightness " />  
+                                <f:selectItem itemLabel="vader" itemValue="vader " />  
+                                </p:themeSwitcher> 
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" gutter="0"  size="230" header="工具栏" collapsible="true">
+                    <h:form>
+                        <p:growl autoUpdate="true"/>
+                        <h:form>
+                            <p:panelMenu style="width:210px">
+                            <p:submenu label="管理中心" >
+                                <p:submenu label="控制面板" >
+                                    <p:menuitem value="个人信息" icon="ui-icon-star" />
+                                    <p:menuitem value="密码修改"   icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="日志管理" >
+                                    <p:menuitem value="操作日志" icon="ui-icon-star" />
+                                    <p:menuitem value="登录日志"   icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="借款管理">
+                                <p:submenu label="借款管理" >
+                                    <p:menuitem value="增加借款" icon="ui-icon-star" />
+                                    <p:menuitem value="所有借款"   icon="ui-icon-star" />
+                                    <p:menuitem value="借款资料"   icon="ui-icon-star" />
+                                    <p:menuitem value="新标预告"   icon="ui-icon-star" />
+                                    <p:menuitem value="审核中借款"   icon="ui-icon-star" />
+                                    <p:menuitem value="还款中借款"   icon="ui-icon-star" />
+                                    <p:menuitem value="已完成借款"   icon="ui-icon-star" />
+                                    <p:menuitem value="失败借款"   icon="ui-icon-star" />
+                                    <p:menuitem value="逾期借款"   icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="债权转让" >
+                                    <p:menuitem value="所有转让" icon="ui-icon-star" />
+                                    <p:menuitem value="正在转让"   icon="ui-icon-star" />
+                                    <p:menuitem value="转让成功"   icon="ui-icon-star" />
+                                    <p:menuitem value="转让失败"   icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="数据记录" >
+                                    <p:menuitem value="投标记录" icon="ui-icon-star" />
+                                    <p:menuitem value="还款记录"   icon="ui-icon-star" />
+                                    <p:menuitem value="收款记录"   icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="自动投标" >
+                                    <p:menuitem value="增加自动投标" icon="ui-icon-star" />
+                                    <p:menuitem value="用户设置列表"   icon="ui-icon-star" />
+                                    <p:menuitem value="收款记录"   icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="用户管理">
+                                <p:submenu label="用户管理" >
+                                    <p:menuitem value="增加用户" icon="ui-icon-star" />
+                                    <p:menuitem value="所有用户"   icon="ui-icon-star" />
+                                    <p:menuitem value="VIP用户"   icon="ui-icon-star" />
+                                    <p:menuitem value="未激活用户"   icon="ui-icon-star" />
+                                    <p:menuitem value="停用用户"   icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="用户券管理" >
+                                    <p:menuitem value="增加用户券" icon="ui-icon-star" />
+                                    <p:menuitem value="用户券管理"   icon="ui-icon-star" />
+                                    <p:menuitem value="用户券记录"   icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="用户推广" >
+                                    <p:menuitem value="推广设置" icon="ui-icon-star" />
+                                    <p:menuitem value="用户关联"   icon="ui-icon-star" />
+                                    <p:menuitem value="推广能力表"   icon="ui-icon-star" />
+                                    <p:menuitem value="推广记录"   icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="用户积分" >
+                                    <p:menuitem value="推广用户积分" icon="ui-icon-star" />
+                                    <p:menuitem value="积分记录"   icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="审批管理">
+                                <p:submenu label="借款审批" >
+                                    <p:menuitem value="发标初审" icon="ui-icon-star" />
+                                    <p:menuitem value="买标审批" icon="ui-icon-star" />
+                                    <p:menuitem value="提前还款审批" icon="ui-icon-star" />
+                                    <p:menuitem value="借款审批" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="配资类审批" >
+                                    <p:menuitem value="配资申请审批" icon="ui-icon-star" />
+                                    <p:menuitem value="利润提取审批" icon="ui-icon-star" />
+                                    <p:menuitem value="补仓审批" icon="ui-icon-star" />
+                                    <p:menuitem value="展期审批" icon="ui-icon-star" />
+                                    <p:menuitem value="结束配资审批" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="提现审批" >
+                                    <p:menuitem value="待审批提现" icon="ui-icon-star" />
+                                    <p:menuitem value="待复审提现" icon="ui-icon-star" />
+                                    <p:menuitem value="审批已通过" icon="ui-icon-star" />
+                                    <p:menuitem value="审批未通过" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="认证审批" >
+                                    <p:menuitem value="主要认证" icon="ui-icon-star" />
+                                    <p:menuitem value="其他认证" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="额度审批" >
+                                    <p:menuitem value="提现额度审批" icon="ui-icon-star" />
+                                    <p:menuitem value="借款额度审批" icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="内容管理">
+                                <p:submenu label="文章管理" >
+                                    <p:menuitem value="增加文章" icon="ui-icon-star" />
+                                    <p:menuitem value="文章列表" icon="ui-icon-star" />
+                                    <p:menuitem value="栏目类型" icon="ui-icon-star" />
+                                    <p:menuitem value="增加类型" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="友情链接" >
+                                    <p:menuitem value="链接列表" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="合作伙伴" >
+                                    <p:menuitem value="增加伙伴" icon="ui-icon-star" />
+                                    <p:menuitem value="伙伴列表" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="广告管理" >
+                                    <p:menuitem value="广告列表" icon="ui-icon-star" />
+                                    <p:menuitem value="广告类型" icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="财务管理">
+                                <p:submenu label="用户资金" >
+                                    <p:menuitem value="用户账户" icon="ui-icon-star" />
+                                    <p:menuitem value="手动上帐" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="用户充值" >
+                                    <p:menuitem value="全部充值" icon="ui-icon-star" />
+                                    <p:menuitem value="等待审核（挂起）" icon="ui-icon-star" />
+                                    <p:menuitem value="充值成功" icon="ui-icon-star" />
+                                    <p:menuitem value="充值失败" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="用户提现" >
+                                    <p:menuitem value="提现列表" icon="ui-icon-star" />
+                                    <p:menuitem value="等待审核" icon="ui-icon-star" />
+                                    <p:menuitem value="审核通过" icon="ui-icon-star" />
+                                    <p:menuitem value="审核未通过" icon="ui-icon-star" />
+                                    <p:menuitem value="用户撤销" icon="ui-icon-star" />
+                                    <p:menuitem value="提现订单" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="额度管理" >
+                                    <p:menuitem value="充值额度" icon="ui-icon-star" />
+                                    <p:menuitem value="借款申请额度" icon="ui-icon-star" />
+                                    <p:menuitem value="提现额度" icon="ui-icon-star" />
+                                    <p:menuitem value="单标投资" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="收支记录" >
+                                    <p:menuitem value="系统收支" icon="ui-icon-star" />
+                                    <p:menuitem value="用户收支" icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="系统统计">
+                                <p:submenu label="系统统计" >
+                                    <p:menuitem value="注册用户" icon="ui-icon-star" />
+                                    <p:menuitem value="充值/提现" icon="ui-icon-star" />
+                                    <p:menuitem value="应收/应付" icon="ui-icon-star" />
+                                    <p:menuitem value="其他费用" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="借出/入统计" >
+                                    <p:menuitem value="借出/入总表" icon="ui-icon-star" />
+                                    <p:menuitem value="用户待还款" icon="ui-icon-star" />
+                                    <p:menuitem value="用户投资排名" icon="ui-icon-star" />
+                                    <p:menuitem value="投资人数统计" icon="ui-icon-star" />
+                                    <p:menuitem value="用户投资金额" icon="ui-icon-star" />
+                                    <p:menuitem value="用户投资标准" icon="ui-icon-star" />
+                                    <p:menuitem value="用户已还款" icon="ui-icon-star" />
+                                    <p:menuitem value="逾期未还款" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="债权统计" >
+                                    <p:menuitem value="债权转让统计" icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="配置管理">
+                                <p:submenu label="资金配置" >
+                                    <p:menuitem value="注册用户" icon="ui-icon-star" />
+                                    <p:menuitem value="充值/提现" icon="ui-icon-star" />
+                                    <p:menuitem value="应收/应付" icon="ui-icon-star" />
+                                    <p:menuitem value="其他费用" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="数据接口" >
+                                    <p:menuitem value="支付服务" icon="ui-icon-star" />
+                                    <p:menuitem value="资金托管" icon="ui-icon-star" />
+                                    <p:menuitem value="身份认证" icon="ui-icon-star" />
+                                    <p:menuitem value="短信服务" icon="ui-icon-star" />
+                                    <p:menuitem value="邮件服务" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="认证积分配置" >
+                                    <p:menuitem value="获得积分配置" icon="ui-icon-star" />
+                                    <p:menuitem value="认证等级配置" icon="ui-icon-star" />
+                                    <p:menuitem value="认证类型配置" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="主导航配置" >
+                                    <p:menuitem value="导航栏目管理" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="系统配置" >
+                                    <p:menuitem value="借款基础配置" icon="ui-icon-star" />
+                                    <p:menuitem value="图片水印设置" icon="ui-icon-star" />
+                                    <p:menuitem value="图片上传配置" icon="ui-icon-star" />
+                                    <p:menuitem value="网站参数" icon="ui-icon-star" />
+                                    <p:menuitem value="首页banner图" icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu label="系统设置">
+                                <p:submenu label="管理员管理" >
+                                    <p:menuitem value="后台操作日志" icon="ui-icon-star" />
+                                    <p:menuitem value="增加管理员" icon="ui-icon-star" />
+                                    <p:menuitem value="所有管理员" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="角色/权限管理" >
+                                    <p:menuitem value="增加角色" icon="ui-icon-star" />
+                                    <p:menuitem value="角色管理" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="组织机构管理" >
+                                    <p:menuitem value="新增组织机构" icon="ui-icon-star" />
+                                    <p:menuitem value="组织机构" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="手机短信管理" >
+                                    <p:menuitem value="发送记录" icon="ui-icon-star" />
+                                    <p:menuitem value="短信模板" icon="ui-icon-star" />
+                                    <p:menuitem value="接口设置" icon="ui-icon-star" />
+                                </p:submenu>
+                                <p:submenu label="邮件发送管理" >
+                                    <p:menuitem value="发送记录" icon="ui-icon-star" />
+                                    <p:menuitem value="邮件模板" icon="ui-icon-star" />
+                                    <p:menuitem value="接口设置" icon="ui-icon-star" />
+                                </p:submenu>
+                            </p:submenu>
+                        </p:panelMenu>
+                        </h:form>
+                    </h:form>
+                </p:layoutUnit>
+                <p:layoutUnit position="center" gutter="0" >
+                    <ui:insert name="center" >
+                        <h:panelGrid columns="1" style=" text-align: center;width: 100%;height: 100%;background-color: #554c4c;">
+                            <h:graphicImage library="images" name="newlog.png" style="width:450px;height: 450px;"/>
+                        </h:panelGrid>
+                    </ui:insert>
+                </p:layoutUnit>
+                <p:layoutUnit position="south" size="50" gutter="0" >
+                    <h:messages/>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+
+    </f:view>
+</html>
+
