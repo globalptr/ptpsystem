@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>互联网金融，让改变发生 - 天天聚财官网</title>
+        <meta name="keywords" content="天天聚财|网络理财|个人理财|投资理财|P2P理财|互联网金融|投资理财|债权转让|理财计划|优选计划|网络贷款|工薪贷|生意贷|网商贷|网贷|小额贷款"/>
+        <meta name="description" content="天天聚财(www.ttjc.com.cn)是目前中国互联网金融中P2P信贷行业中最大、最安全的平台，为投资理财用户和贷款用户两端提供公平、透明、安全、高效的互联网金融服务。投资理财用户可以通过天天聚财平台进行投标、加入优选理财计划、购买债权等方式进行投资获得高收益；贷款用户可以通过平台申请工薪贷、生意贷、网商贷等小额贷款。"/>
+        <link rel="icon" href="http://www.qclcfwzx.com/favicon.ico" type="image/x-icon"/>
+        <link href="resources/css/pubs.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/basic.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/mgs.css" rel="stylesheet" type="text/css"/>
+        <script src="resources/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+        <script src="resources/js/comm.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <input id="inpOnLine" value="0" type="hidden"/>
+
+        <div class="topbar">
+            <div class="topbar_in fm2">
+                <p class="fl">
+                    <span>您好，游客欢迎来到天天聚财！</span>
+                    <span class="s2">请</span><a href="./log.xhtml" title="登录">登录</a>
+                    <a href="./regist.xhtml" title="免费注册">免费注册</a>    
+                    <span>客服：400 0233 536</span>
+                </p>
+                <p class="fr">
+                    <a class="a_wx" href="javascript:;" title="官方微信" >官方微信</a>
+                    <a class="a_qq" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=77d14c536a83fa744082830e71d032e39075208dab36bb2f5377c1cef1d8f2d3" title="官方QQ群">官方QQ群</a>
+                </p>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="head">
+            <div class="head_in">
+                <div class="logo"><a href="index.xhtml"><img src="../images/logo.png" alt="天天聚财logo" /></a></div>
+                <ul class="nav">
+                    <li><a href="index.xhtml" title="首页">首页</a><!--<span>◆</span>--></li>
+                    <li class="on"><a href="money_list.xhtml" title="我要理财">我要理财</a><span>◆</span></li>
+                    <li><a href="borrow.xhtml" title="我要借款">我要借款</a><span>◆</span></li>
+                    <li><a href="account.xhtml" title="我的账户">我的账户</a><span>◆</span></li>
+                    <li><a href="help.xhtml" title="帮助中心">帮助中心</a><span>◆</span></li>
+                    <li><a href="#" title="关于我们">关于我们</a><span>◆</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="">
+            <div class="reg_box">
+                <h3 class="reg_tit">注册</h3>
+                <div class="pad20">
+                    <h2 class="zj_txt">已有账号，直接<a href="#">登陆</a></h2>
+                    <form action="/index.php?s=/Home/User/reg.xhtml" method="post" class="reg-form" >
+                        <table style="width:100%" border="1">
+                            <tr>
+                                <th>用户名：</th>
+                                <td><input value="admin" name="uusername" placeholder="请输入用户名" class="user"/></td>
+                            </tr>
+                            <tr>
+                                <th>密码：</th>
+                                <td><input name="upassword" placeholder="请输入用户密码" type="password" class="pass"/></td>
+                            </tr>
+                            <tr>
+                                <th>确认密码：</th>
+                                <td><input name="repassword" placeholder="请再次输入用户密码" type="password" class="pass"/></td>
+                            </tr>
+                            <tr>
+                                <th>手机号：</th>
+                                <td><input name="mobilephone" placeholder="请输入手机号码"  class="user"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input value="点击发送验证码"  type="button"/></td>
+                            </tr>
+                            <tr>
+                                <th>验证码：</th>
+                                <td><input name="mobile_code" type="text" class="yz"/></td>
+                            </tr>
+                            <tr>
+                                <th>推荐人编号：</th>
+                                <td><input name="ationcode" placeholder="请输入推荐人编号(可不填)" type="text" class="user"/></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td><input name="rem" id="rem" value="1" type="checkbox"/><label for="rem" style="cursor:pointer" class="agree">我同意<a id="show_license" href="javascript:void(0)">《天天聚财网站服务协议》</a></label></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td><input value="提交" type="submit"/></td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div class="reg_img"></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mask"></div>
+        <div class="xy">
+            <h2>天天聚财网站服务协议<span class="close"></span></h2>
+            <div class="textarea">
+                <h3>天天聚财网站服务协议</h3>
+
+                <h4>尊敬的用户：</h4>
+                <h4>您好，欢迎您加入天天聚财！</h4>
+                <p>天天聚财网由重庆天天聚才投资管理有限公司（以下简称'天天聚财网'）。在您注册成为天天聚财网用户前请务必仔细阅读以下条款。若您一旦注册,则您接受天天聚财网的服务必须受以下条款的约束。</p>
+
+                <h4>一、声明与承诺</h4>
+                <p>（一）本协议已对与您的权益有或可能具有重大关系的条款，及对本公司具有或可能具有免责或限制责任的条款用粗体字予以标注，请您注意。您确认，在您注册成为支付宝用户以接受本服务，或您以其他本公司允许的方式实际使用本服务前，您已充分阅读、理解并接受本协议的全部内容，一旦您使用本服务，即表示您同意遵循本协议之所有约定。</p>
+                <p>（二）本服务协议内容包括以下条款及已经发布的或将来可能发布的各类规则。所有规则为协议不可分割的一部分,与协议正文具有同等法律效力。本协议是由您与天天聚财网共同签订的,适用于您在天天聚财网的全部活动。在您注册成为用户时,您已经阅读、理解并接受本协议的全部条款及各类规则,并承诺遵守中国现行的法律、法规、规章及其他政府规定,如有违反而导致任何法律后果的发生,您将以自己的名义独立承担所有相应的法律责任。</p>
+                <p>（三）天天聚财网有权根据需要不时地制定、修改本协议或各类规则,如本协议及规则有任何变更,天天聚财网将在网站上刊载公告,经修订的协议、规则一经在公布后,立即自动生效。您应不时地注意本协议及附属规则地变更,若您不同意相关变更,天天聚财网有权不经任何告知终止、中止本协议或者限制您进入天天聚财网的全部或者部分板块且不承担任何法律责任。</p>
+                <p>(四)您确认本服务协议后,本服务协议即在您和天天聚财网之间产生法律效力。您只要点击协议正本下方的"确认"按钮并按照本网站规定的注册程序成功注册为用户,您的行为既表示同意并签署了本服务协议。本服务协议不涉及您与天天聚财网的其他用户之间因网上交易而产生的法律关系及法律纠纷。</p>
+                <h4>二、使用限制</h4>
+                <p>（一）天天聚财网中的全部内容的版权均属于天天聚财网所有,该等内容包括但不限于文本、数据、文章、设计、源代码、软件、图片、照片及其他全部信息(以下称"网站内容")。网站内容受中华人民共和国著作权法及各国际版权公约的保护。未经天天聚财网事先书面同意,您承诺不以任何方式、不以任何形式复制、模仿、传播、出版、公布、展示网站内容,包括但不限于电子的、机械的、复印的、录音录像的方式和形式等。您承认网站内容是属于天天聚财网的财产。未经天天聚财网书面同意,您亦不得将天天聚财网包含的资料等任何内容镜像到任何其他网站或者服务器。任何未经授权对网站内容的使用均属于违法行为,天天聚财网将追究您的法律责任。</p>
+                <p>（二）您承诺合法使用天天聚财网提供的服务及网站内容。禁止在天天聚财网从事任何可能违反中国现行的法律、法规、规章和政府规范性文件的行为或者任何未经授权使用天天聚财网的行为,如擅自进入天天聚财网的未公开的系统、不正当的使用密码和网站的任何内容等。</p>
+                <p>（三）天天聚财网只接受中国大陆(不包括香港特区、澳门特区及台湾地区)的18周岁以上的具有完全民事行为能力的自然人成为网站用户。如您不符合资格,请勿注册。天天聚财网保留中止或终止您用户资格的权利。</p>
+                <p>（四）您注册成功后,不得将天天聚财网的用户名转让给第三方或者授权给第三方使用。您确认,您用您的用户名和密码登录天天聚财网后在天天聚财网的一切行为均代表您并由您承担相应的法律后果。</p>
+                <p>（五）您有义务在注册时提供自己的真实资料,并保证诸如电子邮件地址、联系电话、联系地址、邮政编码等内容的有效性及安全性。如您因网上交易与其他用户产生诉讼的,用户有权通过司法部门要求网站提供相关资料。</p>
+                <p>（六）经国家生效法律文书或行政处罚决定确认您存在违法行为,或者天天聚财网有足够事实依据可以认定您存在违法或违反本服务协议的行为的或者您借款逾期未还的,天天聚财网有权在因特网络上公布您的违法、违约行为,并有关将该内容记入任何与您相关的信用资料和档案。</p>
+                <h4>三、涉及第三方网站</h4>
+                <p>天天聚财网的网站内容可能涉及由第三方所有、控制或者运营的其他网站(以下称"第三方网站")。天天聚财网不能保证也没有义务保证第三方网站上的信息的真实性和有效性。您确认按照第三方网站的服务协议使用第三方网站,而不是按照本协议。第三方网站不是天天聚财网推荐或者介绍的,第三方网站的内容、产品、广告和其他任何信息均由您自行判断并承担风险,而与天天聚财网无关。</p>
+                <h4>四、责任限制</h4>
+                <p>在任何情况下,天天聚财网方对您使用天天聚财网服务而产生的任何形式的的直接或间接损失均不承担法律责任,包括但不限于资金损失、利润损失、营业中断损失等。因为天天聚财网或者涉及的第三方网站的设备、系统存在缺陷或者因为计算机病毒造成的损失,天天聚财网均不负责赔偿,您的补救措施只能是与天天聚财网终止本协议并停止使用天天聚财网。但是,中国现行法律、法规另有规定的除外。</p>
+                <h4>五、网站内容监测</h4>
+                <p>天天聚财网没有义务监测网站内容,但是您确认并同意天天聚财网有权不时地根据法律、法规、政府要求透露、修改或者删除必要的、合适的信息,以便更好地运营天天聚财网并保护自身及天天聚财网的其他合法用户。</p>
+                <h4>六、个人信息的使用</h4>
+                <p>天天聚财网对于收集到的经认证的个人信息将按照天天聚财网的隐私规则予以保护。</p>
+                <h4>七、补偿</h4>
+                <p>就任何第三方提出的,由于您违反本协议及纳入本协议的条款和规则或您违反任何法律、法规或侵害第三方的权利而产生或引起的每一种类和性质的任何索赔、要求、诉讼、损失和损害(实际的、特别的及有后果的),无论是已知或未知的,包括合理的律师费,您同意就此对天天聚财网和(如适用)天天聚财网的母公司、 子公司、关联公司、高级职员、董事、代理人和雇员进行补偿并使其免受损害。</p>
+                <h4>八、终止</h4>
+                <p>除非天天聚财网终止本协议或者您申请终止本协议且经天天聚财网同意,否则本协议始终有效。天天聚财网有权在不通知您的情况下在任何时间终止本协议或者限制您使用天天聚财网。</p>
+                <h4>九、适用法律和管辖</h4>
+                <p>因天天聚财网提供服务所产生的争议均适用中华人民共和国法律,并由天天聚财网住所地的人民法院管辖。</p>
+                <h4>十、附加条款</h4>
+                <p>在天天聚财网的某些部分或页面中可能存在除本协议以外的单独的附加服务条款,当这些条款存在冲突时,在该些部分和页面中附加条款优先适用。</p>
+                <h4>十一、条款的独立性</h4>
+                <p>若本协议的部分条款被认定为无效或者无法实施时,本协议中的其他条款仍然有效。</p>
+                <h4>十二、有关著作权的投诉</h4>
+                <p>若您发现天天聚财网中有侵犯您著作权的情形,你可以将投诉信发送到：ttjc009@163.com</p>
+                <h4 class="text-right">天天聚财网站</h4>
+                <h4 class="text-right">2014年5月</h4>
+            </div>
+            <div class="look">已阅读并同意此协议</div>
+        </div>
+        <script type="text/javascript">
+            $(function() {
+                $(window).resize(function() {
+                    $("#main-container").css("min-height", $(window).height() - 343);
+                }).resize();
+            });
+            $(function() {
+                $("#show_license").click(function() {
+                    $(".mask").css("display", "block");
+                    $(".xy").css("display", "block");
+                });
+                $(".close").click(function() {
+                    $(".mask").css("display", "none");
+                    $(".xy").css("display", "none");
+                });
+
+            });
+        </script>
+        <div class="clear"></div>
+        <div class="footer">
+            <div class="foot_t">
+                <ul class="foot_help">
+                    <li class="l1">
+                        <h6>联系我们</h6>
+                        <p style="padding:4px 0 2px; line-height:1.5;">重庆市沙坪坝区石碾盘东原ARC（拾莲坊）<br/>1号写字楼31-4、5、6</p>
+                        <p class="fm3">400 023 3536</p>
+                        <p class="fm3">023-65038506</p>
+                        <p class="fm3">ttjc009@163.com</p>
+                    </li>
+                    <li class="l2">
+                        <h6>新手指引</h6>
+                        <p><a href="http://www.qclcfwzx.com/Article.php?ptid=1&amp;pid=35" target="_blank">什么是银行合作标？</a></p>
+                        <p><a href="http://www.qclcfwzx.com/Article.php?ptid=1&amp;pid=4" target="_blank">什么是机构担保标?</a></p>
+                        <p><a href="http://www.qclcfwzx.com/Article.php?ptid=1&amp;pid=3" target="_blank">什么是个人抵押标?</a></p>
+                        <p><a href="http://www.qclcfwzx.com/Article.php?ptid=1&amp;pid=1" target="_blank">什么是企业抵押标？</a></p>
+                    </li>
+                    <li class="l3">
+                        <h6>法律法规</h6>
+                        <p><a href="http://www.qclcfwzx.com/Article.php?ptid=2&amp;pid=45" target="_blank">电子合同的合法性</a></p>
+                        <p><a href="http://www.qclcfwzx.com/Article.php?ptid=2&amp;pid=44" target="_blank">理财人通过天天聚财平...</a></p>
+                        <p><a href="http://www.qclcfwzx.com/Article.php?ptid=2&amp;pid=43" target="_blank">理财人及借款人双方民...</a></p>
+                        <p><a href="http://www.qclcfwzx.com/Article.php?ptid=2&amp;pid=42" target="_blank">天天聚财平台提供居间...</a></p>
+                    </li>
+                </ul>
+                <dl class="foot_ser">
+                    <dt><i class="icon_kf"></i><span class="va_m fs_16">在线客服</span></dt>
+                    <dd>
+                        <p class="tel"><b>400 023 3536</b><br/>(工作时间 9:00-21:00)</p>
+                        <div class="ico">
+                            <a class="wx trans" href="javascript:;" title="天天聚财微信"></a>
+                            <a class="wb trans" href="http://weibo.com/3969837318" title="天天聚财微博" target="_blank"></a>
+                            <a class="qu trans" href="http://shang.qq.com/wpa/qunwpa?idkey=77d14c536a83fa744082830e71d032e39075208dab36bb2f5377c1cef1d8f2d3" title="投资理财群"></a>
+                            <a class="em trans" href="mailto:ttjc009@163.com" title="Email"></a>
+                            <a class="ca trans" href="http://www.ttjc.com.cn/calculator.php" title="收益计算器"></a>
+                        </div>
+                    </dd>
+                </dl>
+                <div class="foot_code">
+                    <h6>关注官方微信</h6>
+                    <p><img src="resources/images/ttjc_weixin.jpg" alt="1"/></p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="foot_m">
+                <a class="ap1 trans" href="https://sealinfo.verisign.com/splash?form_file=fdf/splash.fdf&amp;dn=www.ttjc.com.cn&amp;lang=zh_cn" target="_blank"></a>
+                <a class="ap2 trans" href="http://webscan.360.cn/index/checkwebsite?url=www.ttjc.com.cn" target="_blank"></a>
+                <a class="ap3 trans" href="http://www.anquan.org/authenticate/cert/?site=www.ttjc.com.cn" target="_blank"></a>
+                <a class="ap4 trans" href="http://beian.cqnet110.gov.cn/open/showRecord?id=50010602000558" target="_blank"></a>
+                <a class="ap5 trans" href="http://www.cfca.com.cn/" target="_blank"></a>
+                <a class="ap6 trans" href="http://www.cfca.com.cn/" target="_blank"></a>
+            </div>
+            <div class="foot_b">
+                ©2014 天天聚财网 All rights reserved<span>|</span>重庆天天聚才投资管理有限公司<span>|</span>ICB备：渝ICP备14003929号-1
+            </div>
+        </div>
+        <div class="dialogOverlay"></div>
+        <div class="weixin_top">
+            <h3><a class="trans" href="javascript:;" >×</a>官方微信</h3>
+        </div>
+    </body>
+</html>
