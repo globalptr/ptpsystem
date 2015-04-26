@@ -1,4 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" " http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -8,14 +9,13 @@
         
         <h:head>
             <script>
-
                 var ss=function()
-                {{
-                    PrimeFaces.setCookie('11', '222') 
+                {
+                    PrimeFaces.setCookie('11', '222') ;
 
                     alert('1111');
                 };
-            </script>
+                </script>
             <h:outputScript library="js" name="primefaceslocal.js"/>
             <h:outputStylesheet library="css" name="globalcss.css"/>
             <f:facet name="first">
@@ -46,7 +46,7 @@
                          天聚财后台管理系统
                     </div>
                     <h:form>
-                        <p:commandButton onclick="ss()" value="11111"/>
+                        <p:commandButton  value="11111"/>
                     </h:form>
                     <div style="float:right; ">
                         <h:form>

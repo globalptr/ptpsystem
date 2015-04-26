@@ -7,6 +7,8 @@
 package com.oakeel;
 
 import com.oakeel.globaltool.RepayModelCaculate;
+import com.oakeel.ptpEntityAndCtrl.User.UserDao;
+import com.oakeel.ptpEntityAndCtrl.User.UserEntity;
 import com.oakeel.ptpEnum.RepayModel;
 import com.oakeel.ptpEnum.SplitUnit;
 import java.math.BigDecimal;
@@ -17,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -44,9 +47,17 @@ public class RepayModelBean {
     private int repayPeriod;//还款周期
     private Date startDate;//开始时间
     private Date endDate;//结束时间
+    @EJB
+    UserDao userDao;
     @PostConstruct
     public void init()
     {
+        UserEntity userEntity=new UserEntity();
+        String idstr = UUID.randomUUID().toString();
+        userEntity.setUuid(idstr);
+        userEntity.setUserName("htm");
+        userEntity.setPassword("1981");
+        userDao.addNewUser(userEntity);
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request;
         request = ( HttpServletRequest ) context.getExternalContext().getRequest();

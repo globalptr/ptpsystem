@@ -9,6 +9,20 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <!--log4j-->
+    <servlet>
+        <servlet-name>Log4jInit</servlet-name>
+        <servlet-class>com.oakeel.servlet.Log4jInit</servlet-class>
+        <init-param>
+            <param-name>log4j-init-file</param-name>
+            <param-value>WEB-INF/log4j.properties</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Log4jInit</servlet-name>
+        <url-pattern>/Log4jInit</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
@@ -21,9 +35,26 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
-    <context-param>  
-        <param-name>primefaces.THEME</param-name>  
-        <param-value>#{layoutBean.xy==true?layoutBean.theme:"none"}</param-value>  
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>#{layoutBean.xy==true?layoutBean.theme:"start"}</param-value>
     </context-param> 
+    <!--shiro-->
+    <filter>
+        <filter-name>ShiroFilter</filter-name>
+        <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
+    </filter> 
+    <filter-mapping>
+        <filter-name>ShiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping> 
+    <listener>
+        <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+    </listener> 
 
-</web-app>
+     
+    </web-app>
