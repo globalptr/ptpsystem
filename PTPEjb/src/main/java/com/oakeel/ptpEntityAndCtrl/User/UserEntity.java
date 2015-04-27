@@ -34,6 +34,8 @@ public class UserEntity implements Serializable {
     @Id
     private String uuid;
     private String userName;
+    private String telephoneNum;
+    private String eMail;
     private String password;
 
 
@@ -102,6 +104,34 @@ public class UserEntity implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the telephoneNum
+     */
+    public String getTelephoneNum() {
+        return telephoneNum;
+    }
+
+    /**
+     * @param telephoneNum the telephoneNum to set
+     */
+    public void setTelephoneNum(String telephoneNum) {
+        this.telephoneNum = telephoneNum;
+    }
+
+    /**
+     * @return the eMail
+     */
+    public String geteMail() {
+        return eMail;
+    }
+
+    /**
+     * @param eMail the eMail to set
+     */
+    public void seteMail(String eMail) {
+        this.eMail = eMail;
     }
     
 }
