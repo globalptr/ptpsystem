@@ -87,8 +87,8 @@
         </dependency>
         <!--ejf-->
         <dependency>
-            <groupId>com.oakeel.ptpEjb</groupId>
-            <artifactId>PTPEjb</artifactId>
+            <groupId>com.mycompany</groupId>
+            <artifactId>PtpEjb</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

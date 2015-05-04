@@ -9,114 +9,114 @@
         <h:form>
             <table  style="width: 100%;height: 100%;padding-left: 30px;border-collapse:collapse;border:none;">
                 <tr >
-                    <td style="height: 30px;border: solid #2d6590 1px">
+                    <td class="bordertd">
                         <p:outputLabel value="还款模型:"/>
                     </td>
-                    <td style="border: solid #2d6590 1px" colspan="12">
+                    <td  class="bordertd" colspan="12">
                         <p:selectOneMenu id="d" value="#{repayModelBean.selectRepayModel}" >
                             <f:ajax event="change" execute="d" render="des good bad suitable"/>
                             <f:selectItem itemLabel="选择还款模型" itemValue="-1"/>
                             <f:selectItems value="#{repayModelBean.repayModelList}" />
                         </p:selectOneMenu>
                     </td>
-                    <td style="border: solid #2d6590 1px" colspan="2">
+                    <td  class="bordertd" colspan="2">
                         <p:selectBooleanButton  offLabel="禁止提前还款" onLabel="允许提前还款" offIcon="ui-icon-closethick" onIcon="ui-icon-check"/>
                     </td>
                 </tr>
                 <tr >
-                    <td style="height: 30px;border: solid #2d6590 1px">
+                    <td  class="bordertd">
                         <p:outputLabel value="优点:"/>
                     </td>
-                    <td colspan="14" style="border: solid #2d6590 1px">
+                    <td colspan="14"  class="bordertd">
                         <p:outputLabel id="good" value="#{repayModelBean.selectRepayModel.good}"/>
                     </td>
                 </tr>
                 <tr>
-                    <td style="height: 30px;border: solid #2d6590 1px">
+                    <td  class="bordertd">
                         <p:outputLabel value="缺点:"/>
                     </td>
-                    <td colspan="14">
+                    <td class="bordertd" colspan="14">
                         <p:outputLabel id="bad" value="#{repayModelBean.selectRepayModel.bad}"/>
                     </td>
                 </tr>
                 <tr>
-                    <td class="x">
+                    <td class="bordertd">
                         <p:outputLabel value="适用人群:"/>
                     </td>
-                    <td colspan="14">
+                    <td class="bordertd" colspan="14">
                         <p:outputLabel id="suitable" value="#{repayModelBean.selectRepayModel.suitable}"/>
                     </td>
                 </tr>
                 <tr>
-                    <td style="height: 30px">
+                    <td class="bordertd" style="height: 30px">
                         <p:outputLabel value="算法介绍:"/>
                     </td>
-                    <td colspan="14">
+                    <td class="bordertd" colspan="14">
                         <p:outputLabel id="des" value="#{repayModelBean.selectRepayModel.description}"/>
                     </td>
                 </tr>
                 <tr>
-                    <td style="height: 50px">
+                    <td class="bordertd" style="height: 50px">
                         <p:outputLabel value="算法公式:"/>
                     </td>
-                    <td colspan="14">
+                    <td class="bordertd" colspan="14">
                         <h:graphicImage library="images/repayModel" name="dqbx.png"/>
                     </td>
                 </tr>
                 <tr>
-                    <td  style="width:60px;height: 30px">
+                    <td class="bordertd"  style="width:60px;height: 30px">
                         <p:outputLabel value="贷款总额:"/>
                     </td>
-                    <td style="width:30px">
+                    <td class="bordertd" style="width:30px">
                         <p:inputText value="#{repayModelBean.totalloan}" converter="BigDecimalConverter"/>
                     </td>
-                    <td style="width:10px">
+                    <td class="bordertd" style="width:10px">
                         <p:outputLabel value="元"/>
                     </td>
-                    <td>
+                    <td class="bordertd">
                         <p:outputLabel value="年利率:"/>
                     </td>
-                    <td style="width:30px">
+                    <td class="bordertd" style="width:30px">
                         <p:inputText value="#{repayModelBean.yearRate}"  converter="BigDecimalConverter"/>
                     </td>
-                    <td style="width:10px">
+                    <td class="bordertd" style="width:10px">
                         <p:outputLabel value="%"/>
                     </td>
-                    <td>
+                    <td class="bordertd">
                         <p:outputLabel value="还款周期:"/>
                     </td>
-                    <td style="width:30px">
+                    <td class="bordertd" style="width:30px">
                         <p:selectOneMenu id="fselectSplitUnit"  value="#{repayModelBean.selectSplitUnit}">
                             <f:selectItems value="#{repayModelBean.splitUnit}"/>
                         </p:selectOneMenu>
                     </td>
-                    <td >
+                    <td class="bordertd" >
                         <p:outputLabel value="还款期数:"/>
                     </td>
-                    <td style="width:30px">
+                    <td  class="bordertd" style="width:30px">
                         <p:inputText value="#{repayModelBean.repayPeriod}"/>
                     </td>
-                    <td >
+                    <td class="bordertd" >
                         <p:outputLabel value="期"/>
                     </td>
                     
-                    <td>
+                    <td class="bordertd">
                         <p:outputLabel value="开始时间:"/>
                     </td>
-                    <td style="width:30px">
+                    <td class="bordertd" style="width:30px">
                         <p:calendar value="#{repayModelBean.startDate}"  locale="cn" navigator="true" pattern="yyyy-MMM-dd" converter="DateConverter"/>
                     </td>
-                    <td style="width:120px" >
+                    <td class="bordertd" style="width:120px" >
                         <p:commandButton value="计算" style="width:100%" actionListener="#{repayModelBean.caculateModel()}" icon="ui-icon-calculator">
                             <f:ajax event="click" render="repayListTable"/>
                         </p:commandButton>
                     </td>
-                    <td style="width:120px" >
+                    <td class="bordertd" style="width:120px" >
                         <p:commandButton value="发标" style="width:100%"  icon="ui-icon-newwin" actionListener="#{repayModelBean.openBids()}"/>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="16">
+                    <td class="bordertd" colspan="16">
                         <p:dataTable selectionMode="single" rowKey="#{repayListVar.periodNum}" rowIndexVar="row" style="width:100%" id="repayListTable" value="#{repayModelBean.repayItemList}" var="repayListVar" paginatorPosition="bottom"  paginator="true" rows="12">
                             <p:column  headerText="序号" style="width:30px">
                                 <h:outputText value="#{row + 1}"/> 

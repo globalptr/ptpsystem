@@ -33,7 +33,7 @@
                 top:-50%;
                 color:#FFF;
                }
-                td{
+                .bordertd{
                    height: 30px;
                    border: solid #2d6590 1px;
                 }
@@ -295,19 +295,13 @@
                                 </p:submenu>
                             </p:submenu>
                             <p:submenu label="系统设置">
-                                <p:submenu label="管理员管理" >
-                                    <p:menuitem value="后台操作日志" icon="ui-icon-star" />
-                                    <p:menuitem value="增加管理员" icon="ui-icon-star" />
-                                    <p:menuitem value="所有管理员" icon="ui-icon-star" />
-                                </p:submenu>
-                                <p:submenu label="角色/权限管理" >
-                                    <p:menuitem value="增加角色" icon="ui-icon-star" />
-                                    <p:menuitem value="角色管理" icon="ui-icon-star" />
-                                </p:submenu>
-                                <p:submenu label="组织机构管理" >
-                                    <p:menuitem value="新增组织机构" icon="ui-icon-star" />
-                                    <p:menuitem value="组织机构" icon="ui-icon-star" />
-                                </p:submenu>
+                                
+                                <p:menuitem value="组织机构管理" icon="ui-icon-star" outcome="organization"/>
+                                <p:menuitem value="组织权限管理" icon="ui-icon-star" />
+                                <p:menuitem value="用户组织管理" icon="ui-icon-star" outcome="userManage"/>
+                                <p:menuitem value="用户角色管理" icon="ui-icon-star" />
+                                <p:menuitem value="角色权限管理" icon="ui-icon-star" />
+                        
                                 <p:submenu label="手机短信管理" >
                                     <p:menuitem value="发送记录" icon="ui-icon-star" />
                                     <p:menuitem value="短信模板" icon="ui-icon-star" />

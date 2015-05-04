@@ -1,0 +1,176 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="main.xhtml" >
+
+        <ui:define name="center">
+            <h:form style="height: 100%" id="form">
+                <p:dialog widgetVar="adduserdlg" header="添加新用户" resizable="false">
+                    <table>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="用户名"/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{userManageBean.newUser.name}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="密码"/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{userManageBean.newUser.password}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="重复密码"/>
+                            </td>
+                            <td>
+                                <p:password />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="手机号"/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{userManageBean.newUser.telephone}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="邮箱"/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{userManageBean.newUser.email}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="部门"/>
+                            </td>
+                            <td>
+                                <h:selectOneMenu style="width:100%" converter="OrganizationConverter" value="#{userManageBean.newUser.organizationEntity}">
+                                    <f:selectItems value="#{userManageBean.allOrganization}" var="org_var" itemLabel="#{org_var.name}" itemValue="#{org_var.organizationUuid}"/>
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p:commandButton value="添加" style="width:100%" onclick="PF('adduserdlg').hide()" actionListener="#{userManageBean.addNewUser()}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <p:dialog widgetVar="deleteuserdlg" resizable="false" header="删除用户">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <p:outputLabel value="是否确定删除此用户"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="删除" onclick="PF('deleteuserdlg').hide()" actionListener="#{userManageBean.deleteUser()}" update="users_id"/>
+                            </td>
+                            <td>
+                                <p:commandButton value="取消" onclick="PF('deleteuserdlg').hide()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <table style="height: 100%;">
+                    <tr >
+                        <td style=" vertical-align: top">
+                            <p:commandButton value="初始化数据库" actionListener="#{userManageBean.xxx()}" style="width:100%"/>
+                            <p:commandButton value="查看未归类人员" actionListener="#{userManageBean.unclassedUser()}" update=":form:users_id" style="width:100%"/>
+                            <p:commandButton value="查看所有人员" actionListener="#{userManageBean.allUser()}" update=":form:users_id" style="width:100%"/>
+                            <p:tree  id="docs" value="#{userManageBean.rootNode}" var="doc"  selectionMode="single" selection="#{userManageBean.selectNode}" dynamic="true"> 
+                                <p:ajax event="select" update=":form:users_id" listener="#{userManageBean.test()}" />
+                                <p:treeNode type="department" expandedIcon="ui-icon-grip-dotted-vertical" collapsedIcon="ui-icon-flag">
+                                    <h:outputText value="#{doc}"/>
+                                </p:treeNode>
+                            </p:tree>
+                        </td>
+                        <td style=" vertical-align: top">
+                            <p:dataTable id="users_id" var="users_var"  editable="true" value="#{userManageBean.userEntitys}" >
+                                <f:facet name="header">
+                                    用户列表
+                                </f:facet>         
+                                <p:ajax event="rowEdit" listener="#{userManageBean.saveUser}"  />
+
+                                <p:column headerText="用户名">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{users_var.name}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%" value="#{users_var.name}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="密码">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{users_var.password}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{users_var.password}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="电话">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{users_var.telephone}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{users_var.telephone}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="邮箱">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{users_var.email}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{users_var.email}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="机构" style="width:80px">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{users_var.organizationEntity}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu converter="OrganizationConverter" value="#{users_var.organizationEntity}" style="width:100%">
+                                                <f:selectItems value="#{userManageBean.allOrganization}" var="orgitem_var" itemLabel="#{orgitem_var.name}" itemValue="#{orgitem_var.organizationUuid}"/>
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column style="width:32px">
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column style="width:32px">
+                                    <p:commandLink value="删除" onclick="PF('deleteuserdlg').show()" actionListener="#{userManageBean.deleteUser()}">
+                                        <f:setPropertyActionListener value="#{users_var}" target="#{userManageBean.deleteUserEntity}" />
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+                            <p:commandButton value="添加新用户" onclick="PF('adduserdlg').show()" style="width:100%"/>
+                        </td>
+                    </tr>
+                </table>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

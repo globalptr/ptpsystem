@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="main.xhtml" >
+        <ui:define name="center">
+            <h:form id="form" style="height: 100%">
+                <p:growl id="messages" showDetail="true" />
+                <p:dialog widgetVar="deletenodedlg" header="删除机构" resizable="false">
+                    <table style="width:283px;height:100px">
+                        <tr style="height:50px">
+                            <td style="width:70px">
+                                <p:graphicImage library="images/sysico" name="alarm_icons_001.png"/>
+                            </td>
+                            <td style="width: 100%">
+                                <p:outputLabel id="department_dlg_id" value="是否删除机构：#{organizationBean.selectNode}"/>
+                                <p:outputLabel value="如果删除该，则将级联删除其子机构，所属人员单位将设置为空"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="width:50%; text-align:center;">
+                                <p:commandButton value="确定" onclick="PF('dlg').hide()" style="width: 80%;" update="departments_id"  actionListener="#{organizationBean.deleteOrg()}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>                
+                <p:dialog widgetVar="addnewdlg" header="添加机构" resizable="false">
+                    <table style="width:283px;height:100px">
+                        <tr style="height:50px">
+                            <td style="width:70px">
+                                <p:outputLabel value="单位名"/>
+                            </td>
+                            <td style="width: 100%">
+                                <p:inputText value="#{organizationBean.newOrganization.name}"/>
+                            </td>
+                        </tr>
+                        <tr style="height:50px">
+                            <td style="width:70px">
+                                <p:outputLabel value="显示顺序"/>
+                            </td>
+                            <td style="width: 100%">
+                                <p:inputText value="#{organizationBean.newOrganization.priority}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:50%; text-align:center;">
+                                <p:commandButton value="确定" onclick="PF('addnewdlg').hide()" style="width: 80%;"  update="departments_id"  actionListener="#{organizationBean.addNewNode()}"/>
+                            </td>
+                            <td style="width:50%; text-align:center;">
+                                <p:commandButton value="取消" onclick="PF('addnewdlg').hide()"  style="width:80%;"  />
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <table style="width:100%;height:100%; vertical-align: middle; ">
+                    <tr style="height:30px">
+                        <td>
+                            <p:commandButton value="初始化单位数据库" actionListener="#{organizationBean.tests()}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:tree  id="departments_id" value="#{organizationBean.rootNode}" var="department_var"  selectionMode="single" selection="#{organizationBean.selectNode}" dynamic="true" orientation="horizontal"> 
+                                <p:ajax event="select"  />
+                                <p:treeNode type="department" expandedIcon="ui-icon-grip-dotted-vertical" collapsedIcon="ui-icon-flag">
+                                    <h:outputText value="#{department_var}"/>
+                                </p:treeNode>
+                            </p:tree>
+                        </td>
+                    </tr>
+                </table>
+
+                <p:contextMenu for="departments_id">
+                    <p:menuitem value="查看/修改" icon="ui-icon-search" />
+                    <p:menuitem value="新建子机构" icon="ui-icon-plusthick" onclick="PF('addnewdlg').show()" />
+                    <p:menuitem value="删除该机构" icon="ui-icon-close" onclick="PF('deletenodedlg').show()" />
+                </p:contextMenu>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
