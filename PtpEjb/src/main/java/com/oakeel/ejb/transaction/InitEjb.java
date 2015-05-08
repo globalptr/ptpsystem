@@ -8,6 +8,7 @@ package com.oakeel.ejb.transaction;
 import com.oakeel.ejb.entityAndEao.organization.OrganizationEntity;
 import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
 import com.oakeel.ejb.entityAndEao.role.RoleEntity;
+import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
 import com.oakeel.ejb.entityAndEao.user.UserEntity;
 import com.oakeel.ejb.entityAndEao.user.UserEnum;
 import java.io.Serializable;
@@ -52,19 +53,19 @@ public class InitEjb implements InitEjbLocal , Serializable{
         em.persist(d5);
         //初始化用户孔融 、屈原、李白、杜甫、 白居易、刘禹锡、李商隐、杜牧、李贺、张九龄、王之涣、王勃、皇甫松、李珣、李煜、高适、王维、刘长卿、韩愈、柳宗元、顾况、李益、范仲淹、 欧阳修、陆游、辛弃疾、岳飞
 
-        UserEntity user1 = new UserEntity("孔融", "ttjc", UserEnum.用户名创建);
-        UserEntity user2 = new UserEntity("屈原", "ttjc", UserEnum.用户名创建);
-        UserEntity user3 = new UserEntity("李白", "ttjc", UserEnum.用户名创建);
-        UserEntity user4 = new UserEntity("杜甫", "ttjc", UserEnum.用户名创建);
-        UserEntity user5 = new UserEntity("白居易", "ttjc", UserEnum.用户名创建);
-        UserEntity user6 = new UserEntity("刘禹锡", "ttjc", UserEnum.用户名创建);
-        UserEntity user7 = new UserEntity("李商隐", "ttjc", UserEnum.用户名创建);
-        UserEntity user8 = new UserEntity("杜牧", "ttjc", UserEnum.用户名创建);
-        UserEntity user9 = new UserEntity("李贺", "ttjc", UserEnum.用户名创建);
-        UserEntity user10 = new UserEntity("张九龄", "ttjc", UserEnum.用户名创建);
-        UserEntity user11 = new UserEntity("刘禹锡", "ttjc", UserEnum.用户名创建);
-        UserEntity user12 = new UserEntity("王之涣", "ttjc", UserEnum.用户名创建);
-        UserEntity user13 = new UserEntity("孔融", "ttjc", UserEnum.用户名创建);
+        UserEntity user1 = new UserEntity("孔融", "ttjc", UserEnum.用户名);
+        UserEntity user2 = new UserEntity("屈原", "ttjc", UserEnum.用户名);
+        UserEntity user3 = new UserEntity("李白", "ttjc", UserEnum.用户名);
+        UserEntity user4 = new UserEntity("杜甫", "ttjc", UserEnum.用户名);
+        UserEntity user5 = new UserEntity("白居易", "ttjc", UserEnum.用户名);
+        UserEntity user6 = new UserEntity("刘禹锡", "ttjc", UserEnum.用户名);
+        UserEntity user7 = new UserEntity("李商隐", "ttjc", UserEnum.用户名);
+        UserEntity user8 = new UserEntity("杜牧", "ttjc", UserEnum.用户名);
+        UserEntity user9 = new UserEntity("李贺", "ttjc", UserEnum.用户名);
+        UserEntity user10 = new UserEntity("张九龄", "ttjc", UserEnum.用户名);
+        UserEntity user11 = new UserEntity("刘禹锡", "ttjc", UserEnum.用户名);
+        UserEntity user12 = new UserEntity("王之涣", "ttjc", UserEnum.用户名);
+        UserEntity user13 = new UserEntity("孔融", "ttjc", UserEnum.用户名);
         em.persist(user1);
         em.persist(user2);
         em.persist(user3);
@@ -118,13 +119,13 @@ public class InitEjb implements InitEjbLocal , Serializable{
         user2.getRoleEntitys().add(role2);
         user2.getRoleEntitys().add(role3);
         user2.getRoleEntitys().add(role4);
-        role1.getResourceEntity().add(resource1);
-        role1.getResourceEntity().add(resource2);
-        role1.getResourceEntity().add(resource3);
+        role1.getRoleResourceEntitys().add(new RoleResourceEntity(resource1));
+        role1.getRoleResourceEntitys().add(new RoleResourceEntity(resource2));
+        role1.getRoleResourceEntitys().add(new RoleResourceEntity(resource3));
 
-        role2.getResourceEntity().add(resource2);
-        role2.getResourceEntity().add(resource3);
-        role2.getResourceEntity().add(resource4);
+        role2.getRoleResourceEntitys().add(new RoleResourceEntity(resource2));
+        role2.getRoleResourceEntitys().add(new RoleResourceEntity(resource3));
+        role2.getRoleResourceEntitys().add(new RoleResourceEntity(resource4));
 
         user1.setOrganizationEntity(d1);
         user2.setOrganizationEntity(d1);

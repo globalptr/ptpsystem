@@ -6,7 +6,7 @@
 
 package com.oakeel.ejb.entityAndEao.role;
 
-import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
+import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
 import com.oakeel.ejb.entityAndEao.user.UserEntity;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -54,8 +54,8 @@ public class RoleEntity implements Serializable {
     @ManyToMany(mappedBy="roleEntitys")
     private Set<UserEntity> userEntitys;
     //角色与资源是多对多的关系，主控在角色
-    @ManyToMany(cascade={CascadeType.MERGE})//级联修改role=>resource
-    private Set<ResourceEntity> resourceEntity=new HashSet<>();
+    @ManyToMany(cascade={CascadeType.MERGE})//级联修改role=>roleResource
+    private Set<RoleResourceEntity> roleResourceEntitys=new HashSet<>();
 
     @Override
     public int hashCode() {
@@ -81,10 +81,6 @@ public class RoleEntity implements Serializable {
     public String toString() {
         return "com.oakeel.EntityAndDao.Role.RoleEntity[ id=" + getRoleUuid() + " ]";
     }
-
-
-
-  
 
     /**
      * @return the description
@@ -157,20 +153,6 @@ public class RoleEntity implements Serializable {
     }
 
     /**
-     * @return the resourceEntity
-     */
-    public Set<ResourceEntity> getResourceEntity() {
-        return resourceEntity;
-    }
-
-    /**
-     * @param resourceEntity the resourceEntity to set
-     */
-    public void setResourceEntity(Set<ResourceEntity> resourceEntity) {
-        this.resourceEntity = resourceEntity;
-    }
-
-    /**
      * @return the priority
      */
     public int getPriority() {
@@ -183,6 +165,24 @@ public class RoleEntity implements Serializable {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    /**
+     * @return the roleResourceEntitys
+     */
+    public Set<RoleResourceEntity> getRoleResourceEntitys() {
+        return roleResourceEntitys;
+    }
+
+    /**
+     * @param roleResourceEntitys the roleResourceEntitys to set
+     */
+    public void setRoleResourceEntitys(Set<RoleResourceEntity> roleResourceEntitys) {
+        this.roleResourceEntitys = roleResourceEntitys;
+    }
+
+  
+
+
 
     
     

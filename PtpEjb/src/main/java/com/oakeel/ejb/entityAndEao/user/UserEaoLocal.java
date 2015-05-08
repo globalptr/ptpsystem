@@ -19,7 +19,9 @@ import javax.ejb.Local;
 public interface UserEaoLocal {
   
     public void addUser(UserEntity user);
-    public Boolean  validateUser(UserEntity user);
+    public Boolean  validateUserByName(String name,String password);
+    public Boolean  validateUserByTelephone(String telephone,String password);
+    public Boolean  validateUserByEmail(String email,String password);
     public List<UserEntity> getAllUser();
     public void updateUser(UserEntity user);
     public List<UserEntity> getUsersByOrganization(OrganizationEntity org);

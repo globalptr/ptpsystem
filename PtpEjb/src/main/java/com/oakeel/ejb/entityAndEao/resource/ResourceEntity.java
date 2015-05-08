@@ -6,16 +6,15 @@
 
 package com.oakeel.ejb.entityAndEao.resource;
 
-import com.oakeel.ejb.entityAndEao.role.RoleEntity;
+import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
 import java.io.Serializable;
-import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -31,7 +30,7 @@ public class ResourceEntity implements Serializable {
     {
         ResourceUuid=UUID.randomUUID().toString();
         this.name=name;
-        this.permission=permission;
+        this.resourceDesc=permission;
         this.type=type;
         this.priority=priority;
         this.available=available;
@@ -40,7 +39,7 @@ public class ResourceEntity implements Serializable {
     {
         ResourceUuid=UUID.randomUUID().toString();
         this.name=name;
-        this.permission=permission;
+        this.resourceDesc=permission;
         
     }
     private static final long serialVersionUID = 1L;
@@ -54,12 +53,10 @@ public class ResourceEntity implements Serializable {
     private ResourceTypeEnum type=ResourceTypeEnum.未定义;//资源类型
     private int priority=0;//显示顺序
     @Column(length=50)
-    private String permission="";//权限
+    private String resourceDesc="";//描述
     private Boolean available=true;//是否可用
-    //角色与资源是多对多的关系，主控在角色
-    @ManyToMany(mappedBy="resourceEntity")
-    private Set<RoleEntity> roleEntitys;
-
+    @OneToOne(mappedBy="resource")//这里设置一对一双向关联为了能从资源反向找到那些角色使用了该资源
+    private RoleResourceEntity roleResourceEntitys;
     @Override
     public int hashCode() {
         int hash = 0;
@@ -143,19 +140,6 @@ public class ResourceEntity implements Serializable {
 
 
 
-    /**
-     * @return the permission
-     */
-    public String getPermission() {
-        return permission;
-    }
-
-    /**
-     * @param permission the permission to set
-     */
-    public void setPermission(String permission) {
-        this.permission = permission;
-    }
 
     /**
      * @return the available
@@ -171,18 +155,37 @@ public class ResourceEntity implements Serializable {
         this.available = available;
     }
 
+
+
     /**
-     * @return the roleEntitys
+     * @return the resourceDesc
      */
-    public Set<RoleEntity> getRoleEntitys() {
-        return roleEntitys;
+    public String getResourceDesc() {
+        return resourceDesc;
     }
 
     /**
-     * @param roleEntitys the roleEntitys to set
+     * @param resourceDesc the resourceDesc to set
      */
-    public void setRoleEntitys(Set<RoleEntity> roleEntitys) {
-        this.roleEntitys = roleEntitys;
+    public void setResourceDesc(String resourceDesc) {
+        this.resourceDesc = resourceDesc;
     }
+
+    /**
+     * @return the roleResourceEntitys
+     */
+    public RoleResourceEntity getRoleResourceEntitys() {
+        return roleResourceEntitys;
+    }
+
+    /**
+     * @param roleResourceEntitys the roleResourceEntitys to set
+     */
+    public void setRoleResourceEntitys(RoleResourceEntity roleResourceEntitys) {
+        this.roleResourceEntitys = roleResourceEntitys;
+    }
+
+   
+
     
 }

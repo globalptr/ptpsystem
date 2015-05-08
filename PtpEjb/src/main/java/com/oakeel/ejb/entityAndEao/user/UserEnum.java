@@ -12,5 +12,5 @@ package com.oakeel.ejb.entityAndEao.user;
  * @author root
  */
 public enum UserEnum {
-    用户名创建,电话创建,邮箱创建;
+    用户名,电话,邮箱;
 }

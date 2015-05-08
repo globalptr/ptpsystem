@@ -7,6 +7,7 @@
 package com.oakeel.ejb.entityAndEao.role;
 
 import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
+import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -53,8 +54,9 @@ public class RoleEao implements RoleEaoLocal {
     }
 
     @Override
-    public void deleteRoleResource(RoleEntity role, ResourceEntity resource) {
-        role.getResourceEntity().remove(em.merge(resource));
+    public void deleteRoleResource(RoleEntity role, RoleResourceEntity roleResource) {
+        role.getRoleResourceEntitys().remove(roleResource);
         em.merge(role);
     }
+
 }

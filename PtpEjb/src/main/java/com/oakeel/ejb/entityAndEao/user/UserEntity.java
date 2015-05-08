@@ -32,11 +32,11 @@ public class UserEntity implements Serializable {
     public UserEntity(String param,String password,UserEnum userEnum)
     {
         userUuid=UUID.randomUUID().toString();
-        if(userEnum==UserEnum.用户名创建)
+        if(userEnum==UserEnum.用户名)
             this.name=param;
-        if(userEnum==UserEnum.电话创建)
+        if(userEnum==UserEnum.电话)
             this.telephone=param;
-        if(userEnum==UserEnum.邮箱创建)
+        if(userEnum==UserEnum.邮箱)
             this.email=param;
         this.password=password;
     }

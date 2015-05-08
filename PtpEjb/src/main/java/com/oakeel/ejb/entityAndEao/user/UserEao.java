@@ -35,46 +35,6 @@ public class UserEao implements UserEaoLocal {
         em.persist(user);
     }
     
-    @Override
-    public Boolean  validateUser(UserEntity user)
-    {
-        if(user.getName()==null&&user.getTelephone()==null&&user.getEmail()==null)
-        {
-            return false;
-        }
-        else if(user.getName()!=null)
-        {
-            CriteriaBuilder builder=em.getCriteriaBuilder();
-            CriteriaQuery<UserEntity> query=builder.createQuery(UserEntity.class);
-            Root<UserEntity> s=query.from(UserEntity.class);
-            query.select(s).where(builder.equal(s.get(UserEntity_.name), user.getName()));        
-            TypedQuery<UserEntity> q=em.createQuery(query);
-            return !q.getResultList().isEmpty();
-        }
-        else if(user.getEmail()!=null)
-        {
-            CriteriaBuilder builder=em.getCriteriaBuilder();
-            CriteriaQuery<UserEntity> query=builder.createQuery(UserEntity.class);
-            Root<UserEntity> s=query.from(UserEntity.class);
-            //降序排列
-            query.select(s).where(builder.equal(s.get(UserEntity_.email), user.getEmail())).orderBy(builder.desc(s.get(UserEntity_.priority)));        
-            TypedQuery<UserEntity> q=em.createQuery(query);
-            return !q.getResultList().isEmpty();
-        }
-        else if(user.getTelephone()!=null)
-        {
-            CriteriaBuilder builder=em.getCriteriaBuilder();
-            CriteriaQuery<UserEntity> query=builder.createQuery(UserEntity.class);
-            Root<UserEntity> s=query.from(UserEntity.class);
-            query.select(s).where(builder.equal(s.get(UserEntity_.telephone), user.getTelephone()));        
-            TypedQuery<UserEntity> q=em.createQuery(query);
-            return !q.getResultList().isEmpty();
-        }
-        else
-        {
-            return false;
-        }
-    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 
@@ -139,5 +99,35 @@ public class UserEao implements UserEaoLocal {
     public void addUserRole(UserEntity user, RoleEntity role) {
         user.getRoleEntitys().add(role);
         em.merge(user);
+    }
+
+    @Override
+    public Boolean validateUserByName(String name, String password) {
+        CriteriaBuilder builder=em.getCriteriaBuilder();
+        CriteriaQuery<UserEntity> query=builder.createQuery(UserEntity.class);
+        Root<UserEntity> s=query.from(UserEntity.class);
+        query.select(s).where(builder.or(builder.equal(s.get(UserEntity_.name), name),builder.equal(s.get(UserEntity_.password), password)));
+        TypedQuery<UserEntity> q=em.createQuery(query);
+        return !q.getResultList().isEmpty();
+    }
+
+    @Override
+    public Boolean validateUserByTelephone(String telephone, String password) {
+        CriteriaBuilder builder=em.getCriteriaBuilder();
+        CriteriaQuery<UserEntity> query=builder.createQuery(UserEntity.class);
+        Root<UserEntity> s=query.from(UserEntity.class);
+        query.select(s).where(builder.or(builder.equal(s.get(UserEntity_.telephone), telephone),builder.equal(s.get(UserEntity_.password), password)));
+        TypedQuery<UserEntity> q=em.createQuery(query);
+        return !q.getResultList().isEmpty();
+    }
+
+    @Override
+    public Boolean validateUserByEmail(String email, String password) {
+        CriteriaBuilder builder=em.getCriteriaBuilder();
+        CriteriaQuery<UserEntity> query=builder.createQuery(UserEntity.class);
+        Root<UserEntity> s=query.from(UserEntity.class);
+        query.select(s).where(builder.or(builder.equal(s.get(UserEntity_.email), email),builder.equal(s.get(UserEntity_.password), password)));
+        TypedQuery<UserEntity> q=em.createQuery(query);
+        return !q.getResultList().isEmpty();
     }
 }
