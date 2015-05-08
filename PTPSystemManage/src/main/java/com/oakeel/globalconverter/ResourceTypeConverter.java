@@ -6,8 +6,7 @@
 
 package com.oakeel.globalconverter;
 
-import com.oakeel.ejb.entityAndEao.organization.OrganizationEaoLocal;
-import javax.ejb.EJB;
+import com.oakeel.ejb.entityAndEao.resource.ResourceTypeEnum;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,19 +16,24 @@ import javax.faces.convert.FacesConverter;
  *
  * @author root
  */
-@FacesConverter("OrganizationConverter")
-public class OrganizationConverter implements Converter{
+@FacesConverter("ResourceTypeConverter")
+public class ResourceTypeConverter implements Converter {
 
-    @EJB
-    OrganizationEaoLocal organizationDaoLocal;
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        return organizationDaoLocal.getOrganizationByUuid(value);
+        ResourceTypeEnum[] types=ResourceTypeEnum.values();
+        for (ResourceTypeEnum type : types) {
+            if (type.toString().equals(value)) {
+                return type;
+            }
+        }
+        return null;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return value.toString();
+        ResourceTypeEnum type=(ResourceTypeEnum)value;
+        return type.toString();
     }
     
 }

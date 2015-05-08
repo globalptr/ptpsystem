@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <style type="text/css">
+            .slot {
+                background:#FF9900;
+                width:600px;
+                height:600px;
+                display:block;
+            }
+        </style>
+
+        <script type="text/javascript">
+            function handleDrop(event, ui) {
+                ui.draggable.fadeOut('fast');
+            }
+        </script>
+    </h:head>
+    <h:body>
+
+        <h:form id="carForm">
+            <p:fieldset legend="AvailableCars">
+                <p:dataGrid id="availableCars" var="car"
+                            value="#{tableBean.availableCars}" columns="3">
+                    <p:column>
+                        <p:panel id="pnl" header="#{car.brand}" style="text-align:center">
+                            <p:graphicImage value="resources/images/sysico/alarm_icons_004.png" />
+                        </p:panel>
+                        <p:draggable for="pnl" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
+                    </p:column>
+                </p:dataGrid>
+            </p:fieldset>
+            <p:fieldset id="selectedCars" legend="Selected Cars" style="margin-top:20px">
+                <p:outputPanel id="dropArea">
+                    <h:outputText value="!!!Drop here!!!"
+                                  rendered="#{empty tableBean.droppedCars}" style="font-size:24px;" />
+                    <p:dataTable var="car" value="#{tableBean.droppedCars}"
+                                 rendered="#{not empty tableBean.droppedCars}">
+                        <p:column headerText="Model">
+                            <h:outputText value="#{car.brand}" />
+                        </p:column>
+                        <p:column headerText="Year">
+                            <h:outputText value="#{car.year}" />
+                        </p:column>
+                        <p:column headerText="Manufacturer">
+                            <h:outputText value="#{car.brand}" />
+                        </p:column>
+                        <p:column headerText="Color">
+                            <h:outputText value="#{car.color}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:fieldset>
+            <p:droppable for="selectedCars" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availableCars" onDrop="handleDrop">
+                <p:ajax listener="#{tableBean.onCarDrop}" update="dropArea availableCars" />
+            </p:droppable>
+        </h:form>
+
+
+    </h:body>
+</html>
+

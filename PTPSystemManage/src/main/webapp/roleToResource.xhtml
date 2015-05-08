@@ -1,0 +1,433 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="main.xhtml" >
+        <ui:define name="center">        
+            
+            <h:form style="width:100%;height: 100%" id="form">
+                <!--为了防止用户回车点下第一个按钮-->
+                <p:dialog>
+                    <p:commandButton type="hidden"/>    
+                </p:dialog>
+                <!--弹出实时消息-->
+                <p:dialog header="添加角色" widgetVar="addRoleDlg" resizable="false">
+                    <table>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="角色名："/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{roleToResource.newRole.name}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="描述："/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{roleToResource.newRole.description}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="显示顺序："/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{roleToResource.newRole.priority}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="是否激活："/>
+                            </td>
+                            <td>
+                                <p:selectBooleanButton value="#{roleToResource.newRole.available}" onLabel="激活" offLabel="不激活" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:80px"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p:commandButton value="添加" style="width:100%" actionListener="#{roleToResource.addRole()}" update="roles_id" onclick="PF('addRoleDlg').hide()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <p:dialog widgetVar="addResourceDlg" resizable="false" header="添加资源">
+                    <table>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="资源名:"/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{roleToResource.newResource.name}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="资源字符串:"/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{roleToResource.newResource.permission}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="资源字符串:"/>
+                            </td>
+                            <td>
+                                <p:inputText value="#{roleToResource.newResource.priority}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="类型:"/>
+                            </td>
+                            <td>
+                                <h:selectOneMenu style="width:100%" value="#{roleToResource.newResource.type}"  converter="ResourceTypeConverter">
+                                    <f:selectItems value="#{roleToResource.resourceTypeEnums}"/>
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="是否可用:"/>
+                            </td>
+                            <td>
+                                <p:selectBooleanButton value="#{roleToResource.newResource.available}" onLabel="激活" offLabel="不激活" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:80px"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p:commandButton value="添加" style="width:100%" actionListener="#{roleToResource.addResource()}" onclick="PF('addResourceDlg').hide()" update="availableResource"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <p:dialog widgetVar="deleteRoleDlg" resizable="false" header="删除角色">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <p:outputLabel value="是否确定删除此角色？"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="删除" onclick="PF('deleteRoleDlg').hide()" action="#{roleToResource.deleteRole()}" update="roles_id"/>
+                            </td>
+                            <td>
+                                <p:commandButton value="取消" onclick="PF('deleteRoleDlg').hide()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <p:dialog widgetVar="deleteRoleResourceDlg" resizable="false" header="删除用户资源">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <p:outputLabel value="是否确定删除此资源？"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="删除" onclick="PF('deleteRoleResourceDlg').hide()"  action="#{roleToResource.deleteRoleResource()}" update="roleResource_id"/>
+                            </td>
+                            <td>
+                                <p:commandButton value="取消" onclick="PF('deleteRoleResourceDlg').hide()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <p:dialog widgetVar="deleteResourceDlg" resizable="false" header="删除资源">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <p:outputLabel value="是否确定删除此角色资源？"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="删除" onclick="PF('deleteResourceDlg').hide()"  action="#{roleToResource.deleteResource()}" update="availableResource"/>
+                            </td>
+                            <td>
+                                <p:commandButton value="取消" onclick="PF('deleteResourceDlg').hide()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <table style="width:100%">
+                    <tr>
+                        <td rowspan="2"  style="vertical-align: top">
+                            <p:dataTable style="width:600px;height: 100%" filterEvent="keydown"  rowIndexVar="row" editable="true" id="roles_id" var="roles_var" widgetVar="carsTable"  value="#{roleToResource.roleEntitys}"  emptyMessage="没找到相关角色" filteredValue="#{roleToResource.roleFilter}">
+                                <f:facet name="header">
+                                    <table>
+                                        <tr>
+                                            <td style="width:100%;border:none">
+                                                角色表
+                                            </td>
+                                            <td style="width:10px;border:none">      
+                                                <p:commandLink update=":form:roleResource_id" immediate="true" id="addRole_id" onclick="PF('addRoleDlg').show()">
+                                                    <h:outputText styleClass="ui-icon ui-icon-plus" style="margin:0 auto;" />
+                                                    <f:setPropertyActionListener value="#{roles_var}" target="#{roleToResource.selectRole}"  />
+                                                    <p:tooltip for="addRole_id" value="添加新角色" trackMouse="true" />
+                                                </p:commandLink>
+                                            </td>
+                                            <td style="width:10px; border: none">      
+                                                <p:commandLink update=":form:roles_id" immediate="true" id="listAllRole_id" action="#{roleToResource.viewAllRole()}">
+                                                    <h:outputText styleClass="ui-icon ui-icon-search" />
+                                                </p:commandLink>
+                                                <p:tooltip for="listAllRole_id" value="列出所有角色" trackMouse="true" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </f:facet>       
+                                <p:ajax event="rowEdit" listener="#{roleToResource.updateRole}"  />
+                                <p:column  headerText="序号" style="width:30px">
+                                    <h:outputText value="#{row + 1}"/> 
+                                </p:column>
+                                <p:column headerText="角色名" filterBy="#{roles_var.name}"  footerText="包含模式" filterMatchMode="contains">        
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{roles_var.name}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{roles_var.name}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="描述" filterBy="#{roles_var.description}"  footerText="包含模式" filterMatchMode="contains">        
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{roles_var.description}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{roles_var.description}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="是否可用" filterBy="#{roles_var.available}"  footerText="包含模式" filterMatchMode="contains">  
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('carsTable').filter()">
+                                            <f:selectItem itemLabel="true" itemValue="true"/>
+                                            <f:selectItem itemLabel="false" itemValue="false"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{roles_var.available}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{roles_var.available}" style="width:100%">
+                                                <f:selectItem itemLabel="true" itemValue="true"/>
+                                                <f:selectItem itemLabel="false" itemValue="false"/>
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="编辑" style="width:32px">
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column headerText="删除" style="width:30px">
+                                    <p:commandLink onclick="PF('deleteRoleDlg').show()">
+                                        <h:outputText styleClass="ui-icon ui-icon-trash" style="margin:0 auto;" />
+                                        <f:setPropertyActionListener value="#{roles_var}" target="#{roleToResource.selectRole}" />
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column headerText="权限" style="width:30px">   
+                                    <p:commandLink update=":form:roleResource_id :mainform:maingrowl" immediate="true" action="#{roleToResource.viewRoleResource()}">
+                                        <h:outputText styleClass="ui-icon ui-icon-key" style="margin:0 auto;" />
+                                        <f:setPropertyActionListener value="#{roles_var}" target="#{roleToResource.selectRole}"  />
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                        <td style="vertical-align: top;width:100%">
+                            <p:dataTable var="resource_var" editable="true" widgetVar="resources_wid" id="availableResource" value="#{roleToResource.resourceEntitys}"  emptyMessage="没有找到相关资源"  rows="8" paginator="true" paginatorPosition="bottom"  filteredValue="#{roleToResource.resourceFilter}">
+                                <f:facet name="header">
+                                    <table>
+                                        <tr>
+                                            <td style="width:100%;border:none">
+                                                资源列表
+                                            </td>
+                                            <td style="width:10px;border:none">
+                                                <p:commandLink immediate="true" id="addResource_id" onclick="PF('addResourceDlg').show()">
+                                                    <h:outputText styleClass="ui-icon ui-icon-plus" style="margin:0 auto;" />
+                                                    <p:tooltip for="addResource_id" value="添加新资源" trackMouse="true" />
+                                                </p:commandLink>
+                                            </td>
+                                            <td style="width:10px; border: none">      
+                                                <p:commandLink update=":form:availableResource" immediate="true" id="listAllResource_id" action="#{roleToResource.viewAllResource()}">
+                                                    <h:outputText styleClass="ui-icon ui-icon-search" />
+                                                    <f:setPropertyActionListener value="#{roles_var}" target="#{roleToResource.selectRole}"  />
+                                                </p:commandLink>
+                                                <p:tooltip for="listAllResource_id" value="列出所有资源" trackMouse="true" />
+                                            </td>
+                                            <td style="width:10px;border:none">      
+                                                <p:commandLink update=":form:roleResource_id" immediate="true" id="allEva_id" action="#{roleToResource.oneClickEva()}">
+                                                    <h:outputText styleClass="ui-icon ui-icon-arrowreturnthick-1-s" style="margin:0 auto;" />
+                                                </p:commandLink>
+                                                <p:tooltip for="allEva_id" value="一键赋值" trackMouse="true" />
+                                            </td>
+                                            <td style="width:30px;border:none">
+                                               
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </f:facet>            
+                                <p:ajax event="rowEdit" listener="#{roleToResource.updateResource}"  />
+                                <p:column style="width:20px">
+                                    <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
+                                    <p:draggable for="dragIcon" revert="true" helper="clone"/>
+                                </p:column>
+                                <p:column style="width:20px">
+                                    <p:graphicImage library="images/sysico" name="#{resource_var.available ? 'alarm_icons_008_16.png' : 'alarm_icons_008_16x.png'}"/>
+                                </p:column>
+                                <p:column headerText="名字"  filterBy="#{resource_var.name}"  >
+                                     <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{resource_var.name}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{resource_var.name}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="权限字符串"  filterBy="#{resource_var.permission}" >
+                                     <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{resource_var.permission}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{resource_var.permission}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="显示顺序"  filterBy="#{resource_var.priority}" >
+                                     <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{resource_var.priority}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{resource_var.priority}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="类型"  filterBy="#{resource_var.type}" >
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('resources_wid').filter()"   converter="ResourceTypeConverter">
+                                            <f:selectItems value="#{roleToResource.resourceTypeEnums}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                     <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{resource_var.type}" converter="ResourceTypeConverter"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu  value="#{resource_var.type}" style="width:100%" converter="ResourceTypeConverter" >
+                                                <f:selectItems value="#{roleToResource.resourceTypeEnums}"/>
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="是否可用"  filterBy="#{resource_var.available}" >
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('resources_wid').filter()" >
+                                                <f:selectItem itemLabel="是" itemValue="true"/>
+                                                <f:selectItem itemLabel="否" itemValue="false"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                     <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{resource_var.available}" converter="BooleanConverter" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu  value="#{resource_var.available}" style="width:100%" >
+                                                <f:selectItem itemLabel="是" itemValue="true"/>
+                                                <f:selectItem itemLabel="否" itemValue="false"/>
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>                                
+                                <p:column headerText="编辑" style="width:32px">
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column headerText="删除" style="width:30px">
+                                    <p:commandLink onclick="PF('deleteResourceDlg').show()">
+                                        <h:outputText styleClass="ui-icon ui-icon-trash" style="margin:0 auto;" />
+                                        <f:setPropertyActionListener value="#{resource_var}" target="#{roleToResource.delResource}" />
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top">
+                            <p:fieldset id="selectRole" legend="拖动上方资源至此区域赋值" >
+                                <p:dataGrid id="roleResource_id" var="roleResource_var"  value="#{roleToResource.roleResources}"  columns="4"  rows="8" paginator="true" paginatorPosition="bottom" >
+                                    <f:facet name="header">
+                                        <p:outputLabel value="当前角色：#{roleToResource.selectRole.name}"/>
+                                    </f:facet>
+                                    <p:panel id="pnl" header="#{roleResource_var.name}">
+                                        <table>
+                                            <tr>
+                                                <td rowspan="5">
+                                                    <p:graphicImage library="images/sysico" name="alarm_icons_009_64.png"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    资源字符串:
+                                                </td>
+                                                <td>
+                                                    #{roleResource_var.permission}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    显示顺序:
+                                                </td>
+                                                <td>
+                                                    #{roleResource_var.priority}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    类型:
+                                                </td>
+                                                <td>
+                                                    #{roleResource_var.type}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    状态:
+                                                </td>
+                                                <td>
+                                                    #{roleResource_var.available}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <p:commandButton value="删除此权限"  style="width: 100%" onclick="PF('deleteRoleResourceDlg').show()" immediate="true">
+                                                        <f:setPropertyActionListener value="#{roleResource_var}" target="#{roleToResource.deleteRoleResource}" />
+                                                    </p:commandButton>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </p:panel>
+                                </p:dataGrid>
+                            </p:fieldset>
+                            <p:droppable  for="selectRole" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availableResource" onDrop="handleDrop">
+                                <p:ajax listener="#{roleToResource.onResourceDrop}" update="roleResource_id availableResource :mainform:maingrowl"/>
+                            </p:droppable>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+

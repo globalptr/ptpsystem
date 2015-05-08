@@ -26,20 +26,21 @@ public class PtpSessionBean implements Serializable{
     public PtpSessionBean() {
     }
     
-    private TreeNode organizationSelectNode;//组织页面组织树选择的节点
+    private String userName;//保存会话期内的用户名
 
     /**
-     * @return the organizationSelectNode
+     * @return the userName
      */
-    public TreeNode getOrganizationSelectNode() {
-        return organizationSelectNode;
+    public String getUserName() {
+        return userName;
     }
 
     /**
-     * @param organizationSelectNode the organizationSelectNode to set
+     * @param userName the userName to set
      */
-    public void setOrganizationSelectNode(TreeNode organizationSelectNode) {
-        this.organizationSelectNode = organizationSelectNode;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
+    
 
 }

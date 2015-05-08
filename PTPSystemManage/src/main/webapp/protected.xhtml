@@ -1,14 +1,61 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" " http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns=" http://www.w3.org/1999/xhtml" 
-      xmlns:h=" http://java.sun.com/jsf/html"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>  
         <title>Secret Page</title> 
     </h:head> 
     <h:body> 
-        This is a super secret page. 
-        <h:form> 
-            <h:commandButton action="${loginController.logout()}" value="Logout"/> 
-        </h:form> 
+        <h:form>
+            <p:dataTable var="car" value="#{userManageBean.userEntitys}" editable="true" widgetVar="carsTable" emptyMessage="No cars found with given criteria" filteredValue="#{userManageBean.userFilter}">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="Search all fields:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                    </p:outputPanel>
+                </f:facet>
+                <p:ajax event="rowEdit" listener="#{userManageBean.saveUser}"  />
+
+                <p:column filterBy="#{car.userUuid}" headerText="Id" footerText="contains" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{car.userUuid}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText style="width:100%"  value="#{car.userUuid}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column filterBy="#{car.password}"  headerText="密码">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{car.password}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText style="width:100%"  value="#{car.password}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column filterBy="#{car.name}"  headerText="用户名" footerText="包含模式" filterMatchMode="contains">        
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{car.name}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{car.name}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+            </p:dataTable>
+        </h:form>
     </h:body> 
 </html> 

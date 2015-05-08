@@ -5,9 +5,9 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="main.xhtml" >
         <ui:define name="center">
-            <h:form id="form" style="height: 100%">
+            <h:form id="form" style="height: 100%" >
                 <p:growl id="messages" showDetail="true" />
-                <p:dialog widgetVar="deletenodedlg" header="删除机构" resizable="false">
+                <p:dialog widgetVar="deletenodedlg" header="删除机构" resizable="false" >
                     <table style="width:283px;height:100px">
                         <tr style="height:50px">
                             <td style="width:70px">
@@ -31,7 +31,7 @@
                             <td style="width:70px">
                                 <p:outputLabel value="单位名"/>
                             </td>
-                            <td style="width: 100%">
+                            <td >
                                 <p:inputText value="#{organizationBean.newOrganization.name}"/>
                             </td>
                         </tr>
@@ -39,16 +39,43 @@
                             <td style="width:70px">
                                 <p:outputLabel value="显示顺序"/>
                             </td>
-                            <td style="width: 100%">
+                            <td >
                                 <p:inputText value="#{organizationBean.newOrganization.priority}"/>
                             </td>
                         </tr>
                         <tr>
-                            <td style="width:50%; text-align:center;">
-                                <p:commandButton value="确定" onclick="PF('addnewdlg').hide()" style="width: 80%;"  update="departments_id"  actionListener="#{organizationBean.addNewNode()}"/>
+                            <td style="width:50%; text-align:center;" colspan="2">
+                                <p:commandButton value="确定" onclick="PF('addnewdlg').hide()" style="width: 100%;"  update="departments_id"  actionListener="#{organizationBean.addNewNode()}"/>
                             </td>
-                            <td style="width:50%; text-align:center;">
-                                <p:commandButton value="取消" onclick="PF('addnewdlg').hide()"  style="width:80%;"  />
+                        </tr>
+                    </table>
+                </p:dialog>      
+                <p:dialog widgetVar="updatedlg" header="查看/修改机构" resizable="false">
+                    <table style="width:283px;height:100px">
+                        <tr style="height:50px">
+                            <td style="width:70px">
+                                <p:outputLabel value="单位名"/>
+                            </td>
+                            <td >
+                                <p:inputText  id="selectorgname_id"  value="#{organizationBean.selectOrganizationEntity.name}" >
+                                    <f:ajax event="blur" execute="selectorgname_id"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr style="height:50px">
+                            <td style="width:70px">
+                                <p:outputLabel value="显示顺序"/>
+                            </td>
+                            <td >
+                                <p:inputText id="selectorgpriority_id" value="#{organizationBean.selectOrganizationEntity.priority}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:50%; text-align:center;" colspan="2">
+                                
+                                <p:commandButton value="确定"  onclick="PF('updatedlg').hide()" style="width:100%;" actionListener="#{organizationBean.saveOrganization()}">
+                                    <f:ajax execute="selectorgname_id selectorgpriority_id" event="click" render="departments_id"/>
+                                </p:commandButton>
                             </td>
                         </tr>
                     </table>
@@ -63,7 +90,7 @@
                         <td>
                             <p:tree  id="departments_id" value="#{organizationBean.rootNode}" var="department_var"  selectionMode="single" selection="#{organizationBean.selectNode}" dynamic="true" orientation="horizontal"> 
                                 <p:ajax event="select"  />
-                                <p:treeNode type="department" expandedIcon="ui-icon-grip-dotted-vertical" collapsedIcon="ui-icon-flag">
+                                <p:treeNode type="department" expandedIcon="ui-icon-grip-dotted-vertical" collapsedIcon="ui-icon-home">
                                     <h:outputText value="#{department_var}"/>
                                 </p:treeNode>
                             </p:tree>
@@ -72,7 +99,7 @@
                 </table>
 
                 <p:contextMenu for="departments_id">
-                    <p:menuitem value="查看/修改" icon="ui-icon-search" />
+                    <p:menuitem value="查看/修改" icon="ui-icon-search" onclick="PF('updatedlg').show()" actionListener="#{organizationBean.treeNodeToOrganizationEntity()}" update="selectorgname_id selectorgpriority_id"/>
                     <p:menuitem value="新建子机构" icon="ui-icon-plusthick" onclick="PF('addnewdlg').show()" />
                     <p:menuitem value="删除该机构" icon="ui-icon-close" onclick="PF('deletenodedlg').show()" />
                 </p:contextMenu>

@@ -6,16 +6,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <f:view contentType="text/html">
-        
-        <h:head>
-            <script>
-                var ss=function()
-                {
-                    PrimeFaces.setCookie('11', '222') ;
 
-                    alert('1111');
-                };
-                </script>
+        <h:head>
+            <script type="text/javascript">
+                function handleDrop(event, ui) {
+                    ui.draggable.fadeOut('fast');
+                }
+            </script>
             <h:outputScript library="js" name="primefaceslocal.js"/>
             <h:outputStylesheet library="css" name="globalcss.css"/>
             <f:facet name="first">
@@ -24,84 +21,87 @@
             </f:facet>
             <style>
                 #subwrap {
-                position:absolute; 
-                top:50%;
-               }
-               #content {
-                border:1px solid #000;
-                position:relative;
-                top:-50%;
-                color:#FFF;
-               }
-                .bordertd{
-                   height: 30px;
-                   border: solid #2d6590 1px;
+                    position:absolute; 
+                    top:50%;
                 }
+                #content {
+                    border:1px solid #000;
+                    position:relative;
+                    top:-50%;
+                    color:#FFF;
+                }
+                .bordertd{
+                    height: 30px;
+                    border: solid #2d6590 1px;
+                }
+
             </style>
         </h:head>
         <h:body>
             <p:layout fullPage="true">
                 <p:layoutUnit position="north" gutter="0" size="80" resizable="true" closable="true" collapsible="true">
-                    <div style="font-size:22px;padding-left:35px;padding-top: 8px">
-                         天聚财后台管理系统
-                    </div>
-                    <h:form>
-                        <p:commandButton  value="11111"/>
-                    </h:form>
-                    <div style="float:right; ">
-                        <h:form>
-                            <h:panelGrid columns="2" style=" text-align: center">
-                                <p:outputLabel value="选择主题"/>
-                                <p:themeSwitcher  effect="fade">  
-                                <f:selectItem itemLabel="选择主题" itemValue="" />  
-                                <f:selectItem itemLabel="afterdark" itemValue="afterdark"/>  
-                                <f:selectItem itemLabel="afternoon" itemValue="afternoon " />  
-                                <f:selectItem itemLabel="afterwork" itemValue="afterwork " />  
-                                <f:selectItem itemLabel="aristo" itemValue="aristo" />  
-                                <f:selectItem itemLabel="black-tie" itemValue="black-tie" />  
-                                <f:selectItem itemLabel="blitzer" itemValue="blitzer " />  
-                                <f:selectItem itemLabel="bluesky" itemValue="bluesky" />  
-                                <f:selectItem itemLabel="casablanca" itemValue="casablanca" />  
-                                <f:selectItem itemLabel="cruze" itemValue="cruze " />  
-                                <f:selectItem itemLabel="cupertino" itemValue="cupertino " />  
-                                <f:selectItem itemLabel="dark-hive" itemValue="dark-hive " />  
-                                <f:selectItem itemLabel="delta" itemValue="delta " />  
-                                <f:selectItem itemLabel="dot-luv" itemValue="dot-luv " />  
-                                <f:selectItem itemLabel="eggplant" itemValue="eggplant " />  
-                                <f:selectItem itemLabel="excite-bike" itemValue="excite-bike " />  
-                                <f:selectItem itemLabel="flick" itemValue="flick " />  
-                                <f:selectItem itemLabel="glass-x" itemValue="glass-x" />  
-                                <f:selectItem itemLabel="home" itemValue="home " />  
-                                <f:selectItem itemLabel="hot-sneaks" itemValue="hot-sneaks " />  
-                                <f:selectItem itemLabel="humanity" itemValue="humanity " />  
-                                <f:selectItem itemLabel="le-frog " itemValue="le-frog " />  
-                                <f:selectItem itemLabel="midnight" itemValue="midnight" />  
-                                <f:selectItem itemLabel="mint-choc" itemValue="mint-choc " />  
-                                <f:selectItem itemLabel="overcast" itemValue="overcast " />  
-                                <f:selectItem itemLabel="pepper-grinder" itemValue="pepper-grinder " />  
-                                <f:selectItem itemLabel="redmond" itemValue="redmond " />  
-                                <f:selectItem itemLabel="rocket" itemValue="rocket" />  
-                                <f:selectItem itemLabel="sam" itemValue="sam " />  
-                                <f:selectItem itemLabel="smoothness" itemValue="smoothness " />  
-                                <f:selectItem itemLabel="south-street" itemValue="south-street " />  
-                                <f:selectItem itemLabel="start" itemValue="start " />  
-                                <f:selectItem itemLabel="sunny" itemValue="sunny " />  
-                                <f:selectItem itemLabel="swanky-purse" itemValue="swanky-purse " />  
-                                <f:selectItem itemLabel="trontastic" itemValue="trontastic " />  
-                                <f:selectItem itemLabel="ui-darkness" itemValue="ui-darkness " />  
-                                <f:selectItem itemLabel="ui-lightness" itemValue="ui-lightness " />  
-                                <f:selectItem itemLabel="vader" itemValue="vader " />  
-                                </p:themeSwitcher> 
-                            </h:panelGrid>
-                        </h:form>
-                    </div>
+                    <table style="width:100%;height: 100%">
+                        <tr>
+                            <td style="width:auto">
+                                <div style="font-size:35px;padding-left:35px;vertical-align: top">
+                                    天天聚财后台管理系统
+                                </div>
+                            </td>
+                            <td style="width:200px;vertical-align: bottom">
+                                <h:form>
+                                    <h:panelGrid columns="2" style=" text-align: center">
+                                        <p:outputLabel value="选择主题"/>
+                                        <p:themeSwitcher  effect="fade">  
+                                            <f:selectItem itemLabel="选择主题" itemValue="" />  
+                                            <f:selectItem itemLabel="afterdark" itemValue="afterdark"/>  
+                                            <f:selectItem itemLabel="afternoon" itemValue="afternoon " />  
+                                            <f:selectItem itemLabel="afterwork" itemValue="afterwork " />  
+                                            <f:selectItem itemLabel="aristo" itemValue="aristo" />  
+                                            <f:selectItem itemLabel="black-tie" itemValue="black-tie" />  
+                                            <f:selectItem itemLabel="blitzer" itemValue="blitzer " />  
+                                            <f:selectItem itemLabel="bluesky" itemValue="bluesky" />  
+                                            <f:selectItem itemLabel="casablanca" itemValue="casablanca" />  
+                                            <f:selectItem itemLabel="cruze" itemValue="cruze " />  
+                                            <f:selectItem itemLabel="cupertino" itemValue="cupertino " />  
+                                            <f:selectItem itemLabel="dark-hive" itemValue="dark-hive " />  
+                                            <f:selectItem itemLabel="delta" itemValue="delta " />  
+                                            <f:selectItem itemLabel="dot-luv" itemValue="dot-luv " />  
+                                            <f:selectItem itemLabel="eggplant" itemValue="eggplant " />  
+                                            <f:selectItem itemLabel="excite-bike" itemValue="excite-bike " />  
+                                            <f:selectItem itemLabel="flick" itemValue="flick " />  
+                                            <f:selectItem itemLabel="glass-x" itemValue="glass-x" />  
+                                            <f:selectItem itemLabel="home" itemValue="home " />  
+                                            <f:selectItem itemLabel="hot-sneaks" itemValue="hot-sneaks " />  
+                                            <f:selectItem itemLabel="humanity" itemValue="humanity " />  
+                                            <f:selectItem itemLabel="le-frog " itemValue="le-frog " />  
+                                            <f:selectItem itemLabel="midnight" itemValue="midnight" />  
+                                            <f:selectItem itemLabel="mint-choc" itemValue="mint-choc " />  
+                                            <f:selectItem itemLabel="overcast" itemValue="overcast " />  
+                                            <f:selectItem itemLabel="pepper-grinder" itemValue="pepper-grinder " />  
+                                            <f:selectItem itemLabel="redmond" itemValue="redmond " />  
+                                            <f:selectItem itemLabel="rocket" itemValue="rocket" />  
+                                            <f:selectItem itemLabel="sam" itemValue="sam " />  
+                                            <f:selectItem itemLabel="smoothness" itemValue="smoothness " />  
+                                            <f:selectItem itemLabel="south-street" itemValue="south-street " />  
+                                            <f:selectItem itemLabel="start" itemValue="start " />  
+                                            <f:selectItem itemLabel="sunny" itemValue="sunny " />  
+                                            <f:selectItem itemLabel="swanky-purse" itemValue="swanky-purse " />  
+                                            <f:selectItem itemLabel="trontastic" itemValue="trontastic " />  
+                                            <f:selectItem itemLabel="ui-darkness" itemValue="ui-darkness " />  
+                                            <f:selectItem itemLabel="ui-lightness" itemValue="ui-lightness " />  
+                                            <f:selectItem itemLabel="vader" itemValue="vader " />  
+                                        </p:themeSwitcher> 
+                                    </h:panelGrid>
+                                </h:form>
+                            </td>
+                        </tr>
+                    </table>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="west" gutter="0"  size="230" header="工具栏" collapsible="true">
-                    <h:form>
-                        <p:growl autoUpdate="true"/>
-                        <h:form>
-                            <p:panelMenu style="width:210px">
+                    <h:form id="mainform">
+                        <p:growl id="maingrowl" autoUpdate="true" showDetail="true" />  
+                        <p:panelMenu style="width:210px">
                             <p:submenu label="管理中心" >
                                 <p:submenu label="控制面板" >
                                     <p:menuitem value="个人信息" icon="ui-icon-star" />
@@ -295,13 +295,12 @@
                                 </p:submenu>
                             </p:submenu>
                             <p:submenu label="系统设置">
-                                
-                                <p:menuitem value="组织机构管理" icon="ui-icon-star" outcome="organization"/>
-                                <p:menuitem value="组织权限管理" icon="ui-icon-star" />
-                                <p:menuitem value="用户组织管理" icon="ui-icon-star" outcome="userManage"/>
-                                <p:menuitem value="用户角色管理" icon="ui-icon-star" />
-                                <p:menuitem value="角色权限管理" icon="ui-icon-star" />
-                        
+                                <p:submenu label="权限管理" >
+                                    <p:menuitem value="组织机构管理" icon="ui-icon-key" outcome="organization"/>
+                                    <p:menuitem value="用户组织管理" icon="ui-icon-key" outcome="userToOrganization"/>
+                                    <p:menuitem value="用户角色管理" icon="ui-icon-key"  outcome="userToRole"/>
+                                    <p:menuitem value="角色资源管理" icon="ui-icon-key"  outcome="roleToResource"/>
+                                </p:submenu>
                                 <p:submenu label="手机短信管理" >
                                     <p:menuitem value="发送记录" icon="ui-icon-star" />
                                     <p:menuitem value="短信模板" icon="ui-icon-star" />
@@ -312,9 +311,9 @@
                                     <p:menuitem value="邮件模板" icon="ui-icon-star" />
                                     <p:menuitem value="接口设置" icon="ui-icon-star" />
                                 </p:submenu>
+                                <p:menuitem value="初始化数据库" actionListener="#{ptpApplicationBean.initDB()}" icon="ui-icon-notice"/>
                             </p:submenu>
                         </p:panelMenu>
-                        </h:form>
                     </h:form>
                 </p:layoutUnit>
                 <p:layoutUnit position="center" gutter="0" >

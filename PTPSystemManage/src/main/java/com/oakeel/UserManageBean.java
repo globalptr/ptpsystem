@@ -6,11 +6,10 @@
 
 package com.oakeel;
 
-import com.oakeel.ejb.entityAndDao.organization.OrganizationDaoLocal;
-import com.oakeel.ejb.entityAndDao.organization.OrganizationEntity;
-import com.oakeel.ejb.entityAndDao.user.UserDaoLocal;
-import com.oakeel.ejb.entityAndDao.user.UserEntity;
-import com.oakeel.ejb.transaction.InitEjbLocal;
+import com.oakeel.ejb.entityAndEao.organization.OrganizationEaoLocal;
+import com.oakeel.ejb.entityAndEao.organization.OrganizationEntity;
+import com.oakeel.ejb.entityAndEao.user.UserEaoLocal;
+import com.oakeel.ejb.entityAndEao.user.UserEntity;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -34,46 +33,54 @@ public class UserManageBean {
      * Creates a new instance of UserManageBean
      */
     @EJB
-    InitEjbLocal initEjbLocal;
-    @EJB
-    UserDaoLocal userDaoLocal;
+    UserEaoLocal userEaoLocal;
     private UserEntity newUser=new UserEntity();
     private List<UserEntity> userEntitys;//用户表数据源
+    private List<UserEntity> userFilter;//用户表数据源
     private TreeNode rootNode;//机构树根节点
     private TreeNode selectNode;//选择的机构树
     private List<OrganizationEntity> orglist;
     private UserEntity deleteUserEntity;
     @EJB
-    OrganizationDaoLocal orginazationDaoLocal;
+    OrganizationEaoLocal orginazationEaoLocal;
+    
     public UserManageBean() {
     }
    
     @PostConstruct
     public void init()
     {
-        orglist=orginazationDaoLocal.getAllOrganization();
-        OrganizationEntity rootOrg=orginazationDaoLocal.getRoot();
+        orglist=orginazationEaoLocal.getAllOrganization();
+        OrganizationEntity rootOrg=orginazationEaoLocal.getRoot();
         if(rootOrg!=null)
         {
             rootNode=new DefaultTreeNode("department",rootOrg , null);
             getAllNode(rootOrg,rootNode);
         }
+        userEntitys=userEaoLocal.getAllUser();
         int i=0;
     }
-     public void saveUser(RowEditEvent event) {
+     public void updateUser(RowEditEvent event) {
          UserEntity temp=(UserEntity) event.getObject();
-         userDaoLocal.updateUser(temp);
+         userEaoLocal.updateUser(temp);
     }
      public void deleteUser()
      {
          if(deleteUserEntity!=null)
          {
-             userDaoLocal.deleteUser(deleteUserEntity);
+            userEaoLocal.deleteUser(deleteUserEntity);
+            userEntitys=userEaoLocal.getAllUser();
          }
      }
      public void addNewUser()
      {
-         userDaoLocal.addUser(newUser);
+
+         if(!"".equals(newUser.getName()))
+         {
+            userEaoLocal.addUser(newUser);
+            newUser=new UserEntity();
+            userEntitys=userEaoLocal.getAllUser();
+         }
      }
     public void getAllNode(OrganizationEntity org,TreeNode node)
     {
@@ -88,38 +95,50 @@ public class UserManageBean {
             } 
         }
     }
-    public void xxx()
-    {
-        initEjbLocal.InitDB();
-        
-    }
     public void unclassedUser()
     {
-        setUserEntitys(userDaoLocal.getUnclassedUser());
+        setUserFilter(userEaoLocal.getUnclassedUser());
+        setUserEntitys(userEaoLocal.getUnclassedUser());
         int i=0;
     }
     public void allUser()
     {
-        setUserEntitys(userDaoLocal.getAllUser());
-        int i=0;
+        setUserFilter(userEaoLocal.getAllUser());
+        setUserEntitys(userEaoLocal.getAllUser());
     }
     public List<OrganizationEntity> getAllOrganization()
     {
-        List<OrganizationEntity> ss= orginazationDaoLocal.getAllOrganization();
-        return orginazationDaoLocal.getAllOrganization();
+        return orginazationEaoLocal.getAllOrganization();
     }
-    public void test()
+    public void listOrganizationUsers()
     {
         if(selectNode==null)
-            setUserEntitys(userDaoLocal.getAllUser());
+        {
+            setUserEntitys(userEaoLocal.getAllUser());
+            setUserFilter(userEaoLocal.getAllUser());
+        }
         else
         {
             OrganizationEntity org=(OrganizationEntity)selectNode.getData();
-            setUserEntitys(userDaoLocal.getUsersByOrganization(org));
+            //将此机构和此机构的子机构的所属人员列出
+            setUserFilter(userEaoLocal.getUsersByOrganization(org));
+            setUserEntitys(userEaoLocal.getUsersByOrganization(org));
+            listOrganizationUsers_sub(org);
         }
-        int i=0;
     }
-
+    public void listOrganizationUsers_sub(OrganizationEntity org)
+    {
+        Set<OrganizationEntity> orgs=org.getChildOrganizationEntitys();
+        for (OrganizationEntity temp : orgs) {
+            Set<UserEntity> users=temp.getUserEntitys();
+            for(UserEntity user:users)
+            {
+                getUserFilter().add(user);
+                getUserEntitys().add(user);
+            }
+            listOrganizationUsers_sub(temp);
+        }
+    }
 
 
     /**
@@ -204,6 +223,20 @@ public class UserManageBean {
      */
     public void setDeleteUserEntity(UserEntity deleteUserEntity) {
         this.deleteUserEntity = deleteUserEntity;
+    }
+
+    /**
+     * @return the userFilter
+     */
+    public List<UserEntity> getUserFilter() {
+        return userFilter;
+    }
+
+    /**
+     * @param userFilter the userFilter to set
+     */
+    public void setUserFilter(List<UserEntity> userFilter) {
+        this.userFilter = userFilter;
     }
 
 

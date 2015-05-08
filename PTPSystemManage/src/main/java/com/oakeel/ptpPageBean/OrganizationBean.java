@@ -6,9 +6,8 @@
 
 package com.oakeel.ptpPageBean;
 
-import com.oakeel.PtpSessionBean;
-import com.oakeel.ejb.entityAndDao.organization.OrganizationDaoLocal;
-import com.oakeel.ejb.entityAndDao.organization.OrganizationEntity;
+import com.oakeel.ejb.entityAndEao.organization.OrganizationEaoLocal;
+import com.oakeel.ejb.entityAndEao.organization.OrganizationEntity;
 import com.oakeel.ejb.transaction.InitEjbLocal;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -17,7 +16,6 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -30,8 +28,6 @@ import org.primefaces.model.TreeNode;
 @ViewScoped
 
 public class OrganizationBean implements Serializable{
-    @ManagedProperty(value="#{nptpSessionBean}")
-    private PtpSessionBean ptpSessionBean;
     /**
      * Creates a new instance of OrganizationRequestBean
      */
@@ -41,22 +37,25 @@ public class OrganizationBean implements Serializable{
      * Creates a new instance of OrganizationSesionBean
      */
     @EJB
-    OrganizationDaoLocal orginazationDaoLocal;
+    OrganizationEaoLocal organizationEaoLocal;
     @EJB
     InitEjbLocal xxx;
     private TreeNode rootNode;
     Boolean flushTree = false;
-    private TreeNode selectNode;
+    private TreeNode selectNode;//选择的节点
+    private OrganizationEntity selectOrganizationEntity=new OrganizationEntity();
     private OrganizationEntity newOrganization=new OrganizationEntity();
+    String updateUuid;//修改界面的uuid
+    String updateOrganizationName;
+    String updateOrganizationPriority;
 
     @PostConstruct
     public void init() {
-         OrganizationEntity rootOrg = orginazationDaoLocal.getRoot();
+         OrganizationEntity rootOrg = organizationEaoLocal.getRoot();
         if(rootOrg!=null)
             getAllNode(rootOrg, null);
         int i = 0;
     }
-
     //得到组织的所有节点
     public void getAllNode(OrganizationEntity org, TreeNode node) {
         Set<OrganizationEntity> orglist = org.getChildOrganizationEntitys();
@@ -83,6 +82,31 @@ public class OrganizationBean implements Serializable{
             }
         }
     }
+    //保存修改的节点
+    public void saveOrganization()
+    {
+        organizationEaoLocal.updateOrganizationEntity(selectOrganizationEntity);
+        updateNode(selectOrganizationEntity,rootNode);
+    }
+    //更新指定的节点的数据
+    public void updateNode(OrganizationEntity org,TreeNode node)
+    {
+        List<TreeNode> nodelist=node.getChildren();
+        for(TreeNode item:nodelist)
+        {
+            OrganizationEntity temp=(OrganizationEntity)item.getData();
+            if(temp.getOrganizationUuid().equals(org.getOrganizationUuid()))
+            {
+                node.getChildren().remove(item);
+                DefaultTreeNode defaultTreeNode = new DefaultTreeNode("department", org, node);
+                throw new RuntimeException();
+            }
+            else
+            {
+                updateNode(org,item);
+            }
+        }
+    }
     /**
      * @return the rootNode
      */
@@ -105,7 +129,7 @@ public class OrganizationBean implements Serializable{
       if(selectNode!=null)
       {
           OrganizationEntity deleteOrg=(OrganizationEntity) selectNode.getData();
-          orginazationDaoLocal.deleteOrganization(deleteOrg);
+          organizationEaoLocal.deleteOrganization(deleteOrg);
           //遍历所有节点删除指定节点
           try
           {
@@ -136,28 +160,15 @@ public class OrganizationBean implements Serializable{
     }
     public void addNewNode()
     {
-         int i=0;
         if(selectNode!=null&&newOrganization!=null)
         {
-            newOrganization.setOrganizationUuid(null);
             OrganizationEntity parent=(OrganizationEntity)selectNode.getData();
-            orginazationDaoLocal.AddNewOrganization(newOrganization, parent);
-            TreeNode property = new DefaultTreeNode("department",newOrganization, selectNode);
+            OrganizationEntity temp=organizationEaoLocal.AddNewOrganization(newOrganization, parent);
+            TreeNode property = new DefaultTreeNode("department",temp, selectNode);
+            newOrganization=new OrganizationEntity();//这里必须新建组织，不然之前添加的和现在添加的节点数据指向一个对象，导致错误
         }
     }
-    /**
-     * @return the ptpSessionBean
-     */
-    public PtpSessionBean getPtpSessionBean() {
-        return ptpSessionBean;
-    }
 
-    /**
-     * @param ptpSessionBean the ptpSessionBean to set
-     */
-    public void setPtpSessionBean(PtpSessionBean ptpSessionBean) {
-        this.ptpSessionBean = ptpSessionBean;
-    }
 
     /**
      * @return the selectNode
@@ -186,4 +197,32 @@ public class OrganizationBean implements Serializable{
     public void setNewOrganization(OrganizationEntity newOrganization) {
         this.newOrganization = newOrganization;
     }
+
+    /**
+     * @return the selectOrganizationEntity
+     */
+    public OrganizationEntity getSelectOrganizationEntity() {
+       return selectOrganizationEntity;
+    }
+
+    /**
+     * @param selectOrganizationEntity the selectOrganizationEntity to set
+     */
+    public void setSelectOrganizationEntity(OrganizationEntity selectOrganizationEntity) {
+        this.selectOrganizationEntity = selectOrganizationEntity;
+    }
+    public void treeNodeToOrganizationEntity()
+    {
+        if(selectNode!=null)
+        {
+            OrganizationEntity temp=(OrganizationEntity)selectNode.getData();
+            if(!"".equals(temp.getName()))
+            {
+                setSelectOrganizationEntity(temp);
+            }
+        }
+        
+    }
+ 
+  
 }

@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="main.xhtml" >
+        <ui:define name="center">
+            
+            <style type="text/css">
+                .ui-steps .ui-steps-item {
+                    width: 24%;
+                }
+
+                .ui-state-highlight {
+                    text-shadow: none !important;
+                }
+
+                .ui-steps.custom {
+                    margin-bottom: 30px;
+                }
+
+                .ui-steps.custom .ui-steps-item .ui-menuitem-link {
+                    height: 10px;
+                    padding: 0 1em;
+                }
+
+                .ui-steps.custom .ui-steps-item .ui-steps-number {
+                    background-color: #0081c2;
+                    color: #FFFFFF;
+                    display: inline-block;
+                    width: 30px;
+                    border-radius: 10px;
+                    margin-top: -10px;
+                    margin-bottom: 10px;
+                }
+            </style>
+            <h:form style="margin-top: 50px">
+                <p:steps styleClass="custom" activeIndex="1" style="margin-left: 50px">
+                    <p:menuitem value="填写投标信息" />
+                    <p:menuitem value="上传认证资料" />
+                    <p:menuitem value="填写投标金额" />
+                    <p:menuitem value="选择还款模型" />
+                </p:steps>
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <p:commandButton value="上一步" style="width:100%;height: 40px"/>
+                        </td>
+                        <td>
+                            <p:commandButton value="下一步" style="width:100%;height: 40px"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form> 
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,197 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="main.xhtml" >
+        <ui:define name="center">
+            
+            <h:form style="height: 100%" id="form">
+                <p:dialog widgetVar="deleteUserRoleDlg" resizable="false" header="删除角色">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <p:outputLabel value="是否确定删除此角色？"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="删除" onclick="PF('deleteUserRoleDlg').hide()" action="#{userToRole.deleteUserRole()}" update="userRole_id"/>
+                            </td>
+                            <td>
+                                <p:commandButton value="取消" onclick="PF('deleteUserRoleDlg').hide()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <table >
+                    <tr>
+                        <td rowspan="2" style="width:320px; vertical-align: top">
+                            <p:dataTable filterEvent="keydown"  rowIndexVar="row" id="users_id" var="users_var" widgetVar="usersTable"  value="#{userToRole.userEntitys}"  emptyMessage="没找到相关用户" filteredValue="#{userToRole.userFilter}">
+                                <f:facet name="header">
+                                    <table>
+                                        <tr>
+                                            <td style="width:100%;border:none">
+                                                用户表
+                                            </td>
+                                            <td style="width:10px; border: none">
+                                                <p:commandLink update=":form:users_id" immediate="true" id="listAllUser_id" action="#{userToRole.viewAllUser()}">
+                                                    <h:outputText styleClass="ui-icon ui-icon-search" />
+                                                </p:commandLink>
+                                                <p:tooltip for="listAllUser_id" value="列出所有用户" trackMouse="true" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </f:facet>       
+                                <p:column  headerText="序号" style="width:30px">
+                                    <h:outputText value="#{row + 1}"/> 
+                                </p:column>
+                                <p:column headerText="用户名" filterBy="#{users_var.name}"  footerText="包含模式" filterMatchMode="contains">
+                                    <h:outputText value="#{users_var.name}" />
+                                </p:column>
+                                <p:column filterBy="#{users_var.organizationEntity}"   headerText="机构" footerText="包含模式" style="width:90px">
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('usersTable').filter()">
+                                            <f:selectItem itemLabel="选择单位" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems   value="#{userManageBean.allOrganization}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <h:outputText value="#{users_var.organizationEntity}" />
+                                </p:column>
+                                <p:column headerText="角色" style="width:30px">   
+                                    <p:commandLink update=":form:userRole_id :mainform:maingrowl" immediate="true" action="#{userToRole.viewUserRole()}">
+                                        <h:outputText styleClass="ui-icon ui-icon-key" style="margin:0 auto;" />
+                                        <f:setPropertyActionListener value="#{users_var}" target="#{userToRole.selectUser}"  />
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                        <td style="vertical-align:top">
+                            <p:dataTable style="" filterEvent="keydown"  rowIndexVar="row" editable="true" id="roles_id" var="roles_var" widgetVar="carsTable"  value="#{userToRole.roleEntitys}"  emptyMessage="没找到相关角色" filteredValue="#{userToRole.roleFilter}">
+                                <f:facet name="header">
+                                    <table>
+                                        <tr>
+                                            <td style="width:100%;border:none">
+                                                角色表
+                                            </td>
+                                            <td style="width:10px; border: none">      
+                                                <p:commandLink update=":form:roles_id" immediate="true" id="listAllRole_id" action="#{userToRole.viewAllRole()}">
+                                                    <h:outputText styleClass="ui-icon ui-icon-search" />
+                                                </p:commandLink>
+                                                <p:tooltip for="listAllRole_id" value="列出所有角色" trackMouse="true" />
+                                            </td>
+                                            <td style="width:10px;border:none">      
+                                                <p:commandLink update=":form:userRole_id" immediate="true" id="allEva_id" action="#{userToRole.oneClickEva()}">
+                                                    <h:outputText styleClass="ui-icon ui-icon-arrowreturnthick-1-s" style="margin:0 auto;" />
+                                                </p:commandLink>
+                                                <p:tooltip for="allEva_id" value="一键赋值" trackMouse="true" />
+                                            </td>
+                                            <td style="width:30px;border:none">
+                                               
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </f:facet>       
+                                <p:column style="width:20px">
+                                    <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
+                                    <p:draggable for="dragIcon" revert="true" helper="clone"/>
+                                </p:column>
+                                <p:column  headerText="序号" style="width:30px">
+                                    <h:outputText value="#{row + 1}"/> 
+                                </p:column>
+                                <p:column headerText="角色名" filterBy="#{roles_var.name}"  footerText="包含模式" filterMatchMode="contains">        
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{roles_var.name}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{roles_var.name}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="描述" filterBy="#{roles_var.description}"  footerText="包含模式" filterMatchMode="contains">        
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{roles_var.description}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{roles_var.description}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="是否可用" filterBy="#{roles_var.available}"  footerText="包含模式" filterMatchMode="contains">  
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('carsTable').filter()">
+                                            <f:selectItem itemLabel="true" itemValue="true"/>
+                                            <f:selectItem itemLabel="false" itemValue="false"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{roles_var.available}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu value="#{roles_var.available}" style="width:100%">
+                                                <f:selectItem itemLabel="true" itemValue="true"/>
+                                                <f:selectItem itemLabel="false" itemValue="false"/>
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top">
+                            <p:fieldset id="roleDropArea" legend="拖动上方角色至此区域赋值" >
+                                <p:dataGrid id="userRole_id" emptyMessage="#{(userToRole.selectUser==null)?'没有选择用户':'用户角色为空'}" var="userRole_var"  value="#{userToRole.selectUserRoles}"  columns="4"  rows="8" paginator="true" paginatorPosition="bottom" >
+                                    <f:facet name="header">
+                                        <p:outputLabel value="当前用户：#{userToRole.selectUser.name}"/>
+                                    </f:facet>
+                                    <p:panel id="pnl" header="#{userRole_var.name}">
+                                        <table>
+                                            <tr>
+                                                <td rowspan="5">
+                                                    <p:graphicImage library="images/sysico" name="alarm_icons_009_64.png"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    资源字符串:
+                                                </td>
+                                                <td>
+                                                    #{userRole_var.description}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    显示顺序:
+                                                </td>
+                                                <td>
+                                                    #{userRole_var.priority}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <p:commandButton value="删除此角色"  style="width: 100%" onclick="PF('deleteUserRoleDlg').show()" immediate="true">
+                                                        <f:setPropertyActionListener value="#{userRole_var}" target="#{userToRole.delUserRole}" />
+                                                    </p:commandButton>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </p:panel>
+                                </p:dataGrid>
+                            </p:fieldset>
+                            <p:droppable  for="roleDropArea" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="roles_id" onDrop="handleDrop">
+                                <p:ajax listener="#{userToRole.onRoleDrop}" update="userRole_id :mainform:maingrowl"/>
+                            </p:droppable>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
+

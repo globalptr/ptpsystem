@@ -6,30 +6,36 @@
 
 package com.oakeel.globalconverter;
 
-import com.oakeel.ejb.entityAndEao.organization.OrganizationEaoLocal;
-import javax.ejb.EJB;
+import java.util.Objects;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.model.SelectItem;
 
 /**
  *
  * @author root
  */
-@FacesConverter("OrganizationConverter")
-public class OrganizationConverter implements Converter{
 
-    @EJB
-    OrganizationEaoLocal organizationDaoLocal;
+@FacesConverter("BooleanConverter")
+public class BooleanConverter implements Converter{
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        return organizationDaoLocal.getOrganizationByUuid(value);
+        if(value.equals("是"))
+            return Boolean.TRUE;
+        else
+            return Boolean.FALSE;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return value.toString();
+        Boolean temp=(Boolean)value;
+        if(Objects.equals(temp, Boolean.TRUE))
+            return "是";
+        else
+            return "否";
     }
     
 }

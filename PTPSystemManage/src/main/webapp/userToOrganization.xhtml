@@ -4,17 +4,27 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="main.xhtml" >
+        <script>
+            function ss()
+            {
 
+            }
+        </script>
         <ui:define name="center">
             <h:form style="height: 100%" id="form">
-                <p:dialog widgetVar="adduserdlg" header="添加新用户" resizable="false">
+                
+                <!--为了防止用户回车误删数据-->
+                <p:dialog>
+                    <p:commandButton type="hidden"/>    
+                </p:dialog>
+                <p:dialog widgetVar="adduserdlg" header="添加新用户" resizable="false" >
                     <table>
                         <tr>
                             <td>
                                 <p:outputLabel value="用户名"/>
                             </td>
                             <td>
-                                <p:inputText value="#{userManageBean.newUser.name}"/>
+                                <p:inputText id="user_id" value="#{userManageBean.newUser.name}"/>
                             </td>
                         </tr>
                         <tr>
@@ -22,7 +32,7 @@
                                 <p:outputLabel value="密码"/>
                             </td>
                             <td>
-                                <p:inputText value="#{userManageBean.newUser.password}"/>
+                                <p:inputText id="pass_id" value="#{userManageBean.newUser.password}"/>
                             </td>
                         </tr>
                         <tr>
@@ -30,7 +40,7 @@
                                 <p:outputLabel value="重复密码"/>
                             </td>
                             <td>
-                                <p:password />
+                                <p:password  id="repass_id" />
                             </td>
                         </tr>
                         <tr>
@@ -38,7 +48,7 @@
                                 <p:outputLabel value="手机号"/>
                             </td>
                             <td>
-                                <p:inputText value="#{userManageBean.newUser.telephone}"/>
+                                <p:inputText id="tel_id" value="#{userManageBean.newUser.telephone}"/>
                             </td>
                         </tr>
                         <tr>
@@ -46,7 +56,7 @@
                                 <p:outputLabel value="邮箱"/>
                             </td>
                             <td>
-                                <p:inputText value="#{userManageBean.newUser.email}"/>
+                                <p:inputText id="email_id" value="#{userManageBean.newUser.email}"/>
                             </td>
                         </tr>
                         <tr>
@@ -61,7 +71,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <p:commandButton value="添加" style="width:100%" onclick="PF('adduserdlg').hide()" actionListener="#{userManageBean.addNewUser()}"/>
+                                <p:commandButton value="添加" style="width:100%" onclick="PF('adduserdlg').hide()" update="users_id" actionListener="#{userManageBean.addNewUser()}"/>
                             </td>
                         </tr>
                     </table>
@@ -86,34 +96,45 @@
                 <table style="height: 100%;">
                     <tr >
                         <td style=" vertical-align: top">
-                            <p:commandButton value="初始化数据库" actionListener="#{userManageBean.xxx()}" style="width:100%"/>
                             <p:commandButton value="查看未归类人员" actionListener="#{userManageBean.unclassedUser()}" update=":form:users_id" style="width:100%"/>
                             <p:commandButton value="查看所有人员" actionListener="#{userManageBean.allUser()}" update=":form:users_id" style="width:100%"/>
-                            <p:tree  id="docs" value="#{userManageBean.rootNode}" var="doc"  selectionMode="single" selection="#{userManageBean.selectNode}" dynamic="true"> 
-                                <p:ajax event="select" update=":form:users_id" listener="#{userManageBean.test()}" />
+                            <p:tree  id="docs" value="#{userManageBean.rootNode}" style="height: 100%" var="doc"  selectionMode="single" selection="#{userManageBean.selectNode}" dynamic="true"> 
+                                <p:ajax event="select" update=":form:users_id" listener="#{userManageBean.listOrganizationUsers()}" />
                                 <p:treeNode type="department" expandedIcon="ui-icon-grip-dotted-vertical" collapsedIcon="ui-icon-flag">
                                     <h:outputText value="#{doc}"/>
                                 </p:treeNode>
                             </p:tree>
                         </td>
                         <td style=" vertical-align: top">
-                            <p:dataTable id="users_id" var="users_var"  editable="true" value="#{userManageBean.userEntitys}" >
+                            <p:dataTable filterEvent="keydown"  rowIndexVar="row" id="users_id" var="users_var" widgetVar="carsTable"  editable="true" value="#{userManageBean.userEntitys}"  emptyMessage="没找到相关用户" filteredValue="#{userManageBean.userFilter}">
                                 <f:facet name="header">
-                                    用户列表
-                                </f:facet>         
-                                <p:ajax event="rowEdit" listener="#{userManageBean.saveUser}"  />
-
-                                <p:column headerText="用户名">
+                                    <table>
+                                        <tr>
+                                            <td style="text-align: center; width: 100%;border: none">
+                                                <p:outputLabel value="用户信息表"/>
+                                            </td>
+                                            <td style="float:right; width: 150px;border: none">
+                                                <h:outputText value="全表搜索:" />
+                                                <p:inputText id="globalFilter" onkeydown="PF('carsTable').filter()" style="width:150px" placeholder="输入关键字"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </f:facet>       
+                                <p:ajax event="rowEdit" listener="#{userManageBean.updateUser}"  />
+                                <p:column  headerText="序号" style="width:30px">
+                                    <h:outputText value="#{row + 1}"/> 
+                                </p:column>
+                                <p:column headerText="用户名" filterBy="#{users_var.name}"  footerText="包含模式" filterMatchMode="contains">        
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{users_var.name}" />
                                         </f:facet>
                                         <f:facet name="input">
-                                            <h:inputText style="width:100%" value="#{users_var.name}"/>
+                                            <h:inputText style="width:100%"  value="#{users_var.name}"/>
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="密码">
+                                <p:column filterBy="#{users_var.password}"   headerText="密码">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{users_var.password}" />
@@ -123,7 +144,7 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="电话">
+                                <p:column filterBy="#{users_var.telephone}"  headerText="电话">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{users_var.telephone}" />
@@ -133,7 +154,7 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="邮箱">
+                                <p:column filterBy="#{users_var.email}"  headerText="邮箱">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{users_var.email}" />
@@ -143,7 +164,13 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="机构" style="width:80px">
+                                <p:column filterBy="#{users_var.organizationEntity}"   headerText="机构" style="width:200px">
+                                    <f:facet name="filter">
+                                        <p:selectOneMenu onchange="PF('carsTable').filter()">
+                                            <f:selectItem itemLabel="选择筛选单位" itemValue="#{null}" noSelectionOption="true" />
+                                            <f:selectItems   value="#{userManageBean.allOrganization}"/>
+                                        </p:selectOneMenu>
+                                    </f:facet>
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{users_var.organizationEntity}" />
@@ -155,16 +182,29 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column style="width:32px">
+                                <p:column filterBy="#{users_var.priority}"  headerText="显示顺序">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{users_var.priority}" />
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText style="width:100%"  value="#{users_var.priority}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column style="width:32px" headerText="编辑">
                                     <p:rowEditor />
                                 </p:column>
-                                <p:column style="width:32px">
-                                    <p:commandLink value="删除" onclick="PF('deleteuserdlg').show()" actionListener="#{userManageBean.deleteUser()}">
+                                <p:column style="width:30px" headerText="删除">
+                                    <p:commandLink  onclick="PF('deleteuserdlg').show()" update="users_id">
+                                        <h:outputText styleClass="ui-icon ui-icon-trash" style="margin:0 auto;" />
                                         <f:setPropertyActionListener value="#{users_var}" target="#{userManageBean.deleteUserEntity}" />
                                     </p:commandLink>
                                 </p:column>
                             </p:dataTable>
-                            <p:commandButton value="添加新用户" onclick="PF('adduserdlg').show()" style="width:100%"/>
+                            <p:commandButton value="添加新用户" onclick="PF('adduserdlg').show()" style="width:100%">
+                                <f:ajax event="click" render="pass_id user_id repass_id tel_id email_id"/>
+                            </p:commandButton>
                         </td>
                     </tr>
                 </table>
