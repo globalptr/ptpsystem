@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.role;
+package com.oakeel.ejb.entityAndEao.role;
 
-import com.oakeel.ejb.entityAndDao.resource.ResourceEntity;
-import com.oakeel.ejb.entityAndDao.user.UserEntity;
+import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
+import com.oakeel.ejb.entityAndEao.user.UserEntity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,24 +32,24 @@ public class RoleEntity implements Serializable {
     {
         roleUuid=UUID.randomUUID().toString();
         this.name=name;
-        this.description="";
-        this.available=true;
     }
-    public RoleEntity(String name,String description,Boolean available)
+    public RoleEntity(String name,String description,Boolean available,int priority)
     {
         roleUuid=UUID.randomUUID().toString();
         this.name=name;
         this.description=description;
         this.available=available;
+        this.priority=priority;
     }
     @Id
     @Column(length=36)
     private String roleUuid;
     @Column(nullable=false,length=50)
     private String name;//名字
+    private int priority=0;//显示顺序
     @Column(length=200)
-    private String description;//描述
-    private Boolean available;//是否可用
+    private String description="";//描述
+    private Boolean available=true;//是否可用
     //与用户是多对多的关系
     @ManyToMany(mappedBy="roleEntitys")
     private Set<UserEntity> userEntitys;
@@ -168,6 +168,20 @@ public class RoleEntity implements Serializable {
      */
     public void setResourceEntity(Set<ResourceEntity> resourceEntity) {
         this.resourceEntity = resourceEntity;
+    }
+
+    /**
+     * @return the priority
+     */
+    public int getPriority() {
+        return priority;
+    }
+
+    /**
+     * @param priority the priority to set
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     

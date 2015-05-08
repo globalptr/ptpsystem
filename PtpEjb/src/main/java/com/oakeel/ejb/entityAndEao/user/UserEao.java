@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.user;
+package com.oakeel.ejb.entityAndEao.user;
 
 
-import com.oakeel.ejb.entityAndDao.organization.OrganizationEntity;
+import com.oakeel.ejb.entityAndEao.organization.OrganizationEntity;
+import com.oakeel.ejb.entityAndEao.role.RoleEntity;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -23,7 +25,7 @@ import javax.persistence.criteria.Root;
  * @author root
  */
 @Stateless
-public class UserDao implements UserDaoLocal {
+public class UserEao implements UserEaoLocal {
     @PersistenceContext(unitName="ptpEjbPu")
     EntityManager em;
     @Override
@@ -54,7 +56,8 @@ public class UserDao implements UserDaoLocal {
             CriteriaBuilder builder=em.getCriteriaBuilder();
             CriteriaQuery<UserEntity> query=builder.createQuery(UserEntity.class);
             Root<UserEntity> s=query.from(UserEntity.class);
-            query.select(s).where(builder.equal(s.get(UserEntity_.email), user.getEmail()));        
+            //降序排列
+            query.select(s).where(builder.equal(s.get(UserEntity_.email), user.getEmail())).orderBy(builder.desc(s.get(UserEntity_.priority)));        
             TypedQuery<UserEntity> q=em.createQuery(query);
             return !q.getResultList().isEmpty();
         }
@@ -92,7 +95,7 @@ public class UserDao implements UserDaoLocal {
         CriteriaBuilder builder=em.getCriteriaBuilder();
         CriteriaQuery<UserEntity> query=builder.createQuery(UserEntity.class);
         Root<UserEntity> s=query.from(UserEntity.class);
-        query.select(s).where(builder.equal(s.get(UserEntity_.organizationEntity), org));        
+        query.select(s).where(builder.equal(s.get(UserEntity_.organizationEntity), org));
         TypedQuery<UserEntity> q=em.createQuery(query);
         return q.getResultList();
     }
@@ -116,5 +119,25 @@ public class UserDao implements UserDaoLocal {
     @Override
     public void deleteUser(UserEntity user) {
         em.remove(em.merge(user));
+    }
+
+    @Override
+    public void deleteRole(UserEntity user, RoleEntity role) {
+        Set<RoleEntity> roles=user.getRoleEntitys();
+        for(RoleEntity item:roles)
+        {
+            if(item.getRoleUuid().equals(role.getRoleUuid()))
+            {
+                roles.remove(item);
+                break;
+            }
+        }
+        em.merge(user);
+    }
+
+    @Override
+    public void addUserRole(UserEntity user, RoleEntity role) {
+        user.getRoleEntitys().add(role);
+        em.merge(user);
     }
 }

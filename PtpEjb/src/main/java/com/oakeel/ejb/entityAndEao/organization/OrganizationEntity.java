@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.organization;
+package com.oakeel.ejb.entityAndEao.organization;
 
-import com.oakeel.ejb.entityAndDao.user.UserEntity;
+import com.oakeel.ejb.entityAndEao.user.UserEntity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;

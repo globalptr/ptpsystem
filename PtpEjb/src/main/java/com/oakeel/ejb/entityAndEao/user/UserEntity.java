@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.user;
+package com.oakeel.ejb.entityAndEao.user;
 
-import com.oakeel.ejb.entityAndDao.organization.OrganizationEntity;
-import com.oakeel.ejb.entityAndDao.role.RoleEntity;
+import com.oakeel.ejb.entityAndEao.organization.OrganizationEntity;
+import com.oakeel.ejb.entityAndEao.role.RoleEntity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,39 +40,28 @@ public class UserEntity implements Serializable {
             this.email=param;
         this.password=password;
     }
-    public UserEntity(String name,String telephone,String email,String password)
+    public UserEntity(String name,String telephone,String email,String password,int priority)
     {
         userUuid=UUID.randomUUID().toString();
         this.name=name;
         this.telephone=telephone;
         this.email=email;
         this.password=password;
+        this.priority=priority;
     }
-    private static long serialVersionUID = 1L;
-
-    /**
-     * @return the serialVersionUID
-     */
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    /**
-     * @param aSerialVersionUID the serialVersionUID to set
-     */
-    public static void setSerialVersionUID(long aSerialVersionUID) {
-        serialVersionUID = aSerialVersionUID;
-    }
+    static long serialVersionUID = 1L;
     @Id
     @Column(length=36)
     private String userUuid;
+    @Column(nullable=false)
     private String name;
+    private int priority=0;
     @Column(nullable=false)
     private String password;
-    private String telephone;
-    private String email;
-    private String salt;
-    private Boolean locked;
+    private String telephone="";
+    private String email="";
+    private String salt="";
+    private Boolean locked=false;
     //用户与机构是多对一关系，主控在用户
     @ManyToOne(cascade={CascadeType.MERGE})//级联修改user=>org
     private OrganizationEntity organizationEntity;
@@ -232,6 +221,20 @@ public class UserEntity implements Serializable {
      */
     public void setOrganizationEntity(OrganizationEntity organizationEntity) {
         this.organizationEntity = organizationEntity;
+    }
+
+    /**
+     * @return the priority
+     */
+    public int getPriority() {
+        return priority;
+    }
+
+    /**
+     * @param priority the priority to set
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
  

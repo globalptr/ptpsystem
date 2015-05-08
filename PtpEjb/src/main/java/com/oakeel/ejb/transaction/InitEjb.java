@@ -5,11 +5,11 @@
  */
 package com.oakeel.ejb.transaction;
 
-import com.oakeel.ejb.entityAndDao.organization.OrganizationEntity;
-import com.oakeel.ejb.entityAndDao.resource.ResourceEntity;
-import com.oakeel.ejb.entityAndDao.role.RoleEntity;
-import com.oakeel.ejb.entityAndDao.user.UserEntity;
-import com.oakeel.ejb.entityAndDao.user.UserEnum;
+import com.oakeel.ejb.entityAndEao.organization.OrganizationEntity;
+import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
+import com.oakeel.ejb.entityAndEao.role.RoleEntity;
+import com.oakeel.ejb.entityAndEao.user.UserEntity;
+import com.oakeel.ejb.entityAndEao.user.UserEnum;
 import java.io.Serializable;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

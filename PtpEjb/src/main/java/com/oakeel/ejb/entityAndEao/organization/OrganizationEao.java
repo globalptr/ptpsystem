@@ -5,8 +5,9 @@
  */
 
 
-package com.oakeel.ejb.entityAndDao.organization;
-import com.oakeel.ejb.entityAndDao.user.UserEntity;
+package com.oakeel.ejb.entityAndEao.organization;
+import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
+import com.oakeel.ejb.entityAndEao.user.UserEntity;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -24,21 +25,22 @@ import javax.persistence.criteria.Root;
  * @author root
  */
 @Stateless
-public class OrganizationDao implements OrganizationDaoLocal {
+public class OrganizationEao implements OrganizationEaoLocal {
 
     @PersistenceContext(unitName="ptpEjbPu")
     EntityManager em;
     @Override
-    public void AddNewOrganization(OrganizationEntity organization,OrganizationEntity parent){
+    public OrganizationEntity AddNewOrganization(OrganizationEntity organization,OrganizationEntity parent){
         if(parent==null||parent.getOrganizationUuid()==null)
-            return;
+            return null;
         organization.setOrganizationUuid(UUID.randomUUID().toString());
         organization.setParentUuid(parent.getOrganizationUuid());
+        
         em.persist(organization);
         //首先将parent转为托管状态，
         parent.getChildOrganizationEntitys().add(organization);
         OrganizationEntity temp=em.merge(parent);
-        int i=0;
+        return organization;
     }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -121,4 +123,11 @@ public class OrganizationDao implements OrganizationDaoLocal {
     public OrganizationEntity getOrganizationByUuid(String uuid) {
         return em.find(OrganizationEntity.class, uuid);
     }
+
+    @Override
+    public void updateOrganizationEntity(OrganizationEntity org) {
+        em.merge(org);
+    }
+
+    
 }

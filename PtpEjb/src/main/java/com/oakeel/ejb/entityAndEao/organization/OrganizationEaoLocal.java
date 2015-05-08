@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.organization;
+package com.oakeel.ejb.entityAndEao.organization;
 
+import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,11 +15,12 @@ import javax.ejb.Local;
  * @author root
  */
 @Local
-public interface OrganizationDaoLocal {
-    public void AddNewOrganization(OrganizationEntity organization,OrganizationEntity parent);
+public interface OrganizationEaoLocal {
+    public OrganizationEntity AddNewOrganization(OrganizationEntity organization,OrganizationEntity parent);
     public List<OrganizationEntity> getAllOrganization();
     public OrganizationEntity getRoot();
     public List<OrganizationEntity> getOrganizationEntityByName(String name);
     public void deleteOrganization(OrganizationEntity org);
     public OrganizationEntity getOrganizationByUuid(String uuid);
+    public void updateOrganizationEntity(OrganizationEntity org);
 }

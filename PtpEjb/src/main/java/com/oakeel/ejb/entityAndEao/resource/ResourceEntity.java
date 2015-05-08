@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.resource;
+package com.oakeel.ejb.entityAndEao.resource;
 
-import com.oakeel.ejb.entityAndDao.role.RoleEntity;
+import com.oakeel.ejb.entityAndEao.role.RoleEntity;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
@@ -26,11 +26,8 @@ public class ResourceEntity implements Serializable {
     public ResourceEntity()
     {
         ResourceUuid=UUID.randomUUID().toString();
-        this.priority=0;
-        this.available=true;
-        this.type=ResourceTypeEnum.未定义;
     }
-    public ResourceEntity(String name,String permission,ResourceTypeEnum type,int priority,Boolean available)
+    public ResourceEntity(String name,String permission,ResourceTypeEnum type,Boolean available,int priority)
     {
         ResourceUuid=UUID.randomUUID().toString();
         this.name=name;
@@ -44,9 +41,6 @@ public class ResourceEntity implements Serializable {
         ResourceUuid=UUID.randomUUID().toString();
         this.name=name;
         this.permission=permission;
-        this.priority=0;
-        this.available=true;
-        this.type=ResourceTypeEnum.未定义;
         
     }
     private static final long serialVersionUID = 1L;
@@ -57,11 +51,11 @@ public class ResourceEntity implements Serializable {
     private String name;//资源名
     @Enumerated(EnumType.STRING)
     @Column(length=10)
-    private ResourceTypeEnum type;//资源类型
-    private int priority;//显示顺序
+    private ResourceTypeEnum type=ResourceTypeEnum.未定义;//资源类型
+    private int priority=0;//显示顺序
     @Column(length=50)
-    private String permission;//权限
-    private Boolean available;//是否可用
+    private String permission="";//权限
+    private Boolean available=true;//是否可用
     //角色与资源是多对多的关系，主控在角色
     @ManyToMany(mappedBy="resourceEntity")
     private Set<RoleEntity> roleEntitys;

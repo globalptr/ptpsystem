@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.user;
+package com.oakeel.ejb.entityAndEao.user;
 
-import com.oakeel.ejb.entityAndDao.organization.OrganizationEntity;
+import com.oakeel.ejb.entityAndEao.organization.OrganizationEntity;
+import com.oakeel.ejb.entityAndEao.role.RoleEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -15,7 +16,7 @@ import javax.ejb.Local;
  * @author root
  */
 @Local
-public interface UserDaoLocal {
+public interface UserEaoLocal {
   
     public void addUser(UserEntity user);
     public Boolean  validateUser(UserEntity user);
@@ -24,5 +25,7 @@ public interface UserDaoLocal {
     public List<UserEntity> getUsersByOrganization(OrganizationEntity org);
     public  List<UserEntity> getUnclassedUser();
     public void deleteUser(UserEntity user);
+    public void deleteRole(UserEntity user,RoleEntity role);
+    public void addUserRole(UserEntity user,RoleEntity role);
     
 }

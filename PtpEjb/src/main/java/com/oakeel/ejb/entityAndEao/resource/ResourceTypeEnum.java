@@ -4,16 +4,13 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.role;
+package com.oakeel.ejb.entityAndEao.resource;
 
-import javax.ejb.Local;
 
 /**
  *
  * @author root
  */
-@Local
-public interface RoleDaoLocal {
-    
-    public void addNewRole(RoleEntity role);
+public enum ResourceTypeEnum {
+    页面,按钮,菜单,未定义;
 }

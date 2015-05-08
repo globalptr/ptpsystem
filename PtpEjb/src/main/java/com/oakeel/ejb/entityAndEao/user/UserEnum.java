@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.user;
+package com.oakeel.ejb.entityAndEao.user;
 
 
 /**

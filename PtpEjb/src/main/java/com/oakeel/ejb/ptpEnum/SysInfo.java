@@ -4,16 +4,12 @@
  * and open the template in the editor.
  */
 
-package com.oakeel.ejb.entityAndDao.resource;
-
-import javax.ejb.Local;
+package com.oakeel.ejb.ptpEnum;
 
 /**
  *
  * @author root
  */
-@Local
-public interface ResourceDaoLocal {
-  
-    public void addNewResource(ResourceEntity resource);
+public enum SysInfo {
+    提示,警告,错误;
 }
