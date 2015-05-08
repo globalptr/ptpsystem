@@ -9,6 +9,9 @@ package com.oakeel;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 
 /**
  *
@@ -25,10 +28,21 @@ public class LogUser {
     }
     public String log()
     {
-        if(getUserName()!=null&&getPassword()!=null)
-            return "success";
-        else
-            return "failure";
+
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        subject.login(token);
+        int i=0;
+        return null;
+//        try
+//        {
+//            shiroManager.log(userName, password);
+//            return "success";
+//        }
+//        catch(AuthenticationException ex)
+//        {
+//            return "failure";
+//        }
     }
     /**
      * Creates a new instance of User

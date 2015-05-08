@@ -69,7 +69,7 @@
                                 <p:outputLabel value="资源字符串:"/>
                             </td>
                             <td>
-                                <p:inputText value="#{roleToResource.newResource.permission}"/>
+                                <p:inputText value="#{roleToResource.newResource.resourceDesc}"/>
                             </td>
                         </tr>
                         <tr>
@@ -170,14 +170,14 @@
                                                 <p:commandLink update=":form:roleResource_id" immediate="true" id="addRole_id" onclick="PF('addRoleDlg').show()">
                                                     <h:outputText styleClass="ui-icon ui-icon-plus" style="margin:0 auto;" />
                                                     <f:setPropertyActionListener value="#{roles_var}" target="#{roleToResource.selectRole}"  />
-                                                    <p:tooltip for="addRole_id" value="添加新角色" trackMouse="true" />
+                                                    <p:tooltip for="addRole_id" value="添加新角色"   />
                                                 </p:commandLink>
                                             </td>
                                             <td style="width:10px; border: none">      
                                                 <p:commandLink update=":form:roles_id" immediate="true" id="listAllRole_id" action="#{roleToResource.viewAllRole()}">
                                                     <h:outputText styleClass="ui-icon ui-icon-search" />
                                                 </p:commandLink>
-                                                <p:tooltip for="listAllRole_id" value="列出所有角色" trackMouse="true" />
+                                                <p:tooltip for="listAllRole_id" value="列出所有角色"   />
                                             </td>
                                         </tr>
                                     </table>
@@ -225,20 +225,23 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="编辑" style="width:32px">
-                                    <p:rowEditor />
+                                <p:column style="width:32px">
+                                    <p:rowEditor id="editRole_id"/>
+                                    <p:tooltip for="editRole_id" value="编辑"   />
                                 </p:column>
-                                <p:column headerText="删除" style="width:30px">
-                                    <p:commandLink onclick="PF('deleteRoleDlg').show()">
+                                <p:column style="width:30px">
+                                    <p:commandLink id="deleteRole_id" onclick="PF('deleteRoleDlg').show()">
                                         <h:outputText styleClass="ui-icon ui-icon-trash" style="margin:0 auto;" />
                                         <f:setPropertyActionListener value="#{roles_var}" target="#{roleToResource.selectRole}" />
                                     </p:commandLink>
+                                    <p:tooltip for="deleteRole_id" value="删除"  />
                                 </p:column>
-                                <p:column headerText="权限" style="width:30px">   
-                                    <p:commandLink update=":form:roleResource_id :mainform:maingrowl" immediate="true" action="#{roleToResource.viewRoleResource()}">
+                                <p:column style="width:30px">   
+                                    <p:commandLink id="viewRole_id" update=":form:roleResource_id :mainform:maingrowl" immediate="true" action="#{roleToResource.viewRoleResource()}">
                                         <h:outputText styleClass="ui-icon ui-icon-key" style="margin:0 auto;" />
                                         <f:setPropertyActionListener value="#{roles_var}" target="#{roleToResource.selectRole}"  />
                                     </p:commandLink>
+                                    <p:tooltip for="viewRole_id" value="浏览此角色权限"   />
                                 </p:column>
                             </p:dataTable>
                         </td>
@@ -253,7 +256,7 @@
                                             <td style="width:10px;border:none">
                                                 <p:commandLink immediate="true" id="addResource_id" onclick="PF('addResourceDlg').show()">
                                                     <h:outputText styleClass="ui-icon ui-icon-plus" style="margin:0 auto;" />
-                                                    <p:tooltip for="addResource_id" value="添加新资源" trackMouse="true" />
+                                                    <p:tooltip for="addResource_id" value="添加新资源"   />
                                                 </p:commandLink>
                                             </td>
                                             <td style="width:10px; border: none">      
@@ -261,13 +264,13 @@
                                                     <h:outputText styleClass="ui-icon ui-icon-search" />
                                                     <f:setPropertyActionListener value="#{roles_var}" target="#{roleToResource.selectRole}"  />
                                                 </p:commandLink>
-                                                <p:tooltip for="listAllResource_id" value="列出所有资源" trackMouse="true" />
+                                                <p:tooltip for="listAllResource_id" value="列出所有资源"   />
                                             </td>
                                             <td style="width:10px;border:none">      
                                                 <p:commandLink update=":form:roleResource_id" immediate="true" id="allEva_id" action="#{roleToResource.oneClickEva()}">
                                                     <h:outputText styleClass="ui-icon ui-icon-arrowreturnthick-1-s" style="margin:0 auto;" />
                                                 </p:commandLink>
-                                                <p:tooltip for="allEva_id" value="一键赋值" trackMouse="true" />
+                                                <p:tooltip for="allEva_id" value="一键赋值"   />
                                             </td>
                                             <td style="width:30px;border:none">
                                                
@@ -293,13 +296,13 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="权限字符串"  filterBy="#{resource_var.permission}" >
+                                <p:column headerText="权限字符串"  filterBy="#{resource_var.resourceDesc}" >
                                      <p:cellEditor>
                                         <f:facet name="output">
-                                            <h:outputText value="#{resource_var.permission}" />
+                                            <h:outputText value="#{resource_var.resourceDesc}" />
                                         </f:facet>
                                         <f:facet name="input">
-                                            <h:inputText style="width:100%"  value="#{resource_var.permission}"/>
+                                            <h:inputText style="width:100%"  value="#{resource_var.resourceDesc}"/>
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
@@ -349,14 +352,16 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>                                
-                                <p:column headerText="编辑" style="width:32px">
-                                    <p:rowEditor />
+                                <p:column style="width:32px">
+                                    <p:rowEditor id="editResource_id"/>
+                                    <p:tooltip for="editResource_id" value="编辑"   />
                                 </p:column>
-                                <p:column headerText="删除" style="width:30px">
-                                    <p:commandLink onclick="PF('deleteResourceDlg').show()">
+                                <p:column style="width:30px">
+                                    <p:commandLink id="deleteResource_id" onclick="PF('deleteResourceDlg').show()">
                                         <h:outputText styleClass="ui-icon ui-icon-trash" style="margin:0 auto;" />
                                         <f:setPropertyActionListener value="#{resource_var}" target="#{roleToResource.delResource}" />
                                     </p:commandLink>
+                                    <p:tooltip for="deleteResource_id" value="删除"   />
                                 </p:column>
                             </p:dataTable>
                         </td>
@@ -364,60 +369,51 @@
                     <tr>
                         <td style="vertical-align: top">
                             <p:fieldset id="selectRole" legend="拖动上方资源至此区域赋值" >
-                                <p:dataGrid id="roleResource_id" var="roleResource_var"  value="#{roleToResource.roleResources}"  columns="4"  rows="8" paginator="true" paginatorPosition="bottom" >
+                                <p:dataTable id="roleResource_id" var="roleResource_var"  value="#{roleToResource.roleResources}"  rows="8" paginator="true" paginatorPosition="bottom" >
                                     <f:facet name="header">
                                         <p:outputLabel value="当前角色：#{roleToResource.selectRole.name}"/>
                                     </f:facet>
-                                    <p:panel id="pnl" header="#{roleResource_var.name}">
-                                        <table>
-                                            <tr>
-                                                <td rowspan="5">
-                                                    <p:graphicImage library="images/sysico" name="alarm_icons_009_64.png"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    资源字符串:
-                                                </td>
-                                                <td>
-                                                    #{roleResource_var.permission}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    显示顺序:
-                                                </td>
-                                                <td>
-                                                    #{roleResource_var.priority}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    类型:
-                                                </td>
-                                                <td>
-                                                    #{roleResource_var.type}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    状态:
-                                                </td>
-                                                <td>
-                                                    #{roleResource_var.available}
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td colspan="3">
-                                                    <p:commandButton value="删除此权限"  style="width: 100%" onclick="PF('deleteRoleResourceDlg').show()" immediate="true">
-                                                        <f:setPropertyActionListener value="#{roleResource_var}" target="#{roleToResource.deleteRoleResource}" />
-                                                    </p:commandButton>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </p:panel>
-                                </p:dataGrid>
+                                    <p:column headerText="资源名">
+                                        <p:outputLabel value="#{roleResource_var.resource.name}"/>
+                                    </p:column>
+                                    <p:column headerText="资源描述">
+                                        <p:outputLabel value="#{roleResource_var.resource.resourceDesc}"/>
+                                    </p:column>
+                                    <p:column headerText="添加权限" style="text-align: center">
+                                        <p:inputSwitch value="#{roleResource_var.addPower}">
+                                            <p:ajax  update="" />
+                                        </p:inputSwitch>
+                                    </p:column>
+                                    <p:column headerText="删除权限" style="text-align: center">
+                                        <p:inputSwitch value="#{roleResource_var.deletePower}">
+                                            <p:ajax  update="" />
+                                        </p:inputSwitch>
+                                    </p:column>
+                                    <p:column headerText="修改权限" style="text-align: center">
+                                        <p:inputSwitch value="#{roleResource_var.updatePower}">
+                                            <p:ajax  update="" />
+                                        </p:inputSwitch>
+                                    </p:column>
+                                    <p:column headerText="查询权限" style="text-align: center">
+                                        <p:inputSwitch value="#{roleResource_var.viewPwer}">
+                                            <p:ajax  update="" />
+                                        </p:inputSwitch>
+                                    </p:column>
+                                    <p:column style="width:30px">
+                                        <p:commandLink id="saveRoleResource_id" action="#{roleToResource.updateRoleResource}" immediate="true" update=":mainform:maingrowl">
+                                            <h:outputText styleClass="ui-icon ui-icon-disk" style="margin:0 auto;" />
+                                            <p:tooltip for="saveRoleResource_id" value="保存"   />
+                                            <f:setPropertyActionListener value="#{roleResource_var}" target="#{roleToResource.targetRoleResource}" />
+                                        </p:commandLink>
+                                    </p:column>
+                                    <p:column style="width:30px">
+                                        <p:commandLink id="deleteRoleResource_id"  onclick="PF('deleteRoleResourceDlg').show()" immediate="true">
+                                            <h:outputText styleClass="ui-icon ui-icon-trash" style="margin:0 auto;" />
+                                            <p:tooltip for="deleteRoleResource_id" value="删除"   />
+                                            <f:setPropertyActionListener value="#{roleResource_var}" target="#{roleToResource.targetRoleResource}" />
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
                             </p:fieldset>
                             <p:droppable  for="selectRole" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="availableResource" onDrop="handleDrop">
                                 <p:ajax listener="#{roleToResource.onResourceDrop}" update="roleResource_id availableResource :mainform:maingrowl"/>

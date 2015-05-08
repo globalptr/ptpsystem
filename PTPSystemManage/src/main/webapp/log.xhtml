@@ -64,14 +64,12 @@
                 <h:form>
                     <div class="left">
                         <p>
-                            <p:inputText id="fusername" value="#{logUser.userName}"/>
-                            <p:watermark for="fusername" value="输入管理员帐号" />
+                            <p:inputText id="fusername" value="#{logUser.userName}" placeholder="输入用户名/手机号/邮箱"/>
 
                         </p>
                         <div class="clear"></div>
                         <p>
-                            <p:password id="fpassword"  value="#{logUser.password}"/>
-                            <p:watermark for="fpassword" value="输入管理员密码" />
+                            <p:password id="fpassword"  value="#{logUser.password}" placeholder="输入密码"/>
                         </p>
                         <div class="clear"></div>
                         <p>
@@ -83,7 +81,6 @@
                         <div class="clear"></div>
                         <p>
                             <p:commandLink  action="#{logUser.log()}" style="width:250px; padding:0 10px; display:block; text-align:center; color:#FFFFFF; font-size:16px; background:#2d6590; text-decoration:none; border-radius:5px; border:0;">
-                     
                                     登录
                             </p:commandLink>
                         </p>

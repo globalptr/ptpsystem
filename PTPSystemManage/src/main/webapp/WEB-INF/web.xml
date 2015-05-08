@@ -40,7 +40,7 @@
         <param-value>#{layoutBean.xy==true?layoutBean.theme:"start"}</param-value>
     </context-param> 
     <!--shiro-->
-    <filter>
+<!--    <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
     </filter> 
@@ -54,7 +54,7 @@
     </filter-mapping> 
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
-    </listener> 
+    </listener> -->
 
      
     </web-app>

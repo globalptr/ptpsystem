@@ -6,19 +6,12 @@
 
 package com.oakeel;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -44,12 +37,14 @@ public class LoginController {
     public LoginController() throws IOException
     {		
     }
-@RequiresRoles("admin")
+    @RequiresRoles("admin")
     public String authenticate() { 
+        
         try{
-            
+        
             Factory<org.apache.shiro.mgt.SecurityManager> factory =new IniSecurityManagerFactory("classpath:shiro.ini");
             org.apache.shiro.mgt.SecurityManager securityManager = factory.getInstance();
+      
             SecurityUtils.setSecurityManager(securityManager);
         }
         catch(Exception ex)

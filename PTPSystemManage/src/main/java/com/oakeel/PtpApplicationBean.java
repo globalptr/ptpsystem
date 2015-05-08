@@ -8,18 +8,27 @@ package com.oakeel;
 
 import com.oakeel.ejb.ptpEnum.SysInfo;
 import com.oakeel.ejb.transaction.InitEjbLocal;
+import com.oakeel.shiro.PtpRealm;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
+import org.apache.shiro.authz.ModularRealmAuthorizer;
+import org.apache.shiro.authz.permission.WildcardPermissionResolver;
+import org.apache.shiro.mgt.DefaultSecurityManager;
 
 /**
  *
  * @author root
  */
-@ManagedBean
-@RequestScoped
+@ManagedBean(eager=true)
+@ApplicationScoped
 public class PtpApplicationBean {
     
     @EJB
@@ -27,6 +36,24 @@ public class PtpApplicationBean {
     /**
      * Creates a new instance of PtpApplicationBean
      */
+    @PostConstruct
+    public void init()
+    {
+        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        //设置 authenticator 验证策略
+        ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
+        authenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
+        securityManager.setAuthenticator(authenticator);
+        //设置 authorizer 授权策略
+        ModularRealmAuthorizer authorizer = new ModularRealmAuthorizer();
+        authorizer.setPermissionResolver(new WildcardPermissionResolver());
+        securityManager.setAuthorizer(authorizer);
+        //设置 Realm
+        PtpRealm ss=new PtpRealm();
+        securityManager.setRealm(ss);
+        //将 SecurityManager 设置到 SecurityUtils 方便全局使用
+        SecurityUtils.setSecurityManager(securityManager);
+    }
     public PtpApplicationBean() {
     }
     public void initDB()

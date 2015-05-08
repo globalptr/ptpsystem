@@ -10,6 +10,8 @@ import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
 import com.oakeel.ejb.entityAndEao.resource.ResourceTypeEnum;
 import com.oakeel.ejb.entityAndEao.role.RoleEaoLocal;
 import com.oakeel.ejb.entityAndEao.role.RoleEntity;
+import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEaoLocal;
+import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
 import com.oakeel.ejb.entityAndEao.user.UserEaoLocal;
 import com.oakeel.ejb.ptpEnum.SysInfo;
 import java.util.List;
@@ -42,16 +44,18 @@ public class RoleToResource {
     RoleEaoLocal roleEaoLocal;
     @EJB
     ResourceEaoLocal resourceEaoLocal;
+    @EJB
+    RoleResourceEaoLocal roleResourceEaoLocal;
     private List<RoleEntity> roleEntitys;//角色
     private List<RoleEntity> roleFilter;//角色筛选
     private RoleEntity selectRole;//选择的角色
     private RoleEntity newRole = new RoleEntity();
     private List<ResourceEntity> resourceEntitys;
     private List<ResourceEntity> resourceFilter;
-    private Set<ResourceEntity> roleResources;
+    private Set<RoleResourceEntity> roleResources;//角色资源
     private ResourceEntity newResource = new ResourceEntity();//新建的资源
     private ResourceTypeEnum[] resourceTypeEnums;
-    private ResourceEntity deleteRoleResource;
+    private RoleResourceEntity targetRoleResource;//准备删除的角色资源
     private String message;
     private ResourceEntity delResource;
 
@@ -60,7 +64,6 @@ public class RoleToResource {
         setResourceTypeEnums(ResourceTypeEnum.values());
         roleEntitys = roleEaoLocal.getAllRole();
         resourceEntitys = resourceEaoLocal.getAllResource();
-        int i = 0;
     }
     //增加角色
     public void addRole()
@@ -78,7 +81,7 @@ public class RoleToResource {
     //浏览角色资源
     public String viewRoleResource() {
         if (selectRole != null) {
-            roleResources = selectRole.getResourceEntity();
+            setRoleResources(selectRole.getRoleResourceEntitys());
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(SysInfo.提示.toString(), "选择角色：" + selectRole.getName()));
         }
@@ -107,16 +110,18 @@ public class RoleToResource {
             {
                 for(ResourceEntity item:resourceFilter)
                 {
-                    selectRole.getResourceEntity().add(item);
-                    roleResources.add(item);
+                    selectRole.getRoleResourceEntitys().add(new RoleResourceEntity(item));
+                    getRoleResources().add(new RoleResourceEntity(item));
+                    roleEaoLocal.updateRole(selectRole);
                 }
             }
             else
             {
                 for(ResourceEntity item:resourceEntitys)
                 {
-                    selectRole.getResourceEntity().add(item);
-                    roleResources.add(item);
+                    selectRole.getRoleResourceEntitys().add(new RoleResourceEntity(item));
+                    getRoleResources().add(new RoleResourceEntity(item));
+                    roleEaoLocal.updateRole(selectRole);
                 }
             }
         }
@@ -130,10 +135,20 @@ public class RoleToResource {
         }
         return null;
     }
+    //保存角色资源
+    public void updateRoleResource()
+    {
+        if(targetRoleResource!=null)
+        {
+            roleResourceEaoLocal.updateRoleResource(targetRoleResource);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(SysInfo.提示.toString(), "保存角色资源成功"));
+        }
+    }
     //删除角色资源
     public String deleteRoleResource() {
-        roleEaoLocal.deleteRoleResource(selectRole, deleteRoleResource);
-        roleResources.remove(deleteRoleResource);
+        roleEaoLocal.deleteRoleResource(selectRole, getTargetRoleResource());
+        getRoleResources().remove(getTargetRoleResource());
         return null;
     }
     //拖放赋值
@@ -141,7 +156,7 @@ public class RoleToResource {
         ResourceEntity role = ((ResourceEntity) event.getData());
         if (selectRole != null) {
             try {
-                selectRole.getResourceEntity().add(role);
+                selectRole.getRoleResourceEntitys().add(new RoleResourceEntity(role));
                 roleEaoLocal.updateRole(selectRole);
             } catch (Exception ex) {
                 FacesContext context = FacesContext.getCurrentInstance();
@@ -226,19 +241,7 @@ public class RoleToResource {
         this.resourceEntitys = resourceEntitys;
     }
 
-    /**
-     * @return the roleResources
-     */
-    public Set<ResourceEntity> getRoleResources() {
-        return roleResources;
-    }
-
-    /**
-     * @param roleResources the roleResources to set
-     */
-    public void setRoleResources(Set<ResourceEntity> roleResources) {
-        this.roleResources = roleResources;
-    }
+   
 
     /**
      * @return the newResource
@@ -271,18 +274,7 @@ public class RoleToResource {
     }
 
     /**
-     * @return the deleteRoleResource
-     */
-    public ResourceEntity getDeleteRoleResource() {
-        return deleteRoleResource;
-    }
-
-    /**
-     * @param deleteRoleResource the deleteRoleResource to set
-     */
-    public void setDeleteRoleResource(ResourceEntity deleteRoleResource) {
-        this.deleteRoleResource = deleteRoleResource;
-    }
+ 
 
     /**
      * @return the resourceFilter
@@ -339,6 +331,37 @@ public class RoleToResource {
     public void setDelResource(ResourceEntity delResource) {
         this.delResource = delResource;
     }
+
+    /**
+     * @return the roleResources
+     */
+    public Set<RoleResourceEntity> getRoleResources() {
+        return roleResources;
+    }
+
+    /**
+     * @param roleResources the roleResources to set
+     */
+    public void setRoleResources(Set<RoleResourceEntity> roleResources) {
+        this.roleResources = roleResources;
+    }
+
+
+    /**
+     * @return the targetRoleResource
+     */
+    public RoleResourceEntity getTargetRoleResource() {
+        return targetRoleResource;
+    }
+
+    /**
+     * @param targetRoleResource the targetRoleResource to set
+     */
+    public void setTargetRoleResource(RoleResourceEntity targetRoleResource) {
+        this.targetRoleResource = targetRoleResource;
+    }
+
+
 
 
 }
