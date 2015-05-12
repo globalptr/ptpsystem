@@ -6,7 +6,7 @@
 
 package com.oakeel.ejb.entityAndEao.role;
 
-import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
+import com.oakeel.ejb.entityAndEao.permission.PermissionEntity;
 import com.oakeel.ejb.entityAndEao.user.UserEntity;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -17,6 +17,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -53,9 +54,9 @@ public class RoleEntity implements Serializable {
     //与用户是多对多的关系
     @ManyToMany(mappedBy="roleEntitys")
     private Set<UserEntity> userEntitys;
-    //角色与资源是多对多的关系，主控在角色
-    @ManyToMany(cascade={CascadeType.MERGE})//级联修改role=>roleResource
-    private Set<RoleResourceEntity> roleResourceEntitys=new HashSet<>();
+    //角色与资源是一对多的关系，主控在角色资源
+    @OneToMany(cascade={CascadeType.REMOVE,CascadeType.MERGE},mappedBy="roleEntity")//如果删除了角色，那么角色的权限一并删除;角色与权限是一对多的关系，双向关联主控在权限
+    private Set<PermissionEntity> permissions=new HashSet<>();
 
     @Override
     public int hashCode() {
@@ -167,18 +168,19 @@ public class RoleEntity implements Serializable {
     }
 
     /**
-     * @return the roleResourceEntitys
+     * @return the permissions
      */
-    public Set<RoleResourceEntity> getRoleResourceEntitys() {
-        return roleResourceEntitys;
+    public Set<PermissionEntity> getPermissions() {
+        return permissions;
     }
 
     /**
-     * @param roleResourceEntitys the roleResourceEntitys to set
+     * @param permissions the permissions to set
      */
-    public void setRoleResourceEntitys(Set<RoleResourceEntity> roleResourceEntitys) {
-        this.roleResourceEntitys = roleResourceEntitys;
+    public void setPermissions(Set<PermissionEntity> permissions) {
+        this.permissions = permissions;
     }
+
 
   
 

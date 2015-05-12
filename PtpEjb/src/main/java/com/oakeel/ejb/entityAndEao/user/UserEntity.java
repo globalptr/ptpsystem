@@ -8,6 +8,7 @@ package com.oakeel.ejb.entityAndEao.user;
 
 import com.oakeel.ejb.entityAndEao.organization.OrganizationEntity;
 import com.oakeel.ejb.entityAndEao.role.RoleEntity;
+import com.oakeel.ejb.entityAndEao.userSet.UserSetEntity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -68,6 +70,8 @@ public class UserEntity implements Serializable {
     //用户与角色是多对多的关系，主控在用户
     @ManyToMany(cascade={CascadeType.MERGE})//级联修改user=>role
     private Set<RoleEntity> roleEntitys=new HashSet<>();
+    @OneToOne(mappedBy="userEntity")
+    UserSetEntity userSetEntity;
 
     @Override
     public int hashCode() {

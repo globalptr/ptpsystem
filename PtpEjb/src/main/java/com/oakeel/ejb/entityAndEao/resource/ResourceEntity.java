@@ -6,14 +6,17 @@
 
 package com.oakeel.ejb.entityAndEao.resource;
 
-import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
+import com.oakeel.ejb.entityAndEao.permission.PermissionEntity;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -55,8 +58,8 @@ public class ResourceEntity implements Serializable {
     @Column(length=50)
     private String resourceDesc="";//描述
     private Boolean available=true;//是否可用
-    @OneToOne(mappedBy="resource")//这里设置一对一双向关联为了能从资源反向找到那些角色使用了该资源
-    private RoleResourceEntity roleResourceEntitys;
+    @OneToMany(mappedBy="resourceEntity")//资源与权限的关系是一对多的关系，主控必须在权限
+    private Set<PermissionEntity> permissionEntitys=new HashSet<>();
     @Override
     public int hashCode() {
         int hash = 0;
@@ -172,18 +175,21 @@ public class ResourceEntity implements Serializable {
     }
 
     /**
-     * @return the roleResourceEntitys
+     * @return the permissionEntitys
      */
-    public RoleResourceEntity getRoleResourceEntitys() {
-        return roleResourceEntitys;
+    public Set<PermissionEntity> getPermissionEntitys() {
+        return permissionEntitys;
     }
 
     /**
-     * @param roleResourceEntitys the roleResourceEntitys to set
+     * @param permissionEntitys the permissionEntitys to set
      */
-    public void setRoleResourceEntitys(RoleResourceEntity roleResourceEntitys) {
-        this.roleResourceEntitys = roleResourceEntitys;
+    public void setPermissionEntitys(Set<PermissionEntity> permissionEntitys) {
+        this.permissionEntitys = permissionEntitys;
     }
+
+
+
 
    
 

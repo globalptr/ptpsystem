@@ -6,7 +6,7 @@
 
 package com.oakeel.ejb.entityAndEao.role;
 
-import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
+import com.oakeel.ejb.entityAndEao.permission.PermissionEntity;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -20,5 +20,5 @@ public interface RoleEaoLocal {
     public void addNewRole(RoleEntity role);
     public void deleteRole(RoleEntity role);
     public void updateRole(RoleEntity role);
-    public void deleteRoleResource(RoleEntity role,RoleResourceEntity roleResource);
+    public void deletePermission(RoleEntity role,PermissionEntity permission);
 }
