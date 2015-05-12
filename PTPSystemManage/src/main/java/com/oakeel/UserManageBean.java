@@ -110,22 +110,6 @@ public class UserManageBean {
     {
         return orginazationEaoLocal.getAllOrganization();
     }
-    public void listOrganizationUsers()
-    {
-        if(selectNode==null)
-        {
-            setUserEntitys(userEaoLocal.getAllUser());
-            setUserFilter(userEaoLocal.getAllUser());
-        }
-        else
-        {
-            OrganizationEntity org=(OrganizationEntity)selectNode.getData();
-            //将此机构和此机构的子机构的所属人员列出
-            setUserFilter(userEaoLocal.getUsersByOrganization(org));
-            setUserEntitys(userEaoLocal.getUsersByOrganization(org));
-            listOrganizationUsers_sub(org);
-        }
-    }
     public void listOrganizationUsers_sub(OrganizationEntity org)
     {
         Set<OrganizationEntity> orgs=org.getChildOrganizationEntitys();
@@ -238,7 +222,4 @@ public class UserManageBean {
     public void setUserFilter(List<UserEntity> userFilter) {
         this.userFilter = userFilter;
     }
-
-
-    
 }

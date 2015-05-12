@@ -72,7 +72,6 @@
                         </tr>
                         <tr>
                             <td style="width:50%; text-align:center;" colspan="2">
-                                
                                 <p:commandButton value="确定"  onclick="PF('updatedlg').hide()" style="width:100%;" actionListener="#{organizationBean.saveOrganization()}">
                                     <f:ajax execute="selectorgname_id selectorgpriority_id" event="click" render="departments_id"/>
                                 </p:commandButton>
@@ -89,7 +88,7 @@
                     <tr>
                         <td>
                             <p:tree  id="departments_id" value="#{organizationBean.rootNode}" var="department_var"  selectionMode="single" selection="#{organizationBean.selectNode}" dynamic="true" orientation="horizontal"> 
-                                <p:ajax event="select"  />
+                                <p:ajax event="select"/>
                                 <p:treeNode type="department" expandedIcon="ui-icon-grip-dotted-vertical" collapsedIcon="ui-icon-home">
                                     <h:outputText value="#{department_var}"/>
                                 </p:treeNode>
@@ -97,7 +96,6 @@
                         </td>
                     </tr>
                 </table>
-
                 <p:contextMenu for="departments_id">
                     <p:menuitem value="查看/修改" icon="ui-icon-search" onclick="PF('updatedlg').show()" actionListener="#{organizationBean.treeNodeToOrganizationEntity()}" update="selectorgname_id selectorgpriority_id"/>
                     <p:menuitem value="新建子机构" icon="ui-icon-plusthick" onclick="PF('addnewdlg').show()" />

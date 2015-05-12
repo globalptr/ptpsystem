@@ -59,7 +59,7 @@
                                     <h:outputText value="#{users_var.organizationEntity}" />
                                 </p:column>
                                 <p:column headerText="角色" style="width:30px">   
-                                    <p:commandLink update=":form:userRole_id :mainform:maingrowl" immediate="true" action="#{userToRole.viewUserRole()}">
+                                    <p:commandLink update=":form:userRole_id" immediate="true" action="#{userToRole.viewUserRole()}">
                                         <h:outputText styleClass="ui-icon ui-icon-key" style="margin:0 auto;" />
                                         <f:setPropertyActionListener value="#{users_var}" target="#{userToRole.selectUser}"  />
                                     </p:commandLink>
@@ -184,7 +184,7 @@
                                 </p:dataGrid>
                             </p:fieldset>
                             <p:droppable  for="roleDropArea" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="roles_id" onDrop="handleDrop">
-                                <p:ajax listener="#{userToRole.onRoleDrop}" update="userRole_id :mainform:maingrowl"/>
+                                <p:ajax listener="#{userToRole.onRoleDrop}" update="userRole_id roles_id"/>
                             </p:droppable>
                         </td>
                     </tr>

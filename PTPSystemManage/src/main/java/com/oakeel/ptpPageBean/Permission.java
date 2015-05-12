@@ -5,13 +5,15 @@
  */
 package com.oakeel.ptpPageBean;
 
+import com.oakeel.ejb.entityAndEao.operation.OperationEaoLocal;
+import com.oakeel.ejb.entityAndEao.operation.OperationEntity;
+import com.oakeel.ejb.entityAndEao.permission.PermissionEaoLocal;
+import com.oakeel.ejb.entityAndEao.permission.PermissionEntity;
 import com.oakeel.ejb.entityAndEao.resource.ResourceEaoLocal;
 import com.oakeel.ejb.entityAndEao.resource.ResourceEntity;
 import com.oakeel.ejb.entityAndEao.resource.ResourceTypeEnum;
 import com.oakeel.ejb.entityAndEao.role.RoleEaoLocal;
 import com.oakeel.ejb.entityAndEao.role.RoleEntity;
-import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEaoLocal;
-import com.oakeel.ejb.entityAndEao.roleResource.RoleResourceEntity;
 import com.oakeel.ejb.entityAndEao.user.UserEaoLocal;
 import com.oakeel.ejb.ptpEnum.SysInfo;
 import java.util.List;
@@ -31,12 +33,12 @@ import org.primefaces.event.RowEditEvent;
  */
 @ManagedBean
 @ViewScoped
-public class RoleToResource {
+public class Permission {
 
     /**
      * Creates a new instance of RoleToResource
      */
-    public RoleToResource() {
+    public Permission() {
     }
     @EJB
     UserEaoLocal userEaoLocal;
@@ -45,25 +47,42 @@ public class RoleToResource {
     @EJB
     ResourceEaoLocal resourceEaoLocal;
     @EJB
-    RoleResourceEaoLocal roleResourceEaoLocal;
+    PermissionEaoLocal permissionEaoLocal;
+    @EJB
+    OperationEaoLocal operationEaoLocal;
     private List<RoleEntity> roleEntitys;//角色
     private List<RoleEntity> roleFilter;//角色筛选
     private RoleEntity selectRole;//选择的角色
+    private RoleEntity deleteRole;
     private RoleEntity newRole = new RoleEntity();
     private List<ResourceEntity> resourceEntitys;
     private List<ResourceEntity> resourceFilter;
-    private Set<RoleResourceEntity> roleResources;//角色资源
+    private Set<PermissionEntity> permissions;//角色资源
     private ResourceEntity newResource = new ResourceEntity();//新建的资源
     private ResourceTypeEnum[] resourceTypeEnums;
-    private RoleResourceEntity targetRoleResource;//准备删除的角色资源
-    private String message;
+    private PermissionEntity targetPermission;//准备删除的角色资源
     private ResourceEntity delResource;
-
+    private List<OperationEntity> opereations;
+    private PermissionEntity selectPermission;
+    private List<OperationEntity> selectOperations;
+    private OperationEntity deleteOperation;
+    
     @PostConstruct
     public void init() {
         setResourceTypeEnums(ResourceTypeEnum.values());
         roleEntitys = roleEaoLocal.getAllRole();
         resourceEntitys = resourceEaoLocal.getAllResource();
+        setOpereations(operationEaoLocal.getAllOperation());
+        
+    }
+    //为角色的权限添加操作
+    public void addPermissionOperation()
+    {
+        for(OperationEntity item:selectOperations)
+        {
+            selectPermission.getOperationEntitys().add(item);
+        }
+        permissionEaoLocal.updatePermission(selectPermission);
     }
     //增加角色
     public void addRole()
@@ -81,7 +100,7 @@ public class RoleToResource {
     //浏览角色资源
     public String viewRoleResource() {
         if (selectRole != null) {
-            setRoleResources(selectRole.getRoleResourceEntitys());
+            setPermissions(selectRole.getPermissions());
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(SysInfo.提示.toString(), "选择角色：" + selectRole.getName()));
         }
@@ -110,58 +129,42 @@ public class RoleToResource {
             {
                 for(ResourceEntity item:resourceFilter)
                 {
-                    selectRole.getRoleResourceEntitys().add(new RoleResourceEntity(item));
-                    getRoleResources().add(new RoleResourceEntity(item));
-                    roleEaoLocal.updateRole(selectRole);
+                    PermissionEntity permission=new PermissionEntity(selectRole,item);
+                    permissionEaoLocal.addPermission(permission);
                 }
             }
             else
             {
                 for(ResourceEntity item:resourceEntitys)
                 {
-                    selectRole.getRoleResourceEntitys().add(new RoleResourceEntity(item));
-                    getRoleResources().add(new RoleResourceEntity(item));
-                    roleEaoLocal.updateRole(selectRole);
+                    PermissionEntity permission=new PermissionEntity(selectRole,item);
+                    permissionEaoLocal.addPermission(permission);
                 }
             }
         }
     }
     //删除资源
     public String deleteResource() {
-        if(delResource!=null)
+        if(getDelResource()!=null)
         {
-            resourceEaoLocal.deleteReource(delResource);
-            resourceEntitys.remove(delResource);
+            resourceEaoLocal.deleteReource(getDelResource());
+            resourceEntitys.remove(getDelResource());
         }
         return null;
     }
-    //保存角色资源
-    public void updateRoleResource()
-    {
-        if(targetRoleResource!=null)
-        {
-            roleResourceEaoLocal.updateRoleResource(targetRoleResource);
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(SysInfo.提示.toString(), "保存角色资源成功"));
-        }
-    }
     //删除角色资源
-    public String deleteRoleResource() {
-        roleEaoLocal.deleteRoleResource(selectRole, getTargetRoleResource());
-        getRoleResources().remove(getTargetRoleResource());
+    public String deletePermission() {
+        permissionEaoLocal.deletePermission(targetPermission);//权限与角色的关系中，权限是关系的维护者，删除权限即可
+        permissions.remove(targetPermission);
         return null;
     }
     //拖放赋值
     public void onResourceDrop(DragDropEvent event) {
         ResourceEntity role = ((ResourceEntity) event.getData());
         if (selectRole != null) {
-            try {
-                selectRole.getRoleResourceEntitys().add(new RoleResourceEntity(role));
-                roleEaoLocal.updateRole(selectRole);
-            } catch (Exception ex) {
-                FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage(null, new FacesMessage(SysInfo.错误.toString(), "资源已存在，不能重复加入"));
-            }
+            PermissionEntity permission=new PermissionEntity(selectRole,role);
+            permissionEaoLocal.addPermission(permission);
+            permissions.add(permission);
         } else {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(SysInfo.错误.toString(), "没有选择操作的角色"));
@@ -169,10 +172,25 @@ public class RoleToResource {
     }
     //删除角色
     public void deleteRole() {
-        if (selectRole != null) {
-            roleEaoLocal.deleteRole(selectRole);
-            roleEntitys.remove(selectRole);
+        
+        //如果delete和select相同，则清空
+        if (deleteRole != null) {
+            roleEaoLocal.deleteRole(deleteRole);
+            roleEntitys.remove(deleteRole);
+            //如果删除的和选择的不同，这个时候清空roleResources,会导致选择的角色的角色资源不出现，具体原因未知
+            if(selectRole!=null)
+            {
+                if(selectRole.getRoleUuid().equals(deleteRole.getRoleUuid()))
+                {
+                    permissions.clear();
+                }
+            }
         }
+    }
+    //删除权限的操作
+    public void deletePermissionOperation()
+    {
+        selectPermission.getOperationEntitys().remove(deleteOperation);
     }
     //更新角色
     public void updateRole(RowEditEvent event) {
@@ -290,19 +308,7 @@ public class RoleToResource {
         this.resourceFilter = resourceFilter;
     }
 
-    /**
-     * @return the message
-     */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * @param message the message to set
-     */
-    public void setMessage(String message) {
-        this.message = message;
-    }
+ 
 
     /**
      * @return the newRole
@@ -333,35 +339,101 @@ public class RoleToResource {
     }
 
     /**
-     * @return the roleResources
+     * @return the deleteRole
      */
-    public Set<RoleResourceEntity> getRoleResources() {
-        return roleResources;
+    public RoleEntity getDeleteRole() {
+        return deleteRole;
     }
 
     /**
-     * @param roleResources the roleResources to set
+     * @param deleteRole the deleteRole to set
      */
-    public void setRoleResources(Set<RoleResourceEntity> roleResources) {
-        this.roleResources = roleResources;
-    }
-
-
-    /**
-     * @return the targetRoleResource
-     */
-    public RoleResourceEntity getTargetRoleResource() {
-        return targetRoleResource;
+    public void setDeleteRole(RoleEntity deleteRole) {
+        this.deleteRole = deleteRole;
     }
 
     /**
-     * @param targetRoleResource the targetRoleResource to set
+     * @return the permissions
      */
-    public void setTargetRoleResource(RoleResourceEntity targetRoleResource) {
-        this.targetRoleResource = targetRoleResource;
+    public Set<PermissionEntity> getPermissions() {
+        return permissions;
     }
 
+    /**
+     * @param permissions the permissions to set
+     */
+    public void setPermissions(Set<PermissionEntity> permissions) {
+        this.permissions = permissions;
+    }
 
+    /**
+     * @return the targetPermission
+     */
+    public PermissionEntity getTargetPermission() {
+        return targetPermission;
+    }
 
+    /**
+     * @param targetPermission the targetPermission to set
+     */
+    public void setTargetPermission(PermissionEntity targetPermission) {
+        this.targetPermission = targetPermission;
+    }
+
+    /**
+     * @return the opereations
+     */
+    public List<OperationEntity> getOpereations() {
+        return opereations;
+    }
+
+    /**
+     * @param opereations the opereations to set
+     */
+    public void setOpereations(List<OperationEntity> opereations) {
+        this.opereations = opereations;
+    }
+
+    /**
+     * @return the selectPermission
+     */
+    public PermissionEntity getSelectPermission() {
+        return selectPermission;
+    }
+
+    /**
+     * @param selectPermission the selectPermission to set
+     */
+    public void setSelectPermission(PermissionEntity selectPermission) {
+        this.selectPermission = selectPermission;
+    }
+
+    /**
+     * @return the selectOperations
+     */
+    public List<OperationEntity> getSelectOperations() {
+        return selectOperations;
+    }
+
+    /**
+     * @param selectOperations the selectOperations to set
+     */
+    public void setSelectOperations(List<OperationEntity> selectOperations) {
+        this.selectOperations = selectOperations;
+    }
+
+    /**
+     * @return the deleteOperation
+     */
+    public OperationEntity getDeleteOperation() {
+        return deleteOperation;
+    }
+
+    /**
+     * @param deleteOperation the deleteOperation to set
+     */
+    public void setDeleteOperation(OperationEntity deleteOperation) {
+        this.deleteOperation = deleteOperation;
+    }
 
 }

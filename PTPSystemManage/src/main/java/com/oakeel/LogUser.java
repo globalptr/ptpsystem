@@ -6,10 +6,14 @@
 
 package com.oakeel;
 
+import com.oakeel.ejb.ptpEnum.SysInfo;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
@@ -22,6 +26,7 @@ import org.apache.shiro.subject.Subject;
 public class LogUser {
     private String userName;
     private String password;
+    private String userThemes="ui-darkness";
     @PostConstruct
     public void init()
     {
@@ -31,18 +36,16 @@ public class LogUser {
 
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-        subject.login(token);
-        int i=0;
-        return null;
-//        try
-//        {
-//            shiroManager.log(userName, password);
-//            return "success";
-//        }
-//        catch(AuthenticationException ex)
-//        {
-//            return "failure";
-//        }
+        try
+        {
+            subject.login(token);
+            return "main?faces-redirect=true";
+        }
+        catch(AuthenticationException ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(SysInfo.提示.toString(),"用户名/手机号/邮箱和密码不匹配")); 
+            return null;
+        }
     }
     /**
      * Creates a new instance of User
@@ -76,6 +79,20 @@ public class LogUser {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the userThemes
+     */
+    public String getUserThemes() {
+        return userThemes;
+    }
+
+    /**
+     * @param userThemes the userThemes to set
+     */
+    public void setUserThemes(String userThemes) {
+        this.userThemes = userThemes;
     }
 
 

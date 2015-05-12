@@ -37,10 +37,15 @@
     </welcome-file-list>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>#{layoutBean.xy==true?layoutBean.theme:"start"}</param-value>
+        <param-value>#{logUser.userThemes==null?"start":logUser.userThemes}</param-value>
     </context-param> 
+<!--    <context-param>
+        <param-name>shiroEnvironmentClass</param-name>
+        <param-value>com.oakeel.shiro.PtpIniWebEnvironment</param-value>
+    </context-param>-->
+
     <!--shiro-->
-<!--    <filter>
+    <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
     </filter> 
@@ -54,7 +59,7 @@
     </filter-mapping> 
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
-    </listener> -->
+    </listener> 
 
      
     </web-app>

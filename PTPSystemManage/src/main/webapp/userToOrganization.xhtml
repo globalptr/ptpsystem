@@ -11,8 +11,7 @@
             }
         </script>
         <ui:define name="center">
-            <h:form style="height: 100%" id="form">
-                
+            <h:form id="formx">
                 <!--为了防止用户回车误删数据-->
                 <p:dialog>
                     <p:commandButton type="hidden"/>    
@@ -71,7 +70,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <p:commandButton value="添加" style="width:100%" onclick="PF('adduserdlg').hide()" update="users_id" actionListener="#{userManageBean.addNewUser()}"/>
+                                <p:commandButton value="添加" style="width:100%" onclick="PF('adduserdlg').hide()" update=":form:users_id" actionListener="#{userManageBean.addNewUser()}"/>
                             </td>
                         </tr>
                     </table>
@@ -85,7 +84,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <p:commandButton value="删除" onclick="PF('deleteuserdlg').hide()" actionListener="#{userManageBean.deleteUser()}" update="users_id"/>
+                                <p:commandButton value="删除" onclick="PF('deleteuserdlg').hide()" actionListener="#{userManageBean.deleteUser()}" update=":form:users_id"/>
                             </td>
                             <td>
                                 <p:commandButton value="取消" onclick="PF('deleteuserdlg').hide()"/>
@@ -93,30 +92,47 @@
                         </tr>
                     </table>
                 </p:dialog>
-                <table style="height: 100%;">
-                    <tr >
-                        <td style=" vertical-align: top">
-                            <p:commandButton value="查看未归类人员" actionListener="#{userManageBean.unclassedUser()}" update=":form:users_id" style="width:100%"/>
-                            <p:commandButton value="查看所有人员" actionListener="#{userManageBean.allUser()}" update=":form:users_id" style="width:100%"/>
-                            <p:tree  id="docs" value="#{userManageBean.rootNode}" style="height: 100%" var="doc"  selectionMode="single" selection="#{userManageBean.selectNode}" dynamic="true"> 
-                                <p:ajax event="select" update=":form:users_id" listener="#{userManageBean.listOrganizationUsers()}" />
-                                <p:treeNode type="department" expandedIcon="ui-icon-grip-dotted-vertical" collapsedIcon="ui-icon-flag">
-                                    <h:outputText value="#{doc}"/>
-                                </p:treeNode>
-                            </p:tree>
-                        </td>
-                        <td style=" vertical-align: top">
+
+            </h:form>
+
+            <table style="height: 100%;">
+                <tr >
+                    <td style=" vertical-align: top">
+                        <h:form style="height: 100%" id="form">
                             <p:dataTable filterEvent="keydown"  rowIndexVar="row" id="users_id" var="users_var" widgetVar="carsTable"  editable="true" value="#{userManageBean.userEntitys}"  emptyMessage="没找到相关用户" filteredValue="#{userManageBean.userFilter}">
                                 <f:facet name="header">
                                     <table>
                                         <tr>
-                                            <td style="text-align: center; width: 100%;border: none">
+                                            <td style="text-align: center; width: 100%;border: none" rowspan="2">
                                                 <p:outputLabel value="用户信息表"/>
                                             </td>
-                                            <td style="float:right; width: 150px;border: none">
-                                                <h:outputText value="全表搜索:" />
-                                                <p:inputText id="globalFilter" onkeydown="PF('carsTable').filter()" style="width:150px" placeholder="输入关键字"/>
+                                            <td style=" width: 20px;border: none">
+                                                <p:commandLink onclick="PF('adduserdlg').show()"  immediate="true" id="addNewUser_id">
+                                                    <h:outputText styleClass="ui-icon ui-icon-plus" />
+                                                    <f:ajax event="click" render=":formx:pass_id :formx:user_id :formx:repass_id :formx:tel_id :formx:email_id"/>
+                                                </p:commandLink>
+                                                <p:tooltip for="addNewUser_id" value="添加新用户"   />
+                                            </td>           
+                                            <td style=" width: 20px;border: none">
+                                                <p:commandLink  immediate="true" id="findUnclassUser_id" update=":form:users_id">
+                                                    <h:outputText styleClass="ui-icon ui-icon-search" />
+                                                    <p:ajax event="click"  listener="#{userManageBean.unclassedUser()}" />
+                                                </p:commandLink>
+                                                <p:tooltip for="findUnclassUser_id" value="查找未分类用户"   />
                                             </td>
+                                            <td style=" width: 20px;border: none">
+                                                <p:commandLink immediate="true" id="findallUser_id" update=":form:users_id">
+                                                    <h:outputText styleClass="ui-icon ui-icon-search" />
+                                                    <p:ajax event="click" listener="#{userManageBean.allUser()}" />
+                                                </p:commandLink>
+                                                <p:tooltip for="findallUser_id" value="查找所有用户"   />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="float:right; width: 200px;border: none">
+                                                <h:outputText value="全表搜索:" />
+                                                <p:inputText id="globalFilter" onkeydown="PF('carsTable').filter()" style="width:100px" placeholder="输入关键字"/>
+                                            </td>      
                                         </tr>
                                     </table>
                                 </f:facet>       
@@ -202,14 +218,11 @@
                                     </p:commandLink>
                                 </p:column>
                             </p:dataTable>
-                            <p:commandButton value="添加新用户" onclick="PF('adduserdlg').show()" style="width:100%">
-                                <f:ajax event="click" render="pass_id user_id repass_id tel_id email_id"/>
-                            </p:commandButton>
-                        </td>
-                    </tr>
-                </table>
+                        </h:form>
+                    </td>
+                </tr>
+            </table>
 
-            </h:form>
         </ui:define>
     </ui:composition>
 </html>

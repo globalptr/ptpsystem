@@ -103,6 +103,7 @@
                         <p:growl id="maingrowl" autoUpdate="true" showDetail="true" />  
                         <p:panelMenu style="width:210px">
                             <p:submenu label="管理中心" >
+                                <p:menuitem value="个人信息" icon="ui-icon-star" outcome="operation"/>
                                 <p:submenu label="控制面板" >
                                     <p:menuitem value="个人信息" icon="ui-icon-star" />
                                     <p:menuitem value="密码修改"   icon="ui-icon-star" />
@@ -299,7 +300,8 @@
                                     <p:menuitem value="组织机构管理" icon="ui-icon-key" outcome="organization"/>
                                     <p:menuitem value="用户组织管理" icon="ui-icon-key" outcome="userToOrganization"/>
                                     <p:menuitem value="用户角色管理" icon="ui-icon-key"  outcome="userToRole"/>
-                                    <p:menuitem value="角色资源管理" icon="ui-icon-key"  outcome="roleToResource"/>
+                                    <p:menuitem value="角色资源管理" icon="ui-icon-key"  outcome="permission"/>
+                                    <p:menuitem value="操作管理" icon="ui-icon-key"  outcome="operation"/>
                                 </p:submenu>
                                 <p:submenu label="手机短信管理" >
                                     <p:menuitem value="发送记录" icon="ui-icon-star" />

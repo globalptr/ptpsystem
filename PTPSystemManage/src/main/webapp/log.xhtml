@@ -63,9 +63,9 @@
                 </div>
                 <h:form>
                     <div class="left">
+                        <p:growl id="logmsg" autoUpdate="true" showDetail="true" />
                         <p>
                             <p:inputText id="fusername" value="#{logUser.userName}" placeholder="输入用户名/手机号/邮箱"/>
-
                         </p>
                         <div class="clear"></div>
                         <p>
@@ -80,9 +80,7 @@
                         <p id="remember-password" style="height:20px"></p>
                         <div class="clear"></div>
                         <p>
-                            <p:commandLink  action="#{logUser.log()}" style="width:250px; padding:0 10px; display:block; text-align:center; color:#FFFFFF; font-size:16px; background:#2d6590; text-decoration:none; border-radius:5px; border:0;">
-                                    登录
-                            </p:commandLink>
+                            <p:commandLink value="登录"  action="#{logUser.log()}" style="width:250px; padding:0 10px; display:block; text-align:center; color:#FFFFFF; font-size:16px; background:#2d6590; text-decoration:none; border-radius:5px; border:0;"/>
                         </p>
                     </div>
                 </h:form>

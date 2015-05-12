@@ -6,7 +6,10 @@
 package com.oakeel.shiro;
 
 import com.oakeel.ejb.entityAndEao.user.UserEaoLocal;
-import javax.ejb.EJB;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -22,7 +25,6 @@ import org.apache.shiro.subject.PrincipalCollection;
  */
 public class PtpRealm extends AuthorizingRealm {
 
-    @EJB
     UserEaoLocal userEaoLocal;
     //授权
     @Override
@@ -33,6 +35,12 @@ public class PtpRealm extends AuthorizingRealm {
     //验证
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken at) throws AuthenticationException {
+        try {
+            InitialContext ic=new InitialContext();
+            userEaoLocal=(UserEaoLocal)ic.lookup("java:global/PTPSystemManage/UserEao");
+        } catch (NamingException ex) {
+            Logger.getLogger(PtpRealm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String voucher = (String) at.getPrincipal(); //得到凭证
         String password = new String((char[]) at.getCredentials()); //得到密码
         //三种验证方式：用户名-密码；手机-密码；邮箱-密码
@@ -53,6 +61,6 @@ public class PtpRealm extends AuthorizingRealm {
             throw new UnknownAccountException(); //如果用户名错误
         }
         AuthenticationInfo info=new SimpleAuthenticationInfo(voucher, password,voucher);
-        return null;
+        return info;
     }
 }

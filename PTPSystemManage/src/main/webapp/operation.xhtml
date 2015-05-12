@@ -1,0 +1,104 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="main.xhtml" >
+
+        <ui:define name="center">
+            <h:form id="form">
+                <p:dialog id="addNewOperatin_id"  widgetVar="addNewOperation">
+                    <table>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="操作名"/>
+                            </td>
+                            <td>
+                                <p:inputText id="newOperationword" value="#{operation.newOperation.permissionWord}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="操作描述"/>
+                            </td>
+                            <td>
+                                <p:inputText id="newOperationDesc" value="#{operation.newOperation.permissionDesc}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p:commandButton value="添加" style="width:100%" actionListener="#{operation.addNewOperation()}" update="operation_id"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <p:dialog widgetVar="deleteOperationDlg" resizable="false" header="删除操作">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                <p:outputLabel value="是否确定删除此操作"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="删除" onclick="PF('deleteOperationDlg').hide()" actionListener="#{operation.deleteOperation()}" update="operation_id"/>
+                            </td>
+                            <td>
+                                <p:commandButton value="取消" onclick="PF('deleteOperationDlg').hide()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:dialog>
+                <p:dataTable rowIndexVar="row" value="#{operation.allOperations}" var="operation_var" id="operation_id">
+                    <f:facet name="header">
+                        <table>
+                            <tr>
+                                <td style="text-align: center; width: 100%;border: none" rowspan="2">
+                                    <p:outputLabel value="操作表"/>
+                                </td>
+                                <td style=" width: 20px;border: none">
+                                    <p:commandLink onclick="PF('addNewOperatin_id').show()"  immediate="true" id="addNewOperation_id">
+                                        <h:outputText styleClass="ui-icon ui-icon-plus" />
+                                        <f:ajax event="click" render=":form:newOperationword :form:newOperationDesc "/>
+                                    </p:commandLink>
+                                    <p:tooltip for="addNewOperation_id" value="添加新操作"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </f:facet>
+
+                    <p:column  headerText="序号" style="width:30px">
+                        <h:outputText value="#{row + 1}"/> 
+                    </p:column>
+                    <p:column filterBy="#{operation_var.permissionWord}" headerText="操作名" footerText="包含" filterMatchMode="contains">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{operation_var.permissionWord}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText style="width:100%"  value="#{operation_var.permissionWord}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column filterBy="#{operation_var.permissionDesc}" headerText="描述" footerText="包含" filterMatchMode="contains">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{operation_var.permissionDesc}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText style="width:100%"  value="#{operation_var.permissionDesc}"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column style="width:30px" headerText="删除">
+                        <p:commandLink  onclick="PF('deleteOperationDlg').show()">
+                            <h:outputText styleClass="ui-icon ui-icon-trash" style="margin:0 auto;" />
+                            <f:setPropertyActionListener value="#{operation_var}" target="#{operation.delOperation}" />
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable> 
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
